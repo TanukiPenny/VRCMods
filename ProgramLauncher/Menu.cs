@@ -19,54 +19,50 @@ namespace ProgramLauncher
 
         public static void Init() {
             ExpansionKitApi.GetExpandedMenu(ExpandedMenu.QuickMenu).AddSimpleButton("Program\nLauncher", () => {
-                BuildMenu();
-                /*
                 if (!runOnce_start) {
-                    // Build
+                    BuildMenu();
                     runOnce_start = true;
                     menu.Show();
                 } else {
                     menu.Show();
-                    UpdatePrograms(); // ??????
+                    try { UpdatePrograms(); } catch (Exception e) { Main.log.Error(e); }
                 }
-                */
             });
 
-            Main.log.Msg("Menu Built!");
         }
 
         private static void BuildMenu() {
             MainButtons.Clear();
             menu.AddSimpleButton("<color=red>Back</color>", () => menu.Hide(), g => MainButtons["BackBtn"] = g.transform);
-            menu.AddSimpleButton(string.Empty, () => Main.log.Msg("You're Cute~"), g => MainButtons["Cute1"] = g.transform);
-            menu.AddSimpleButton(string.Empty, () => Main.log.Msg("You're Cute~"), g => MainButtons["Cute2"] = g.transform);
+            //menu.AddSimpleButton(string.Empty, () => Main.log.Msg("You're Cute~"), g => MainButtons["Cute1"] = g.transform);
+            menu.AddSpacer();
             menu.AddSimpleButton("Add Program", () => {
-
-                UIExpansionKit.API.BuiltinUiUtils.ShowInputPopup("Add Program", "", UnityEngine.UI.InputField.InputType.Standard, false, "Add", 
-                    (ProgramName, __, ___) => {
-                    // Action Code
-                    UIExpansionKit.API.BuiltinUiUtils.ShowInputPopup("Program Path", "", UnityEngine.UI.InputField.InputType.Standard, false, "Set", 
-                        (FilePath, yy, yyy) => {
-                            // Action Code
-                            SetPrograms.AddItem(ProgramName, FilePath);
-                        }, null, "Program Path");
-                }, null, "Name of Program");
-
+                BuiltinUiUtils.ShowInputPopup("Add Program", "", UnityEngine.UI.InputField.InputType.Standard, false, "Add",
+                    (ProgramName, ignore, ignore2) => {
+                        BuiltinUiUtils.ShowInputPopup("Program Path", "", UnityEngine.UI.InputField.InputType.Standard, false, "Set",
+                            (FilePath, ignoree, ignoree2) => {
+                                SetPrograms.AddItem(ProgramName, FilePath.Replace("\\", "\\\\"));
+                            }, null, "Program Path");
+                    }, null, "Name of Program");
             }, g => MainButtons["AddProg"] = g.transform);
-            
-            UpdatePrograms();
+            menu.AddSimpleButton("Remove\nProgram(s)", () => Main.log.Msg("Temp Action"), g => MainButtons["Remove"] = g.transform);
+            Main.log.Msg("Menu Built!");
         }
 
         private static void UpdatePrograms() {
             Programs.Clear();
+            //foreach (var i in Programs) {
+            //    UnityEngine.Object.Destroy(i.Value);
+            //}
             int number = 0;
             
             foreach (var item in SetPrograms._prog.ListOfPrograms) {
                 number++;
 
                 menu.AddSimpleButton(item.Name, () => {
-                    Process.Start("cmd", $"/C start \"{item.FilePath}\"");
-                }, g => MainButtons[$"Program_{number}"] = g.transform);
+                    //Process.Start("cmd", $"/C START \"{item.FilePath}\"");
+                    Process.Start(item.FilePath);
+                }, g => Programs[$"Program_{number}"] = g.transform);
             }
         }
     }

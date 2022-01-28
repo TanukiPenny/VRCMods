@@ -4,8 +4,10 @@ using System.Linq;
 using System.Text;
 using System.IO;
 using System.Threading.Tasks;
+using JetBrains.Annotations;
 using MelonLoader;
 using Newtonsoft.Json;
+using UnityEngine;
 
 namespace ProgramLauncher
 {
@@ -19,50 +21,44 @@ namespace ProgramLauncher
     }
 
     public class Programs {
-        public List<Sets> ListOfPrograms { get;set; }
+        public List<Sets> ListOfPrograms { get; set; }
     }
 
     public class Sets {
         public string Name { get; set; }
         public string FilePath { get; set; }
-        public Sets() {}
-        public Sets(string _Name, string Path) {
-            Name = _Name;
-            FilePath = Path;
-        }
     }
 
     public static class SetPrograms {
-        public static Programs _prog { get; set; } = Load();
+        public static Programs _prog { get; set; }// = Load();
 
-        private static readonly string path = $"{Environment.CurrentDirectory}{Path.DirectorySeparatorChar}UserData{Path.DirectorySeparatorChar}Programs.json";
+        public static readonly string path = $"{Environment.CurrentDirectory}{Path.DirectorySeparatorChar}UserData{Path.DirectorySeparatorChar}Programs.json";
 
-        private static Programs Load() {
+        public static void CheckIfFileExists() {
             if (!File.Exists(path)) {
-                File.Create(path);
+                File.WriteAllText(path, JsonConvert.SerializeObject(new Programs(), Formatting.Indented));
+                AddItem("Notepad", "C:\\WINDOWS\\system32\\notepad.exe");
             }
 
-            try { 
-                var j = JsonConvert.DeserializeObject<Programs>(File.ReadAllText(path));
-                if (j == null) throw new Exception();
-                return j;
-            }
-            catch {
-                return new Programs() { ListOfPrograms = new List<Sets>() };
-            }
+            Load();
         }
 
-        public static void Save() => File.WriteAllText(path, JsonConvert.SerializeObject(_prog, Formatting.Indented));
+        public static void Load() {
+            _prog = JsonConvert.DeserializeObject<Programs>(File.ReadAllText(path));
+        }
 
-        public static string GetPath(string name) {
+        private static void Save() => File.WriteAllText(path, JsonConvert.SerializeObject(_prog, Formatting.Indented));
+
+        private static string GetPath(string name) {
             var _Path = _prog.ListOfPrograms.FirstOrDefault(n => n.Name == name);
-            if (_Path == null) return "";
+            if (_Path == null) return null;
             return _Path.FilePath;
         }
 
         public static bool AlreadyAThing(string name) => _prog.ListOfPrograms.Any(a => a.Name == name);
 
         public static void AddItem(string _Name, string Path) {
+            if (AlreadyAThing(_Name)) return;
             _prog.ListOfPrograms.Add(new Sets {
                 Name = _Name,
                 FilePath = Path
@@ -79,6 +75,13 @@ namespace ProgramLauncher
         {
             log.Msg("ProgramLauncher loaded successfully!");
             Menu.Init();
+            try { SetPrograms.CheckIfFileExists(); } catch (Exception e) { log.Error(e); }
+        }
+
+        public override void OnUpdate() {
+            if (Input.GetKeyDown(KeyCode.Alpha6)) {
+                log.Msg(SetPrograms.path);
+            }
         }
     }
 }
