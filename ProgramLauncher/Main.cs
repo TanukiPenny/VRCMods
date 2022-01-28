@@ -14,9 +14,9 @@ namespace ProgramLauncher
     public static class BuildShit
     {
         public const string Name = "ProgramLauncher";
-        public const string Author = "1 Cent Cutie, Lily";
-        public const string Version = "0.9.0";
-        public const string DownloadLink = "";
+        public const string Author = "Penny, Lily";
+        public const string Version = "1.0.0";
+        public const string DownloadLink = "https://github.com/PennyBunny/VRCMods/";
         public const string Description = "A standalone mod to launch external programs from inside VRChat with a click of a button!";
     }
 
