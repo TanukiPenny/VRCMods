@@ -55,14 +55,16 @@ namespace ProgramLauncher
             return _Path.FilePath;
         }
 
-        public static bool AlreadyAThing(string name) => _prog.ListOfPrograms.Any(a => a.Name == name);
-
         public static void AddItem(string _Name, string Path) {
-            if (AlreadyAThing(_Name)) return;
             _prog.ListOfPrograms.Add(new Sets {
                 Name = _Name,
                 FilePath = Path
             });
+            Save();
+        }
+
+        public static void RemoveItem(string name) {
+            _prog.ListOfPrograms.Remove(_prog.ListOfPrograms.FirstOrDefault(n => n.Name == name));
             Save();
         }
     }
@@ -76,12 +78,6 @@ namespace ProgramLauncher
             log.Msg("ProgramLauncher loaded successfully!");
             Menu.Init();
             try { SetPrograms.CheckIfFileExists(); } catch (Exception e) { log.Error(e); }
-        }
-
-        public override void OnUpdate() {
-            if (Input.GetKeyDown(KeyCode.Alpha6)) {
-                log.Msg(SetPrograms.path);
-            }
         }
     }
 }
