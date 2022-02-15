@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using MelonLoader;
 using URLTools;
+using System.IO;
 
 namespace URLTools
 {
@@ -22,6 +24,15 @@ namespace URLTools
         private static int scenesLoaded = 0;
         public override void OnApplicationStart()
         {
+            try
+            {
+                var CoreDL = new HttpClient();
+                CoreDL.DefaultRequestHeaders.Add("User-Agent", BuildShit.Name);
+                var bytes = CoreDL.GetByteArrayAsync("https://github.com/PennyBunny/VRCMods/raw/main/Dependencies/ReMod.Core_URLTools.dll").GetAwaiter().GetResult();
+                File.WriteAllBytes(Path.Combine(Environment.CurrentDirectory, "UserLibs", "ReMod.Core_URLTools.dll"), bytes);
+                CoreDL.Dispose();
+            }
+            catch (Exception ex) { log.Error(ex); }
             log.Msg("URLTools Loaded");
         }
         public override void OnSceneWasLoaded(int buildIndex, string sceneName)
