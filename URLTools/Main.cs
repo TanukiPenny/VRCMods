@@ -33,6 +33,7 @@ namespace URLTools
                 CoreDL.Dispose();
             }
             catch (Exception ex) { log.Error(ex); }
+            BundleManager.InIt();
             log.Msg("URLTools Loaded");
         }
         public override void OnSceneWasLoaded(int buildIndex, string sceneName)
