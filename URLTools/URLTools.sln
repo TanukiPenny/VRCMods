@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.32112.339
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "URLTools", "URLTools.csproj", "{B0418071-7B27-4195-B178-DD92C9A94DE2}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B0418071-7B27-4195-B178-DD92C9A94DE2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B0418071-7B27-4195-B178-DD92C9A94DE2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B0418071-7B27-4195-B178-DD92C9A94DE2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B0418071-7B27-4195-B178-DD92C9A94DE2}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {5FD2F2FB-22E3-4CAB-9451-3D60D088CDD7}
+	EndGlobalSection
+EndGlobal
