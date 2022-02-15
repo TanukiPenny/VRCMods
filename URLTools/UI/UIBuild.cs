@@ -32,8 +32,8 @@ namespace URLTools
             TheUserSelectMenu = GameObject.Find("UserInterface/Canvas_QuickMenu(Clone)/Container/Window/QMParent/Menu_SelectedUser_Local/ScrollRect/Viewport/VerticalLayoutGroup");
             userSelectCategory = new ReMenuCategory("URLTools", TheUserSelectMenu.transform);
 
-            userSelectCategory.AddButton("Copy User URL", "Copy User URL", () => Main.log.Msg("PlaceHolder"));
-            userSelectCategory.AddButton("Open User Page", "Open User Page", () => Main.log.Msg("PlaceHolder"));
+            userSelectCategory.AddButton("Copy User URL", "Copy User URL", () => UserFunc.CopyUserURL());
+            userSelectCategory.AddButton("Open User Page", "Open User Page", () => UserFunc.OpenUserPage());
         }
         private static void HereMenu()
         {
