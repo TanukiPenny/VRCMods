@@ -42,6 +42,8 @@ namespace URLTools
 
             hereCategory.AddButton("Copy World URL", "Copy World URL", () => WorldFunc.CopyWorldURL(), BundleManager.copy);
             hereCategory.AddButton("Open World Page", "Open World Page", () => WorldFunc.OpenWorldPage(), BundleManager.globe);
+            hereCategory.AddButton("Copy Instance URL", "Copy Instance URL", () => InstanceFunc.CopyInstanceURL(), BundleManager.copy);
+            hereCategory.AddButton("Open Instance Page", "Open Instance Page", () => InstanceFunc.OpenInstancePage(), BundleManager.globe);
             hereCategory.Header.RectTransform.SetSiblingIndex(3);
             hereCategory.RectTransform.SetSiblingIndex(4);
 

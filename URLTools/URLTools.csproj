@@ -374,6 +374,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Bundle\BundleManager.cs" />
+    <Compile Include="Functions\Instance.cs" />
     <Compile Include="Functions\User.cs" />
     <Compile Include="Functions\World.cs" />
     <Compile Include="Main.cs" />
