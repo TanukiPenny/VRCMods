@@ -16,7 +16,7 @@ namespace URLTools
     {
         public const string Name = "URLTools";
         public const string Author = "Penny";
-        public const string Version = "1.0.2";
+        public const string Version = "1.0.3";
         public const string DownloadLink = "https://github.com/PennyBunny/VRCMods/";
         public const string Description = "Use this mod to copy or open user, world and instance web pages";
     }
@@ -50,7 +50,7 @@ namespace URLTools
 
             try
             {
-                bytes = wc.DownloadData($"https://assets.ellyvr.dev/vrc/mods/ReMod.Core.dll");
+                bytes = wc.DownloadData($"https://github.com/RequiDev/ReModCE/releases/latest/download/ReMod.Core.dll");
                 loadedAssembly = Assembly.Load(bytes);
             }
             catch (WebException e)
