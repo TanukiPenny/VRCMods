@@ -7,7 +7,7 @@ A standalone mod used to copy or open user, world and instance web pages.
 - Copy and open user URL/Webpage
 - Copy and open world URL/Webpage
 - Copy and open instance URL/Webpage
-    - Has features to protect from abuse, will not copy or open invite, invite+ or friends instances URL/Webpage. Will only copy or open instance URL/Webpage for friends or public instances
+    - Has features to protect from abuse, will not copy or open invite, invite+ or friends instances URL/Webpage. Will only copy or open instance URL/Webpage for friends+ or public instances
 
 
 ### MelonLoader
