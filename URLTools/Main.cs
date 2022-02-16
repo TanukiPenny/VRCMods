@@ -16,7 +16,7 @@ namespace URLTools
         public const string Author = "Penny";
         public const string Version = "1.0.0";
         public const string DownloadLink = "https://github.com/PennyBunny/VRCMods/";
-        public const string Description = "Use this mod to copy or open user and world web pages";
+        public const string Description = "Use this mod to copy or open user, world and instance web pages";
     }
     public class Main : MelonMod
     {

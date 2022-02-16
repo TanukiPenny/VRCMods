@@ -1,12 +1,20 @@
-# VRCMods
- Mods for VRChat
+# URLTools
 
- ## Dependencies
- These mods use [ReMod.Core](https://github.com/RequiDev/ReMod.Core)
- - URLTools
+A standalone mod used to copy or open user, world and instance web pages.
 
- ## Icons
- These mods use Icons from [Noun Project](https://thenounproject.com/)
- - URLTools
+# Features 
 
+- Copy and open user URL/Webpage
+- Copy and open world URL/Webpage
+- Copy and open instance URL/Webpage
+    - Has features to protect from abuse, will not copy or open invite, invite+ or friends instances URL/Webpage. Will only copy or open instance URL/Webpage for friends or public instances
+
+
+### MelonLoader
+Need to install MelonLoader?<br>
+Click [this link](https://melonwiki.xyz/) to get started!
+
+### Prerequisites
+MelonLoader: v0.5.3 (Alpha)<br>
+Game: VRChat build 1160+
 
