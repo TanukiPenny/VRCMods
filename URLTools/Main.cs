@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 using MelonLoader;
 using URLTools;
 using System.IO;
+using System.Net;
+using System.Reflection;
 
 namespace URLTools
 {
@@ -24,15 +26,7 @@ namespace URLTools
         private static int scenesLoaded = 0;
         public override void OnApplicationStart()
         {
-            try
-            {
-                var CoreDL = new HttpClient();
-                CoreDL.DefaultRequestHeaders.Add("User-Agent", BuildShit.Name);
-                var bytes = CoreDL.GetByteArrayAsync("https://github.com/PennyBunny/VRCMods/raw/main/Dependencies/ReMod.Core.dll").GetAwaiter().GetResult();
-                File.WriteAllBytes(Path.Combine(Environment.CurrentDirectory, "UserLibs", "ReMod.Core.dll"), bytes);
-                CoreDL.Dispose();
-            }
-            catch (Exception ex) { log.Error(ex); }
+            LoadRemodCore(out _);
             BundleManager.InIt();
             log.Msg("URLTools Loaded");
         }
@@ -47,5 +41,28 @@ namespace URLTools
                 }
             }
         }
+
+        private void LoadRemodCore(out Assembly loadedAssembly)
+        {
+            byte[] bytes = null;
+            var wc = new WebClient();
+        
+
+            try
+            {
+                bytes = wc.DownloadData($"https://assets.ellyvr.dev/vrc/mods/ReMod.Core.dll");
+                loadedAssembly = Assembly.Load(bytes);
+            }
+            catch (WebException e)
+            {
+                MelonLogger.Error($"Unable to Load Core Dep RemodCore: {e}");
+            }
+            catch (BadImageFormatException e)
+            {
+                loadedAssembly = null;
+            }
+            loadedAssembly = null;
+        }
+
     }
 }
