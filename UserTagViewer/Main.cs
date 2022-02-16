@@ -46,7 +46,7 @@ namespace UserTagViewer
 
             try
             {
-                bytes = wc.DownloadData($"https://assets.ellyvr.dev/vrc/mods/ReMod.Core.dll");
+                bytes = wc.DownloadData($"https://github.com/RequiDev/ReModCE/releases/latest/download/ReMod.Core.dll");
                 loadedAssembly = Assembly.Load(bytes);
             }
             catch (WebException e)
