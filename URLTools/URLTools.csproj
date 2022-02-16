@@ -42,8 +42,8 @@
     <Reference Include="MelonLoader">
       <HintPath>P:\SteamLibrary\steamapps\common\VRChat\MelonLoader\MelonLoader.dll</HintPath>
     </Reference>
-    <Reference Include="ReMod.Core_URLTools">
-      <HintPath>P:\SteamLibrary\steamapps\common\VRChat\UserLibs\ReMod.Core_URLTools.dll</HintPath>
+    <Reference Include="ReMod.Core">
+      <HintPath>P:\SteamLibrary\steamapps\common\VRChat\UserLibs\ReMod.Core.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />

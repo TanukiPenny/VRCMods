@@ -28,8 +28,8 @@ namespace URLTools
             {
                 var CoreDL = new HttpClient();
                 CoreDL.DefaultRequestHeaders.Add("User-Agent", BuildShit.Name);
-                var bytes = CoreDL.GetByteArrayAsync("https://github.com/PennyBunny/VRCMods/raw/main/Dependencies/ReMod.Core_URLTools.dll").GetAwaiter().GetResult();
-                File.WriteAllBytes(Path.Combine(Environment.CurrentDirectory, "UserLibs", "ReMod.Core_URLTools.dll"), bytes);
+                var bytes = CoreDL.GetByteArrayAsync("https://github.com/PennyBunny/VRCMods/raw/main/Dependencies/ReMod.Core.dll").GetAwaiter().GetResult();
+                File.WriteAllBytes(Path.Combine(Environment.CurrentDirectory, "UserLibs", "ReMod.Core.dll"), bytes);
                 CoreDL.Dispose();
             }
             catch (Exception ex) { log.Error(ex); }
