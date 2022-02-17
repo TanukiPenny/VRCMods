@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -8,36 +9,57 @@ using UIExpansionKit;
 using UIExpansionKit.API;
 using UnityEngine;
 using UnityEngine.UI;
+using VRC.UI.Core;
 using Object = UnityEngine.Object;
+using ReMod.Core;
+using ReMod.Core.UI.QuickMenu;
 
 namespace ProgramLauncher {
-    internal class Menu {
+    public class Menu {
         internal static ICustomShowableLayoutedMenu menu = ExpansionKitApi.CreateCustomQuickMenuPage(LayoutDescription.QuickMenu4Columns),
             RemoveMenu = ExpansionKitApi.CreateCustomQuickMenuPage(LayoutDescription.QuickMenu4Columns);
 
-        private static Dictionary<string, Transform> MainButtons = new Dictionary<string, Transform>(),
-            MainRemoveButtons = new Dictionary<string, Transform>(),
-            Programs = new Dictionary<string, Transform>(),
-            RemovePrograms = new Dictionary<string, Transform>();
+        private static Dictionary<string, Transform> _mainButtons = new Dictionary<string, Transform>(),
+            _mainRemoveButtons = new Dictionary<string, Transform>(),
+            _programs = new Dictionary<string, Transform>(),
+            _removePrograms = new Dictionary<string, Transform>();
 
         private static Dictionary<string, GameObject> ProgList, RemoveProgList;
 
-        internal static bool runOnce_start;
 
-        public static void Init() {
-            ExpansionKitApi.GetExpandedMenu(ExpandedMenu.QuickMenu).AddSimpleButton("Program\nLauncher", () => {
-                if (!runOnce_start) {
-                    BuildMenu();
-                    BuildRemoveMenu();
-                    runOnce_start = true;
-                    menu.Show();
-                } else {
-                    menu.Show();
-                }
-            });
+        public static IEnumerator OnQuickMenu()
+        {
+            while (UIManager.prop_UIManager_0 == null) yield return null;
+            while (UnityEngine.Object.FindObjectOfType<VRC.UI.Elements.QuickMenu>() == null) yield return null;
+                BuildTab();
+                BuildLauncher();
+                UpdatePrograms();
+        }
+        private static ReCategoryPage _plTab;
+        private static ReMenuCategory _plMenu, _plLauncher;
+
+        private static void BuildTab()
+        {
+            _plTab = new ReCategoryPage("Program Launcher", true);
+            ReTabButton.Create("Program Launcher", "Open Program Launcher", "Program Launcher", BundleManager.Plaunch);
+            _plMenu = _plTab.AddCategory("Menu");
+            _plMenu.AddButton("Add Program", "Adds program to your program launcher.", () => Main.log.Msg("Add"), BundleManager.Plus);
+            _plMenu.AddButton("Remove Program", "Removes program from your program launcher.", () => Main.log.Msg("Remove"), BundleManager.Minus);
         }
 
-        private static void BuildMenu() {
+        private static void BuildLauncher()
+        {
+            _plLauncher = _plTab.AddCategory("Launcher");
+            //_plLauncher.AddButton("Placeholder", "Placeholder", () => Main.log.Msg("Placeholder"), BundleManager.Launch);
+        }
+        private static void UpdatePrograms()
+        {
+            foreach (var program in _programs)
+            {
+                _plLauncher.AddButton("Placeholder", "Placeholder", () => Main.log.Msg("Placeholder"), BundleManager.Launch);
+            }
+        }
+        /*private static void BuildMenu() {
             MainButtons.Clear();
             menu.AddSimpleButton("<color=red>Back</color>", () => menu.Hide(), g => MainButtons["BackBtn"] = g.transform);
 
@@ -135,6 +157,6 @@ namespace ProgramLauncher {
                     g.name = $"Program_{item.Name}";
                 });
             }
-        }
+        }*/
     }
 }

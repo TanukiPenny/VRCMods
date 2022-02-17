@@ -8,6 +8,8 @@ using JetBrains.Annotations;
 using MelonLoader;
 using Newtonsoft.Json;
 using UnityEngine;
+using System.Reflection;
+using System.Net;
 
 namespace ProgramLauncher
 {
@@ -30,13 +32,13 @@ namespace ProgramLauncher
     }
 
     public static class SetPrograms {
-        public static Programs _prog { get; set; }// = Load();
+        public static Programs Prog { get; set; }// = Load();
 
-        public static readonly string path = $"{Environment.CurrentDirectory}{Path.DirectorySeparatorChar}UserData{Path.DirectorySeparatorChar}Programs.json";
+        public static readonly string Path = $"{Environment.CurrentDirectory}{System.IO.Path.DirectorySeparatorChar}UserData{System.IO.Path.DirectorySeparatorChar}Programs.json";
 
         public static void CheckIfFileExists() {
-            if (!File.Exists(path)) {
-                File.WriteAllText(path, JsonConvert.SerializeObject(new Programs {
+            if (!File.Exists(Path)) {
+                File.WriteAllText(Path, JsonConvert.SerializeObject(new Programs {
                     ListOfPrograms = new List<Sets> {
                         new Sets {
                             Name = "Notepad",
@@ -48,18 +50,18 @@ namespace ProgramLauncher
             Load();
         }
 
-        private static void Load() => _prog = JsonConvert.DeserializeObject<Programs>(File.ReadAllText(path));
+        private static void Load() => Prog = JsonConvert.DeserializeObject<Programs>(File.ReadAllText(Path));
 
-        private static void Save() => File.WriteAllText(path, JsonConvert.SerializeObject(_prog, Formatting.Indented));
+        private static void Save() => File.WriteAllText(Path, JsonConvert.SerializeObject(Prog, Formatting.Indented));
 
         private static string GetPath(string name) {
-            var _Path = _prog.ListOfPrograms.FirstOrDefault(n => n.Name == name);
+            var _Path = Prog.ListOfPrograms.FirstOrDefault(n => n.Name == name);
             if (_Path == null) return null;
             return _Path.FilePath;
         }
 
         public static void AddItem(string _Name, string Path) {
-            _prog.ListOfPrograms.Add(new Sets {
+            Prog.ListOfPrograms.Add(new Sets {
                 Name = _Name,
                 FilePath = Path
             });
@@ -67,20 +69,52 @@ namespace ProgramLauncher
         }
 
         public static void RemoveItem(string name) {
-            _prog.ListOfPrograms.Remove(_prog.ListOfPrograms.FirstOrDefault(n => n.Name == name));
+            Prog.ListOfPrograms.Remove(Prog.ListOfPrograms.FirstOrDefault(n => n.Name == name));
             Save();
         }
     }
-
-
     public class Main : MelonMod
     {
         internal static readonly MelonLogger.Instance log = new MelonLogger.Instance(BuildShit.Name, ConsoleColor.Green);
+        private static int _scenesLoaded = 0;
         public override void OnApplicationStart()
         {
-            log.Msg("ProgramLauncher loaded successfully!");
-            Menu.Init();
+            LoadRemodCore(out _);
+            BundleManager.InIt();
             try { SetPrograms.CheckIfFileExists(); } catch (Exception e) { log.Error(e); }
+            log.Msg("ProgramLauncher loaded successfully!");
+        }
+        private static void LoadRemodCore(out Assembly loadedAssembly)
+        {
+            byte[] bytes = null;
+            var wc = new WebClient();
+
+
+            try
+            {
+                bytes = wc.DownloadData($"https://github.com/RequiDev/ReModCE/releases/latest/download/ReMod.Core.dll");
+                loadedAssembly = Assembly.Load(bytes);
+            }
+            catch (WebException e)
+            {
+                MelonLogger.Error($"Unable to Load Core Dep RemodCore: {e}");
+            }
+            catch (BadImageFormatException e)
+            {
+                loadedAssembly = null;
+            }
+            loadedAssembly = null;
+        }
+        public override void OnSceneWasLoaded(int buildIndex, string sceneName)
+        {
+            if (_scenesLoaded <= 2)
+            {
+                _scenesLoaded++;
+                if (_scenesLoaded == 2)
+                {
+                    MelonCoroutines.Start(Menu.OnQuickMenu());
+                }
+            }
         }
     }
 }
