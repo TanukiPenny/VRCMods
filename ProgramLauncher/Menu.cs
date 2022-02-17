@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Schema;
 using UIExpansionKit;
 using UIExpansionKit.API;
 using UnityEngine;
@@ -16,17 +17,6 @@ using ReMod.Core.UI.QuickMenu;
 
 namespace ProgramLauncher {
     public class Menu {
-        internal static ICustomShowableLayoutedMenu menu = ExpansionKitApi.CreateCustomQuickMenuPage(LayoutDescription.QuickMenu4Columns),
-            RemoveMenu = ExpansionKitApi.CreateCustomQuickMenuPage(LayoutDescription.QuickMenu4Columns);
-
-        private static Dictionary<string, Transform> _mainButtons = new Dictionary<string, Transform>(),
-            _mainRemoveButtons = new Dictionary<string, Transform>(),
-            _programs = new Dictionary<string, Transform>(),
-            _removePrograms = new Dictionary<string, Transform>();
-
-        private static Dictionary<string, GameObject> ProgList, RemoveProgList;
-
-
         public static IEnumerator OnQuickMenu()
         {
             while (UIManager.prop_UIManager_0 == null) yield return null;
@@ -37,26 +27,66 @@ namespace ProgramLauncher {
         }
         private static ReCategoryPage _plTab;
         private static ReMenuCategory _plMenu, _plLauncher;
-
+        private static ReCategoryPage _removePage;
+        private static List<ReMenuButton> pButtonsl = new List<ReMenuButton>();
+        private static ReMenuButton pButton;
+        private static List<ReMenuButton> pButtonslRemove = new List<ReMenuButton>();
+        private static ReMenuButton pButtonRemove;
         private static void BuildTab()
         {
             _plTab = new ReCategoryPage("Program Launcher", true);
             ReTabButton.Create("Program Launcher", "Open Program Launcher", "Program Launcher", BundleManager.Plaunch);
             _plMenu = _plTab.AddCategory("Menu");
             _plMenu.AddButton("Add Program", "Adds program to your program launcher.", () => Main.log.Msg("Add"), BundleManager.Plus);
-            _plMenu.AddButton("Remove Program", "Removes program from your program launcher.", () => Main.log.Msg("Remove"), BundleManager.Minus);
+            _removePage = _plMenu.AddCategoryPage("Remove Program", "Removes program from your program launcher.", BundleManager.Minus);
         }
 
         private static void BuildLauncher()
         {
             _plLauncher = _plTab.AddCategory("Launcher");
-            //_plLauncher.AddButton("Placeholder", "Placeholder", () => Main.log.Msg("Placeholder"), BundleManager.Launch);
         }
         private static void UpdatePrograms()
         {
-            foreach (var program in _programs)
+            foreach (var p in SetPrograms.Prog.ListOfPrograms)
             {
-                _plLauncher.AddButton("Placeholder", "Placeholder", () => Main.log.Msg("Placeholder"), BundleManager.Launch);
+                pButton =  _plLauncher.AddButton(p.Name, $"Open {p.Name}", () => Process.Start(p.FilePath), BundleManager.Launch);
+                pButtonsl.Add(pButton);
+            }
+        }
+        private static void RemoveMenu()
+        {
+            var c = _removePage.AddCategory("Remove Programs", false);
+            
+            _removePage.OnOpen += () =>
+            {
+                if (pButtonslRemove != null)
+                {
+                    foreach (var m in pButtonslRemove)
+                    {
+                        UnityEngine.Object.DestroyImmediate(m.GameObject);
+                    }
+                    pButtonslRemove.Clear();
+                }
+            };
+            
+            foreach (var p in  SetPrograms.Prog.ListOfPrograms)
+            {
+                pButtonRemove  = c.AddButton($"<color=red>{p.Name}</color>", $"Remove {p.Name}", () =>
+                {
+                    var b = pButtonsl.FirstOrDefault(x => x.Name.Contains(p.Name));
+                    if (b != null && b.Name.Contains(p.Name))
+                    {
+                        UnityEngine.Object.Destroy(b.GameObject);
+                        SetPrograms.RemoveItem(p.Name);
+                        pButtonslRemove.Remove(b);
+                        var br = pButtonslRemove.FirstOrDefault(x => x.Name.Contains(p.Name));
+                        if (br != null && br.Name.Contains(p.Name))
+                        {
+                            UnityEngine.Object.Destroy(br.GameObject);
+                        }
+                    }
+                }, BundleManager.LaunchRed);
+                pButtonslRemove.Add(pButtonRemove);
             }
         }
         /*private static void BuildMenu() {

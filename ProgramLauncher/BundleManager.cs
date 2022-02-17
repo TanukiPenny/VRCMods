@@ -8,7 +8,7 @@ namespace ProgramLauncher
     internal class BundleManager
     {
         private static AssetBundle _bundle;
-        public static Sprite Plaunch, Plus, Minus, Launch;
+        public static Sprite Plaunch, Plus, Minus, Launch, LaunchRed;
 
         private static Sprite LoadSprite(string sprite)
         {
@@ -28,9 +28,10 @@ namespace ProgramLauncher
                     _bundle.hideFlags |= HideFlags.DontUnloadUnusedAsset;
 
                     Plaunch = LoadSprite("plaunch.png");
-                    Plus = LoadSprite(("plus.png"));
-                    Minus = LoadSprite(("Minus.png"));
-                    Launch = LoadSprite(("launch.png"));
+                    Plus = LoadSprite("plus.png");
+                    Minus = LoadSprite("Minus.png");
+                    Launch = LoadSprite("launch.png");
+                    LaunchRed = LoadSprite("launchred.png");
 
 
                 }
