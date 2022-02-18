@@ -23,10 +23,12 @@ namespace ProgramLauncher {
             while (UnityEngine.Object.FindObjectOfType<VRC.UI.Elements.QuickMenu>() == null) yield return null;
                 BuildTab();
                 BuildLauncher();
+                RemoveMenu();
                 UpdatePrograms();
+                
         }
         private static ReCategoryPage _plTab;
-        private static ReMenuCategory _plMenu, _plLauncher;
+        private static ReMenuCategory _plMenu, _plLauncher, c;
         private static ReCategoryPage _removePage;
         private static List<ReMenuButton> pButtonsl = new List<ReMenuButton>();
         private static ReMenuButton pButton;
@@ -55,34 +57,36 @@ namespace ProgramLauncher {
         }
         private static void RemoveMenu()
         {
-            var c = _removePage.AddCategory("Remove Programs", false);
+            c = _removePage.AddCategory("Remove Programs", false);
             
             _removePage.OnOpen += () =>
             {
                 if (pButtonslRemove != null)
                 {
+                    Main.log.Msg("OnOpen");
                     foreach (var m in pButtonslRemove)
                     {
-                        UnityEngine.Object.DestroyImmediate(m.GameObject);
+                        Object.DestroyImmediate(m.GameObject);
                     }
                     pButtonslRemove.Clear();
                 }
             };
-            
+            Main.log.Msg("OnRemoveMenu");
             foreach (var p in  SetPrograms.Prog.ListOfPrograms)
             {
+                Main.log.Msg("OnRemoveMenu2");
                 pButtonRemove  = c.AddButton($"<color=red>{p.Name}</color>", $"Remove {p.Name}", () =>
                 {
                     var b = pButtonsl.FirstOrDefault(x => x.Name.Contains(p.Name));
                     if (b != null && b.Name.Contains(p.Name))
                     {
-                        UnityEngine.Object.Destroy(b.GameObject);
+                        Object.Destroy(b.GameObject);
                         SetPrograms.RemoveItem(p.Name);
                         pButtonslRemove.Remove(b);
                         var br = pButtonslRemove.FirstOrDefault(x => x.Name.Contains(p.Name));
                         if (br != null && br.Name.Contains(p.Name))
                         {
-                            UnityEngine.Object.Destroy(br.GameObject);
+                            Object.Destroy(br.GameObject);
                         }
                     }
                 }, BundleManager.LaunchRed);
