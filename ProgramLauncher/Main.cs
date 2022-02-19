@@ -60,10 +60,10 @@ namespace ProgramLauncher
             return _Path.FilePath;
         }
 
-        public static void AddItem(string _Name, string Path) {
+        public static void AddItem(string name, string path) {
             Prog.ListOfPrograms.Add(new Sets {
-                Name = _Name,
-                FilePath = Path
+                Name = name,
+                FilePath = path
             });
             Save();
         }
