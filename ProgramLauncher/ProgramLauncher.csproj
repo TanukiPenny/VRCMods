@@ -55,9 +55,6 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
-    <Reference Include="UIExpansionKit">
-      <HintPath>P:\SteamLibrary\steamapps\common\VRChat\Mods\UIExpansionKit.dll</HintPath>
-    </Reference>
     <Reference Include="UnhollowerBaseLib">
       <HintPath>P:\SteamLibrary\steamapps\common\VRChat\MelonLoader\Managed\UnhollowerBaseLib.dll</HintPath>
     </Reference>

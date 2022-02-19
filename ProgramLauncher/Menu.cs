@@ -7,8 +7,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Schema;
 using MelonLoader;
-using UIExpansionKit;
-using UIExpansionKit.API;
 using UnityEngine;
 using UnityEngine.UI;
 using VRC.UI.Core;
