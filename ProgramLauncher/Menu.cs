@@ -49,7 +49,7 @@ namespace ProgramLauncher {
                 VRCUiPopupManager.prop_VRCUiPopupManager_0.ShowInputPopupWithCancel("Enter name of program", "",
                     InputField.InputType.Standard, false, "Set Name", (programName, ignore, ignore2) =>
                     {
-                        MelonCoroutines.Start(PromptDelayed(programName));
+                        MelonCoroutines.Start(PromptDelayed(programName.Replace("\"","")));
                     }, () => VRCUiPopupManager.field_Private_Static_VRCUiPopupManager_0.HideCurrentPopup());
             }, BundleManager.Plus);
             _removePage = _plMenu.AddCategoryPage("Remove Program", "Removes program from your program launcher.",
@@ -78,12 +78,12 @@ namespace ProgramLauncher {
                             Object.DestroyImmediate(b.GameObject);
                             SetPrograms.RemoveItem(programName);
                             pButtonsl.Remove(_pButton);
-                            pButtonslRemove.Remove(b);
                             var br = pButtonslRemove.FirstOrDefault(x => x.Name.Contains(programName));
                             if (br != null && br.Name.Contains(programName))
                             {
                                 Object.DestroyImmediate(br.GameObject);
                             }
+                            pButtonslRemove.Remove(b);
                         }
                     }, BundleManager.LaunchRed);
                     pButtonslRemove.Add(_pButtonRemove);

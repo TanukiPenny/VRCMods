@@ -5,7 +5,7 @@ A standalone mod to launch external programs from inside VRChat with a click of 
 # Important!!! 
 
 When adding programs you must paste full path including the actual program excutable (.exe file). <br>
-When removing a program you must restart your game to apply those changes.
+Adding more then one program with the same name casues issues, we are working on it!
 
 ### MelonLoader
 Need to install MelonLoader?<br>
@@ -14,5 +14,3 @@ Click [this link](https://melonwiki.xyz/) to get started!
 ### Prerequisites
 MelonLoader: v0.5.3 (Alpha)<br>
 Game: VRChat build 1160+<br>
-Mod: [UIExpansionKit](https://github.com/knah/VRCMods)
-
