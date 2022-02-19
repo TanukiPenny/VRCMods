@@ -23,7 +23,7 @@ namespace ProgramLauncher {
         public static IEnumerator OnQuickMenu()
         {
             while (UIManager.prop_UIManager_0 == null) yield return null;
-            while (UnityEngine.Object.FindObjectOfType<VRC.UI.Elements.QuickMenu>() == null) yield return null;
+            while (Object.FindObjectOfType<VRC.UI.Elements.QuickMenu>() == null) yield return null;
             BuildTab();
             BuildLauncher();
             RemoveMenu();
@@ -38,8 +38,7 @@ namespace ProgramLauncher {
         private static ReMenuButton _pButton;
         private static List<ReMenuButton> pButtonslRemove = new List<ReMenuButton>();
         private static ReMenuButton _pButtonRemove;
-
-
+        
         private static void BuildTab()
         {
             _plTab = new ReCategoryPage("Program Launcher", true);
@@ -50,7 +49,7 @@ namespace ProgramLauncher {
                 VRCUiPopupManager.prop_VRCUiPopupManager_0.ShowInputPopupWithCancel("Enter name of program", "",
                     InputField.InputType.Standard, false, "Set Name", (programName, ignore, ignore2) =>
                     {
-                        MelonCoroutines.Start(PrompSearchDelayed(programName));
+                        MelonCoroutines.Start(PromptDelayed(programName));
                     }, () => VRCUiPopupManager.field_Private_Static_VRCUiPopupManager_0.HideCurrentPopup());
             }, BundleManager.Plus);
             _removePage = _plMenu.AddCategoryPage("Remove Program", "Removes program from your program launcher.",
@@ -60,14 +59,14 @@ namespace ProgramLauncher {
         {
             _plLauncher = _plTab.AddCategory("Launcher");
         }
-        static IEnumerator PrompSearchDelayed(string programName)
+        static IEnumerator PromptDelayed(string programName)
         {
             yield return new WaitForSeconds(1f);
             VRCUiPopupManager.prop_VRCUiPopupManager_0.ShowInputPopupWithCancel("Enter program path", "",
                 InputField.InputType.Standard, false, "Set Path",
                 (filePath, ignoree, ignoree2) =>
                 {
-                    SetPrograms.AddItem(programName, filePath);
+                    SetPrograms.AddItem(programName, filePath.Replace("/", "\\"));
                     _pButton = _plLauncher.AddButton(programName, $"Open {programName}", () => Process.Start(filePath),
                         BundleManager.Launch);
                     pButtonsl.Add(_pButton);
@@ -78,6 +77,7 @@ namespace ProgramLauncher {
                         {
                             Object.DestroyImmediate(b.GameObject);
                             SetPrograms.RemoveItem(programName);
+                            pButtonsl.Remove(_pButton);
                             pButtonslRemove.Remove(b);
                             var br = pButtonslRemove.FirstOrDefault(x => x.Name.Contains(programName));
                             if (br != null && br.Name.Contains(programName))
@@ -101,17 +101,6 @@ namespace ProgramLauncher {
         private static void RemoveMenu()
         {
             c = _removePage.AddCategory("Remove Programs", false);
-            /*_removePage.OnOpen += () =>
-            {
-                if (pButtonslRemove != null)
-                {
-                    foreach (var m in pButtonslRemove)
-                    {
-                        Object.DestroyImmediate(m.GameObject);
-                    }
-                    pButtonslRemove.Clear();
-                }
-            };*/
             foreach (var p in SetPrograms.Prog.ListOfPrograms)
             {
                 _pButtonRemove = c.AddButton($"<color=red>{p.Name}</color>", $"Remove {p.Name}", () =>
@@ -133,102 +122,4 @@ namespace ProgramLauncher {
             }
         }
     }
-/*private static void BuildMenu() {
-    MainButtons.Clear();
-    menu.AddSimpleButton("<color=red>Back</color>", () => menu.Hide(), g => MainButtons["BackBtn"] = g.transform);
-
-    menu.AddSpacer();
-
-    menu.AddSimpleButton("Add Program", () => {
-        BuiltinUiUtils.ShowInputPopup("Add Program", "", InputField.InputType.Standard, false, "Add",
-            (ProgramName, ignore, ignore2) => {
-
-                BuiltinUiUtils.ShowInputPopup("Program Path", "", InputField.InputType.Standard, false, "Set",
-                    (FilePath, ignoree, ignoree2) => {
-                        SetPrograms.AddItem(ProgramName, FilePath.Replace("\\", "\\"));
-
-                        menu.AddSimpleButton(ProgramName, () => Process.Start(FilePath), g => {
-                            ProgList[$"Program_{ProgramName}"] = g;
-                            Programs[$"Program_{ProgramName}"] = g.transform;
-                            g.name = $"Program_{ProgramName}";
-                        });
-
-                        RemoveMenu.AddSimpleButton($"<color=red>{ProgramName}</color>", () => {
-                            SetPrograms.RemoveItem(ProgramName);
-
-                            foreach (var g in RemoveProgList) {
-                                if (g.Key == ProgramName) {
-                                    //Object.DestroyImmediate();
-                                    g.Value.SetActive(false);
-                                }
-                            }
-
-                            RemovePrograms.Remove($"Program_{ProgramName}");
-                            RemoveProgList.Remove($"Program_{ProgramName}");
-                        }, g => {
-                            RemoveProgList[$"Program_{ProgramName}"] = g;
-                            RemovePrograms[$"Program_{ProgramName}"] = g.transform;
-                            g.name = $"Program_{ProgramName}";
-                        });
-
-                        #region Knah, This is the complete defination of jank, but it works for what issues we ran into
-                        // Yell at Lily for this Jank
-                        BuiltinUiUtils.ShowInputPopup("HEY!", "", InputField.InputType.Standard, false, "CUTIE",
-                            (ok, youre, cute) => {
-                                return;
-                            }, null, "You\'re Cute");
-
-                        #endregion
-
-                    }, null, "Enter the path to the program EXE", false);
-
-            }, null, "Name of Program", false);
-    }, g => MainButtons["AddProg"] = g.transform);
-
-    menu.AddSimpleButton("Remove\nProgram(s)", () => {
-        menu.Hide();
-        RemoveMenu.Show();
-    }, g => MainButtons["Remove"] = g.transform);
-
-    Programs.Clear();
-    ProgList = new Dictionary<string, GameObject>();
-    foreach (var item in SetPrograms._prog.ListOfPrograms) {
-        menu.AddSimpleButton(item.Name, () => {
-            Process.Start(item.FilePath);
-        }, g => {
-            ProgList[$"Program_{item.Name}"] = g;
-            Programs[$"Program_{item.Name}"] = g.transform;
-            g.name = $"Program_{item.Name}";
-        });
-    }
-    Main.log.Msg("Menu Built!");
-}
-
-private static void BuildRemoveMenu() {
-    RemoveMenu.AddSimpleButton("<color=yellow>Back</color>", () => { RemoveMenu.Hide(); menu.Show(); }, g => MainRemoveButtons["BackBtn"] = g.transform);
-    RemoveMenu.AddSpacer();
-    RemoveMenu.AddSpacer();
-    RemoveMenu.AddSpacer();
-
-    RemoveProgList = new Dictionary<string, GameObject>();
-
-    foreach (var item in SetPrograms._prog.ListOfPrograms) {
-        RemoveMenu.AddSimpleButton($"<color=red>{item.Name}</color>", () => {
-            SetPrograms.RemoveItem(item.Name);
-            RemovePrograms.Remove($"Program_{item.Name}");
-
-            foreach (var g in RemoveProgList) {
-                if (g.Key == item.Name) {
-                    //Object.DestroyImmediate();
-                    g.Value.SetActive(false);
-                }
-            }
-
-            RemoveProgList.Remove($"Program_{item.Name}");
-        }, g => {
-            RemoveProgList[$"Program_{item.Name}"] = g;
-            RemovePrograms[$"Program_{item.Name}"] = g.transform;
-            g.name = $"Program_{item.Name}";
-        });
-    }*/
 }

@@ -17,7 +17,7 @@ namespace ProgramLauncher
     {
         public const string Name = "ProgramLauncher";
         public const string Author = "Penny, Lily";
-        public const string Version = "1.0.1";
+        public const string Version = "2.0.0";
         public const string DownloadLink = "https://github.com/PennyBunny/VRCMods/";
         public const string Description = "A standalone mod to launch external programs from inside VRChat with a click of a button!";
     }
@@ -54,11 +54,11 @@ namespace ProgramLauncher
 
         private static void Save() => File.WriteAllText(Path, JsonConvert.SerializeObject(Prog, Formatting.Indented));
 
-        private static string GetPath(string name) {
-            var _Path = Prog.ListOfPrograms.FirstOrDefault(n => n.Name == name);
-            if (_Path == null) return null;
-            return _Path.FilePath;
-        }
+        //private static string GetPath(string name) {
+        //    var _Path = Prog.ListOfPrograms.FirstOrDefault(n => n.Name == name);
+        //    if (_Path == null) return null;
+        //    return _Path.FilePath;
+        //}
 
         public static void AddItem(string name, string path) {
             Prog.ListOfPrograms.Add(new Sets {
