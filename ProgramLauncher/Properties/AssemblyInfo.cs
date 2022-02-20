@@ -19,3 +19,5 @@ using ProgramLauncher;
 [assembly: AssemblyFileVersion(BuildShit.Version)]
 [assembly: MelonInfo(typeof(ProgramLauncher.Main), BuildShit.Name, BuildShit.Version, BuildShit.Author, BuildShit.DownloadLink)]
 [assembly: MelonGame("VRChat", "VRChat")]
+[assembly: MelonOptionalDependencies("ReMod.Core")]
+
