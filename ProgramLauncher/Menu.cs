@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -36,6 +37,8 @@ namespace ProgramLauncher {
         private static ReMenuButton _pButton;
         private static List<ReMenuButton> pButtonslRemove = new List<ReMenuButton>();
         private static ReMenuButton _pButtonRemove;
+        private static ProcessStartInfo info;
+        private static FileInfo info2;
         
         private static void BuildTab()
         {
@@ -65,7 +68,15 @@ namespace ProgramLauncher {
                 (filePath, ignoree, ignoree2) =>
                 {
                     SetPrograms.AddItem(programName, filePath.Replace("/", "\\"));
-                    _pButton = _plLauncher.AddButton(programName, $"Open {programName}", () => Process.Start(filePath),
+                    _pButton = _plLauncher.AddButton(programName, $"Open {programName}", () =>
+                        {
+                            info = new ProcessStartInfo();
+                            info2 = new FileInfo(filePath);
+                            info.WorkingDirectory = info2.Directory.ToString();
+                            info.FileName = info2.Name;
+                            Process.Start(info);
+                            Main.log.Msg($"Launching {info2.Name}");
+                        },
                         BundleManager.Launch);
                     pButtonsl.Add(_pButton);
                     _pButtonRemove = c.AddButton($"<color=red>{programName}</color>", $"Remove {programName}", () =>
@@ -91,7 +102,15 @@ namespace ProgramLauncher {
         {
             foreach (var p in SetPrograms.Prog.ListOfPrograms)
             {
-                _pButton = _plLauncher.AddButton(p.Name, $"Open {p.Name}", () => Process.Start(p.FilePath),
+                _pButton = _plLauncher.AddButton(p.Name, $"Open {p.Name}", () =>
+                    {
+                        info = new ProcessStartInfo();
+                        info2 = new FileInfo(p.FilePath);
+                        info.WorkingDirectory = info2.Directory.FullName;
+                        info.FileName = info2.Name;
+                        Process.Start(info);
+                        Main.log.Msg($"Launching {info2.Name}");
+                    },
                     BundleManager.Launch);
                 pButtonsl.Add(_pButton);
             }
