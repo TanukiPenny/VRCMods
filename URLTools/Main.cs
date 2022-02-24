@@ -16,7 +16,7 @@ namespace URLTools
     {
         public const string Name = "URLTools";
         public const string Author = "Penny";
-        public const string Version = "1.0.3";
+        public const string Version = "1.0.4";
         public const string DownloadLink = "https://github.com/PennyBunny/VRCMods/";
         public const string Description = "Use this mod to copy or open user, world and instance web pages";
     }

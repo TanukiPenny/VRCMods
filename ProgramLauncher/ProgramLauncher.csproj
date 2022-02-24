@@ -87,7 +87,7 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>P:\SteamLibrary\steamapps\common\VRChat\MelonLoader\Managed\VRC.UI.Core.dll</HintPath>
     </Reference>
-    <Reference Include="VRC.UI.Elements">
+    <Reference Include="VRC.UI.Elements, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
       <HintPath>P:\SteamLibrary\steamapps\common\VRChat\MelonLoader\Managed\VRC.UI.Elements.dll</HintPath>
     </Reference>
   </ItemGroup>
