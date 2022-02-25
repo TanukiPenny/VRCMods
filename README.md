@@ -5,8 +5,10 @@
  These mods use [ReMod.Core](https://github.com/RequiDev/ReMod.Core)
  - URLTools
  - ProgramLauncher
+ - MLConsoleViewer
 
 ## Icons
  These mods use Icons from [Noun Project](https://thenounproject.com/)
  - URLTools
  - ProgramLauncher
+ - MLConsoleViewer
