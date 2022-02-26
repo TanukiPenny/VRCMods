@@ -26,7 +26,7 @@ namespace MLConsoleViewer
             ConsoleTab = new ReCategoryPage("MLConsoleViewer", true);
             ReTabButton.Create("MLConsoleViewer", "Open MLConsoleViewer", "MLConsoleViewer", BundleManager.console);
             MLMenu = GameObject.Find("UserInterface/Canvas_QuickMenu(Clone)/Container/Window/QMParent/Menu_MLConsoleViewer/");
-            Object.Instantiate(BundleManager.prefab, MLMenu.transform);
+            GameObject.Instantiate(BundleManager.prefab, MLMenu.transform);
         }
     }
 }

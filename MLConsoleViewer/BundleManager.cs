@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using System.Reflection;
+using Steamworks.Data;
 using UnhollowerRuntimeLib;
 using UnityEngine;
 
@@ -9,8 +10,8 @@ namespace MLConsoleViewer.Bundle
     {
         private static AssetBundle Bundle;
         public static Sprite console;
-        public static Object prefab;
-        
+        public static GameObject prefab;
+
         private static Sprite loadSprite(string sprite)
         {
             Sprite sprite2 = Bundle.LoadAsset_Internal(sprite, Il2CppType.Of<Sprite>()).Cast<Sprite>();
@@ -28,7 +29,8 @@ namespace MLConsoleViewer.Bundle
                     Bundle.hideFlags |= HideFlags.DontUnloadUnusedAsset;
 
                     console = loadSprite("console.png");
-                    prefab = Bundle.LoadAsset<Object>("console.prefab");
+                    prefab = Bundle.LoadAsset_Internal(Bundle.GetAllAssetNames()[1], Il2CppType.Of<GameObject>()).Cast<GameObject>();
+                    Main.log.Msg(Bundle.GetAllAssetNames()[1]);
                 }
             }
         }
