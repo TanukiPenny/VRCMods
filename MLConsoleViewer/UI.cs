@@ -26,9 +26,9 @@ namespace MLConsoleViewer
         public static void BuildTab()
         {
             ConsoleTab = new ReCategoryPage("MLConsoleViewer", true);
-            ReTabButton.Create("MLConsoleViewer", "Open MLConsoleViewer", "MLConsoleViewer", BundleManager.console);
+            ReTabButton.Create("MLConsoleViewer", "Open MLConsoleViewer", "MLConsoleViewer", BundleManager.ConsoleImg);
             MLMenu = GameObject.Find("UserInterface/Canvas_QuickMenu(Clone)/Container/Window/QMParent/Menu_MLConsoleViewer/");
-            GameObject.Instantiate(BundleManager.prefab, MLMenu.transform);
+            GameObject.Instantiate(BundleManager.ConsolePrefab, MLMenu.transform);
             consolePrefab = GameObject.Find("UserInterface/Canvas_QuickMenu(Clone)/Container/Window/QMParent/Menu_MLConsoleViewer/console(Clone)/");
             consolePrefab.transform.localPosition = new Vector3(0, -42, 0);
             consolePrefab.transform.localScale = new Vector3(1.8f, 1.8f, 1);
