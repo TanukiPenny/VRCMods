@@ -21,7 +21,7 @@ namespace MLConsoleViewer
         public override void OnApplicationStart()
         {
             LoadRemodCore(out _);
-            Bundle.BundleManager.InIt();
+            BundleManager.Init();
             log.Msg("MLConsoleViewer Loaded");
             log.Msg("Echo....... *there was no response* :(");
         }
