@@ -46,10 +46,7 @@ namespace MLConsoleViewer
         {
             if (UI.text == null)
                 return;
-            else
-            {
-                UI.text.fontSize = fontSize.Value;
-            }
+            UI.text.fontSize = fontSize.Value;
         }
 
         private void LoadRemodCore(out Assembly loadedAssembly)
