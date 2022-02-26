@@ -2,6 +2,7 @@
 using MLConsoleViewer.Bundle;
 using ReMod.Core;
 using ReMod.Core.UI.QuickMenu;
+using UnityEngine;
 using VRC.UI.Core;
 
 namespace MLConsoleViewer
@@ -10,6 +11,7 @@ namespace MLConsoleViewer
     {
         //public static ReMenuCategory Console;
         private static ReCategoryPage ConsoleTab;
+        private static GameObject MLMenu;
         
         public static IEnumerator OnQuickMenu()
         {
@@ -23,6 +25,8 @@ namespace MLConsoleViewer
         {
             ConsoleTab = new ReCategoryPage("MLConsoleViewer", true);
             ReTabButton.Create("MLConsoleViewer", "Open MLConsoleViewer", "MLConsoleViewer", BundleManager.console);
+            MLMenu = GameObject.Find("UserInterface/Canvas_QuickMenu(Clone)/Container/Window/QMParent/Menu_MLConsoleViewer/");
+            Object.Instantiate(BundleManager.prefab, MLMenu.transform);
         }
     }
 }

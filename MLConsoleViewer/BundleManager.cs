@@ -9,7 +9,7 @@ namespace MLConsoleViewer.Bundle
     {
         private static AssetBundle Bundle;
         public static Sprite console;
-        public static GameObject prefab;
+        public static Object prefab;
         
         private static Sprite loadSprite(string sprite)
         {
@@ -28,7 +28,7 @@ namespace MLConsoleViewer.Bundle
                     Bundle.hideFlags |= HideFlags.DontUnloadUnusedAsset;
 
                     console = loadSprite("console.png");
-                    prefab = Bundle.LoadAsset_Internal("console", GameObject);
+                    prefab = Bundle.LoadAsset<Object>("console.prefab");
                 }
             }
         }
