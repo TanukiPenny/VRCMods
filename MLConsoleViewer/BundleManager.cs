@@ -30,6 +30,7 @@ namespace MLConsoleViewer.Bundle
 
                     console = loadSprite("console.png");
                     prefab = Bundle.LoadAsset_Internal(Bundle.GetAllAssetNames()[1], Il2CppType.Of<GameObject>()).Cast<GameObject>();
+                    prefab.hideFlags |= HideFlags.DontUnloadUnusedAsset;
                     Main.log.Msg(Bundle.GetAllAssetNames()[1]);
                 }
             }
