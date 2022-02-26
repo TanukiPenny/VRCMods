@@ -44,11 +44,11 @@ namespace MLConsoleViewer
 
         public override void OnPreferencesSaved()
         {
-            if (UI.consolePrefab == null)
+            if (UI.text == null)
                 return;
             else
             {
-                
+                UI.text.fontSize = fontSize.Value;
             }
         }
 
