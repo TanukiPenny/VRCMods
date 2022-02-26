@@ -18,8 +18,9 @@ namespace MLConsoleViewer
             stream.CopyTo(memoryStream);
             Bundle = AssetBundle.LoadFromMemory_Internal(memoryStream.ToArray(), 0);
             console = Bundle.LoadAsset_Internal(Bundle.GetAllAssetNames()[0], Il2CppType.Of<Sprite>()).Cast<Sprite>();
+            console.hideFlags |= HideFlags.DontUnloadUnusedAsset;
             prefab = Bundle.LoadAsset_Internal(Bundle.GetAllAssetNames()[1], Il2CppType.Of<GameObject>()).Cast<GameObject>();
-            Bundle.hideFlags |= HideFlags.DontUnloadUnusedAsset;
+            prefab.hideFlags |= HideFlags.DontUnloadUnusedAsset;
         }
     }
 }
