@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,20 +10,32 @@ namespace MLConsoleViewer;
 
 public static class ConsoleManager
 {
+    public static readonly HashSet<string> Cached = new();
     public static void AttachTrackers()
     {
-        MelonLogger.MsgCallbackHandler += OnMsg;
+        MelonLogger.MsgCallbackHandler += OnLog;
+        MelonLogger.WarningCallbackHandler += (callingMod, logText) => OnLog(true, callingMod, logText);
+        MelonLogger.ErrorCallbackHandler += (callingMod, logText) => OnLog(false, callingMod, logText);
     }
-    private static void OnMsg(ConsoleColor melonColor, ConsoleColor txtColor, string callingMod, string logText)
+    private static void OnLog(ConsoleColor melonColor, ConsoleColor txtColor, string callingMod, string logText)
     {
-        AddMsg(melonColor, txtColor, callingMod, logText);
+        var result = $"[<color=green>{CurrTime}</color>]" +
+                     $" [<color={HexStrings[melonColor]}>{callingMod}</color>]" +
+                     $" <color={HexStrings[txtColor]}>{logText}</color>\n";
+        if (!UI.text)
+            Cached.Add(result);
+        else
+            UI.text.text += result;
     }
-    private static void AddMsg(ConsoleColor melonColor, ConsoleColor txtColor, string callingMod, string logText)
-    {   
-        UI.text.text += $"[<color=green>{DateTime.Now.AddMilliseconds(-1.0).ToString("HH:mm:ss.fff")}</color>]" +
-                        $" [<color={HexStrings[melonColor]}>{callingMod}</color>]" +
-                        $" <color={HexStrings[txtColor]}>{logText}</color>\n";
+    private static void OnLog(bool isWarn, string callingMod, string logText)
+    {
+        var result = $"<color={HexStrings[isWarn ? ConsoleColor.Yellow : ConsoleColor.Red]}>[{CurrTime}] [{callingMod}] {logText}</color>";
+        if (!UI.text)
+            Cached.Add(result);
+        else
+            UI.text.text += result;
     }
+    private static string CurrTime => DateTime.Now.AddMilliseconds(-1.0).ToString("HH:mm:ss.fff");
     private static readonly Hashtable HexStrings = new()
     {
         {ConsoleColor.Black, "#000000"},
