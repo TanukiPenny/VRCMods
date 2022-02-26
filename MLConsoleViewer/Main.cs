@@ -3,6 +3,7 @@ using System.Net;
 using System.Reflection;
 using MelonLoader;
 
+
 namespace MLConsoleViewer
 {
     public static class BuildShit
@@ -17,13 +18,23 @@ namespace MLConsoleViewer
     {
         internal static readonly MelonLogger.Instance log = new MelonLogger.Instance(BuildShit.Name, ConsoleColor.Cyan);
         private static int scenesLoaded = 0;
-        
         public override void OnApplicationStart()
         {
             LoadRemodCore(out _);
-            //BundleManager.InIt();
+            Bundle.BundleManager.InIt();
             log.Msg("MLConsoleViewer Loaded");
             log.Msg("Echo....... *there was no response* :(");
+        }
+        public override void OnSceneWasLoaded(int buildIndex, string sceneName)
+        {
+            if (scenesLoaded <= 2)
+            {
+                scenesLoaded++;
+                if (scenesLoaded == 2)
+                {
+                    MelonCoroutines.Start(UI.OnQuickMenu());
+                }
+            }
         }
         private void LoadRemodCore(out Assembly loadedAssembly)
         {

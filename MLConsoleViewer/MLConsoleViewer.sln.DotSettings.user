@@ -242,4 +242,5 @@
 	<s:Boolean x:Key="/Default/AddReferences/RecentPaths/=P_003A_005CSteamLibrary_005Csteamapps_005Ccommon_005CVRChat_005CMelonLoader_005CManaged_005CVRCSDKBase_002Edll/@EntryIndexedValue">True</s:Boolean>
 	<s:Boolean x:Key="/Default/AddReferences/RecentPaths/=P_003A_005CSteamLibrary_005Csteamapps_005Ccommon_005CVRChat_005CMelonLoader_005CManaged_005Cwebsocket_002Dsharp_002Edll/@EntryIndexedValue">True</s:Boolean>
 	<s:Boolean x:Key="/Default/AddReferences/RecentPaths/=P_003A_005CSteamLibrary_005Csteamapps_005Ccommon_005CVRChat_005CMelonLoader_005CManaged_005CWindowsBase_002Edll/@EntryIndexedValue">True</s:Boolean>
-	<s:Boolean x:Key="/Default/AddReferences/RecentPaths/=P_003A_005CSteamLibrary_005Csteamapps_005Ccommon_005CVRChat_005CMelonLoader_005CMelonLoader_002Edll/@EntryIndexedValue">True</s:Boolean></wpf:ResourceDictionary>
+	<s:Boolean x:Key="/Default/AddReferences/RecentPaths/=P_003A_005CSteamLibrary_005Csteamapps_005Ccommon_005CVRChat_005CMelonLoader_005CMelonLoader_002Edll/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/AddReferences/RecentPaths/=P_003A_005CSteamLibrary_005Csteamapps_005Ccommon_005CVRChat_005CReMod_002ECore_002Edll/@EntryIndexedValue">True</s:Boolean></wpf:ResourceDictionary>
