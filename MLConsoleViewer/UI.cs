@@ -20,7 +20,6 @@ namespace MLConsoleViewer
             while (UIManager.prop_UIManager_0 == null) yield return null;
             while (Object.FindObjectOfType<VRC.UI.Elements.QuickMenu>() == null) yield return null;
             BuildTab();
-            Main.log.Msg("Menu Built");
         }
 
         public static void BuildTab()
@@ -37,6 +36,7 @@ namespace MLConsoleViewer
                 .Find(
                     "UserInterface/Canvas_QuickMenu(Clone)/Container/Window/QMParent/Menu_MLConsoleViewer/console(Clone)/Scroll View/Viewport/Content/")
                 .GetComponentInChildren<TextMeshProUGUI>(true);
+            ConsoleManager.AttachTrackers();
 
         }
     }
