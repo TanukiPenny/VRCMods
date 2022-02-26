@@ -18,10 +18,15 @@ namespace MLConsoleViewer
     {
         internal static readonly MelonLogger.Instance log = new MelonLogger.Instance(BuildShit.Name, ConsoleColor.Cyan);
         private static int scenesLoaded = 0;
+        public static MelonPreferences_Category MLConsoleViewer;
+        public static MelonPreferences_Entry<int> fontSize;
         public override void OnApplicationStart()
         {
             LoadRemodCore(out _);
-            Bundle.BundleManager.InIt();
+            BundleManager.Init();
+            MLConsoleViewer = MelonPreferences.CreateCategory("MLConsoleViewer", "MLConsoleViewer");
+            fontSize = MLConsoleViewer.CreateEntry("fontSize", 20, "Font Size",
+                "Font size of the text in your console tab");
             log.Msg("MLConsoleViewer Loaded");
             log.Msg("Echo....... *there was no response* :(");
         }
@@ -36,6 +41,17 @@ namespace MLConsoleViewer
                 }
             }
         }
+
+        public override void OnPreferencesSaved()
+        {
+            if (UI.text == null)
+                return;
+            else
+            {
+                UI.text.fontSize = fontSize.Value;
+            }
+        }
+
         private void LoadRemodCore(out Assembly loadedAssembly)
         {
             byte[] bytes = null;
