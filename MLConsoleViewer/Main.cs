@@ -2,20 +2,32 @@
 using System.Net;
 using System.Reflection;
 using MelonLoader;
+using BuildShit = MLConsoleViewer.BuildShit;
+using Main = MLConsoleViewer.Main;
+
+#region Info & Namespace
+[assembly: AssemblyDescription(BuildShit.Description)]
+[assembly: AssemblyCopyright($"Created by {BuildShit.Author}, Copyright © 2022")]
+[assembly: MelonInfo(typeof(Main), BuildShit.Name, BuildShit.Version, BuildShit.Author, BuildShit.DownloadLink)]
+[assembly: MelonGame("VRChat", "VRChat")]
+[assembly: MelonPriority(Int32.MinValue)]
+[assembly: MelonColor(ConsoleColor.DarkMagenta)]
+[assembly: MelonOptionalDependencies("ReMod.Core")]
 
 namespace MLConsoleViewer;
 
 public static class BuildShit
 {
     public const string Name = "MLConsoleViewer";
-    public const string Author = "Penny, Davi";
+    public const string Author = "Penny & Davi";
     public const string Version = "1.0.0";
     public const string DownloadLink = "https://github.com/PennyBunny/VRCMods/";
     public const string Description = "A standalone mod that adds a tab to your quick menu that has a simple copy of your console!";
 }
+#endregion
+
 public class Main : MelonMod
 {
-    // ReSharper disable once InconsistentNaming
     internal static readonly MelonLogger.Instance log = new(BuildShit.Name, ConsoleColor.Cyan);
     private static int scenesLoaded;
     private static MelonPreferences_Category _mlConsoleViewer;
