@@ -92,7 +92,7 @@ namespace ProgramLauncher
 
             try
             {
-                bytes = wc.DownloadData($"https://github.com/RequiDev/ReModCE/releases/latest/download/ReMod.Core.dll");
+                bytes = wc.DownloadData($"https://github.com/RequiDev/ReMod.Core/releases/latest/download/ReMod.Core.dll");
                 loadedAssembly = Assembly.Load(bytes);
             }
             catch (WebException e)
