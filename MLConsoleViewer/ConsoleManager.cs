@@ -1,16 +1,12 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using MelonLoader;
-using UnityEngine;
-using UnityEngine.UI;
 
 namespace MLConsoleViewer;
 
 public static class ConsoleManager
 {
-    private static string timestampadd;
     public static readonly HashSet<string> Cached = new();
     public static void AttachTrackers()
     {
@@ -18,46 +14,25 @@ public static class ConsoleManager
         MelonLogger.WarningCallbackHandler += (callingMod, logText) => OnLog(true, callingMod, logText);
         MelonLogger.ErrorCallbackHandler += (callingMod, logText) => OnLog(false, callingMod, logText);
     }
-    private static void OnLog(ConsoleColor melonColor, ConsoleColor txtColor, string callingMod, string logText)
+    private static void OnLog(ConsoleColor melonColor, ConsoleColor txtColor, string callingMod, string logText) =>
+        PrintOrCacheStr((Main.timeStamp.Value ? $"[<color=green>{CurrTime}</color>] " : "") + // Adds time stamp if MelonPref == true
+                        (string.IsNullOrEmpty(callingMod) ? "" : $"[<color={HexStrings[melonColor]}>{callingMod}</color>] ") + // Adds colored calling mod tag if not empty/null
+                        $"<color={HexStrings[txtColor]}>{logText}</color>\n"); // Adds colored text
+    private static void OnLog(bool isWarn, string callingMod, string logText) =>
+        PrintOrCacheStr($"<color={HexStrings[isWarn ? ConsoleColor.Yellow : ConsoleColor.Red]}>" + // Adds color
+                        (Main.timeStamp.Value ? $"[{CurrTime}] " : "") + // Adds time stamp if MelonPref == true
+                        (string.IsNullOrEmpty(callingMod) ? "" : $"[{callingMod}] ") + // Adds calling mod tag if not empty/null
+                        $"{logText}</color>\n"); // Adds text and finishes color
+    private static void PrintOrCacheStr(string result)
     {
-        string result;
-        if (Main.timeStamp.Value)
-        {
-            result = $"[<color=green>{CurrTime}</color>]" + $" [<color={HexStrings[melonColor]}>{callingMod}</color>]" + $" <color={HexStrings[txtColor]}>{logText}</color>\n";
-        }
-        else
-        {
-            result = $"[<color={HexStrings[melonColor]}>{callingMod}</color>]" + $" <color={HexStrings[txtColor]}>{logText}</color>\n";
-        }
         if (!UI.text)
             Cached.Add(result);
         else
+        {
             UI.text.text += result;
-        if (Main.autoElastic.Value && UI.text != null)
-        {
-            UI.reset = true;
-            UI.scrollRect.movementType = ScrollRect.MovementType.Elastic;
-        }
-    }
-    private static void OnLog(bool isWarn, string callingMod, string logText)
-    {
-        string result;
-        if (Main.timeStamp.Value)
-        {
-            result = $"<color={HexStrings[isWarn ? ConsoleColor.Yellow : ConsoleColor.Red]}>[{CurrTime}] [{callingMod}] {logText}</color>\n";
-        }
-        else
-        {
-            result = $"<color={HexStrings[isWarn ? ConsoleColor.Yellow : ConsoleColor.Red]}>[{callingMod}] {logText}</color>\n";
-        }
-        if (!UI.text)
-            Cached.Add(result);
-        else
-            UI.text.text += result;
-        if (Main.autoElastic.Value && UI.text != null)
-        {
-            UI.reset = true;
-            UI.scrollRect.movementType = ScrollRect.MovementType.Elastic;
+
+            if (!Main.autoElastic.Value) return;
+            UI.ResetOffsets();
         }
     }
     private static string CurrTime => DateTime.Now.AddMilliseconds(-1.0).ToString("HH:mm:ss.fff");
