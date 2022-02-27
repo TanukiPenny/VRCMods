@@ -9,7 +9,7 @@
         <ClearOutputDirectory>True</ClearOutputDirectory>
         <OutputPath>$(MsBuildThisFileDirectory)Output</OutputPath>
 		<MelonManaged Condition="Exists('..\..\..\..\..\Jogos\')">..\..\..\..\..\Jogos\SteamLibrary\steamapps\common\VRChat\MelonLoader\Managed</MelonManaged>
-		<MelonManaged Condition="Exists('P:/')">P:/SteamLibrary/steamapps/common/VRChat/</MelonManaged>
+		<MelonManaged Condition="Exists('P:\')">P:\SteamLibrary\steamapps\common\VRChat\MelonLoader\Managed</MelonManaged>
 	</PropertyGroup>
 	<ItemGroup>
         <EmbeddedResource Include="console" />
