@@ -41,7 +41,7 @@ public static class UI
             text.text += i;
         
         // Might add directly to the prefab
-        consolePrefab.transform.localScale = new Vector3(1.8f, 1.8f, 1);
+        //consolePrefab.transform.localScale = new Vector3(1.8f, 1.8f, 1);
         scrollRect.elasticity = 0;
     }
 
