@@ -14,6 +14,7 @@ namespace MLConsoleViewer;
 public static class UI
 {
     private static ReCategoryPage ConsoleTab;
+    //private static ReMenuCategory ConsoleTabMenu;
     public static GameObject MLMenu, consolePrefab;
     public static TextMeshProUGUI text;
     private static ScrollRect scrollRect;
@@ -28,6 +29,11 @@ public static class UI
     private static void BuildTab()
     {
         ConsoleTab = new ReCategoryPage("MLConsoleViewer", true);
+        /*ConsoleTabMenu = ConsoleTab.AddCategory("MLConsoleViewer", false);
+        ConsoleTabMenu.AddToggle("Disable auto scroll", "Disables auto scroll on new log", b => 
+        {
+            Main.autoElastic.Value = b;
+        },Main.autoElastic.Value);*/
         ReTabButton.Create("MLConsoleViewer", "Open MLConsoleViewer", "MLConsoleViewer", BundleManager.ConsoleImg);
         MLMenu = GameObject.Find("UserInterface/Canvas_QuickMenu(Clone)/Container/Window/QMParent/Menu_MLConsoleViewer/");
         consolePrefab = Object.Instantiate(BundleManager.ConsolePrefab, MLMenu.transform);
