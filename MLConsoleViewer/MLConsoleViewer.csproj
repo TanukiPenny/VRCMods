@@ -8,7 +8,7 @@
         <DebugSymbols>false</DebugSymbols>
         <ClearOutputDirectory>True</ClearOutputDirectory>
         <OutputPath>$(MsBuildThisFileDirectory)Output</OutputPath>
-		<MelonManaged>..\..\..\..\..\Jogos\SteamLibrary\steamapps\common\VRChat\MelonLoader\Managed</MelonManaged>
+		<MelonManaged>P:\SteamLibrary\steamapps\common\VRChat\MelonLoader\Managed</MelonManaged>
 	</PropertyGroup>
 	<ItemGroup>
         <EmbeddedResource Include="console" />
