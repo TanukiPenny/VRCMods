@@ -4,11 +4,13 @@ using System.Collections.Generic;
 using System.Linq;
 using MelonLoader;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace MLConsoleViewer;
 
 public static class ConsoleManager
 {
+    private static string timestampadd;
     public static readonly HashSet<string> Cached = new();
     public static void AttachTrackers()
     {
@@ -18,21 +20,45 @@ public static class ConsoleManager
     }
     private static void OnLog(ConsoleColor melonColor, ConsoleColor txtColor, string callingMod, string logText)
     {
-        var result = $"[<color=green>{CurrTime}</color>]" +
-                     $" [<color={HexStrings[melonColor]}>{callingMod}</color>]" +
-                     $" <color={HexStrings[txtColor]}>{logText}</color>\n";
+        string result;
+        if (Main.timeStamp.Value)
+        {
+            result = $"[<color=green>{CurrTime}</color>]" + $" [<color={HexStrings[melonColor]}>{callingMod}</color>]" + $" <color={HexStrings[txtColor]}>{logText}</color>\n";
+        }
+        else
+        {
+            result = $"[<color={HexStrings[melonColor]}>{callingMod}</color>]" + $" <color={HexStrings[txtColor]}>{logText}</color>\n";
+        }
         if (!UI.text)
             Cached.Add(result);
         else
             UI.text.text += result;
+        if (Main.autoElastic.Value && UI.text != null)
+        {
+            UI.reset = true;
+            UI.scrollRect.movementType = ScrollRect.MovementType.Elastic;
+        }
     }
     private static void OnLog(bool isWarn, string callingMod, string logText)
     {
-        var result = $"<color={HexStrings[isWarn ? ConsoleColor.Yellow : ConsoleColor.Red]}>[{CurrTime}] [{callingMod}] {logText}</color>";
+        string result;
+        if (Main.timeStamp.Value)
+        {
+            result = $"<color={HexStrings[isWarn ? ConsoleColor.Yellow : ConsoleColor.Red]}>[{CurrTime}] [{callingMod}] {logText}</color>\n";
+        }
+        else
+        {
+            result = $"<color={HexStrings[isWarn ? ConsoleColor.Yellow : ConsoleColor.Red]}>[{callingMod}] {logText}</color>\n";
+        }
         if (!UI.text)
             Cached.Add(result);
         else
             UI.text.text += result;
+        if (Main.autoElastic.Value && UI.text != null)
+        {
+            UI.reset = true;
+            UI.scrollRect.movementType = ScrollRect.MovementType.Elastic;
+        }
     }
     private static string CurrTime => DateTime.Now.AddMilliseconds(-1.0).ToString("HH:mm:ss.fff");
     private static readonly Hashtable HexStrings = new()

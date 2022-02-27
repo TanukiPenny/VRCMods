@@ -1,9 +1,13 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
+using MelonLoader;
 using ReMod.Core.UI.QuickMenu;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 using VRC;
 using VRC.UI.Core;
+using Object = UnityEngine.Object;
 
 namespace MLConsoleViewer;
 
@@ -13,6 +17,8 @@ public static class UI
     private static ReCategoryPage ConsoleTab;
     public static GameObject MLMenu, consolePrefab;
     public static TextMeshProUGUI text;
+    public static ScrollRect scrollRect;
+    public static bool reset = false;
 
     public static IEnumerator OnQuickMenu()
     {
@@ -33,6 +39,23 @@ public static class UI
         text = GameObject
             .Find("UserInterface/Canvas_QuickMenu(Clone)/Container/Window/QMParent/Menu_MLConsoleViewer/console(Clone)/Scroll View/Viewport/Content/")
             .GetComponentInChildren<TextMeshProUGUI>(true);
+        scrollRect = consolePrefab.GetComponentInChildren<ScrollRect>(true);
+        ConsoleTab.OnOpen += () =>
+        {
+            reset = true;
+            scrollRect.movementType = ScrollRect.MovementType.Elastic;
+        };
+        scrollRect.onValueChanged.AddListener(new Action<Vector2>((_) =>
+        {
+            if (!reset)
+            {
+                scrollRect.movementType = ScrollRect.MovementType.Unrestricted;
+            }
+            else
+            {
+                
+            }
+        }));
         foreach (var i in ConsoleManager.Cached)
             text.text += i;
     }

@@ -11,7 +11,7 @@ public static class BuildShit
     public const string Author = "Penny, Davi";
     public const string Version = "1.0.0";
     public const string DownloadLink = "https://github.com/PennyBunny/VRCMods/";
-    public const string Description = "";
+    public const string Description = "A standalone mod that adds a tab to your quick menu that has a simple copy of your console!";
 }
 public class Main : MelonMod
 {
@@ -20,6 +20,8 @@ public class Main : MelonMod
     private static int scenesLoaded;
     private static MelonPreferences_Category _mlConsoleViewer;
     private static MelonPreferences_Entry<int> _fontSize;
+    public static MelonPreferences_Entry<bool> timeStamp;
+    public static MelonPreferences_Entry<bool> autoElastic;
     public override void OnApplicationStart()
     {
         LoadReModCore(out _);
@@ -28,6 +30,10 @@ public class Main : MelonMod
         _mlConsoleViewer = MelonPreferences.CreateCategory("MLConsoleViewer", "MLConsoleViewer");
         _fontSize = _mlConsoleViewer.CreateEntry("fontSize", 20, "Font Size",
             "Font size of the text in your console tab");
+        timeStamp = _mlConsoleViewer.CreateEntry("timeStamp", true, "Time Stamp",
+            "Sets whether logs show time stamps or not");
+        autoElastic = _mlConsoleViewer.CreateEntry("autoElastic", true, "Elastic on new log",
+            "Sets whether logs set scrollrect to be elastic");
         log.Msg("MLConsoleViewer Loaded");
     }
     public override void OnSceneWasLoaded(int buildIndex, string sceneName)
@@ -56,7 +62,7 @@ public class Main : MelonMod
             
         try
         {
-            bytes = wc.DownloadData($"https://github.com/RequiDev/ReModCE/releases/latest/download/ReMod.Core.dll");
+            bytes = wc.DownloadData($"https://github.com/RequiDev/ReMod.Core/releases/latest/download/ReMod.Core.dll");
             loadedAssembly = Assembly.Load(bytes);
         }
         catch (WebException e)
