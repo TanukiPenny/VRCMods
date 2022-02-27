@@ -10,19 +10,12 @@
         <OutputPath>$(MsBuildThisFileDirectory)Output</OutputPath>
 		<MelonManaged>..\..\..\..\..\Jogos\SteamLibrary\steamapps\common\VRChat\MelonLoader\Managed</MelonManaged>
 	</PropertyGroup>
-    <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-        <Exec Command="cp $(OutputPath)$(AssemblyName).dll $(MelonManaged)\..\..\Mods" />
-    </Target>
 	<ItemGroup>
         <EmbeddedResource Include="console" />
 		<Reference Include="System" />
 		<Reference Include="Microsoft.CSharp" />
 		<Reference Include="Assembly-CSharp">
 			<HintPath>$(MelonManaged)\Assembly-CSharp.dll</HintPath>
-			<Private>False</Private>
-		</Reference>
-		<Reference Include="ActionMenuApi">
-			<HintPath>$(MelonManaged)\..\..\Mods\NotUsing\ActionMenuApi.dll</HintPath>
 			<Private>False</Private>
 		</Reference>
 		<Reference Include="Il2Cppmscorlib">
