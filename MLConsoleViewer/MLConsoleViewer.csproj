@@ -8,8 +8,8 @@
         <DebugSymbols>false</DebugSymbols>
         <ClearOutputDirectory>True</ClearOutputDirectory>
         <OutputPath>$(MsBuildThisFileDirectory)Output</OutputPath>
-		<MelonManaged Condition="Exists('..\..\..\..\..\Jogos\SteamLibrary\steamapps\common\VRChat\MelonLoader\Managed)">C:/Program Files (x86)/Steam/steamapps/common/VRChat/</MelonManaged>
-		<MelonManaged Condition="Exists('P:/SteamLibrary/steamapps/common/VRChat/')">P:/SteamLibrary/steamapps/common/VRChat/</MelonManaged>
+		<MelonManaged Condition="Exists('..\..\..\..\..\Jogos\')">..\..\..\..\..\Jogos\SteamLibrary\steamapps\common\VRChat\MelonLoader\Managed</MelonManaged>
+		<MelonManaged Condition="Exists('P:/')">P:/SteamLibrary/steamapps/common/VRChat/</MelonManaged>
 	</PropertyGroup>
 	<ItemGroup>
         <EmbeddedResource Include="console" />
