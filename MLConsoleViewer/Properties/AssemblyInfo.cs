@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using System;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using MelonLoader;
@@ -20,3 +21,4 @@ using MLConsoleViewer;
 [assembly: MelonInfo(typeof(MLConsoleViewer.Main), BuildShit.Name, BuildShit.Version, BuildShit.Author, BuildShit.DownloadLink)]
 [assembly: MelonGame("VRChat", "VRChat")]
 [assembly: MelonOptionalDependencies("ReMod.Core")]
+[assembly: MelonPriority(Int32.MinValue)]
