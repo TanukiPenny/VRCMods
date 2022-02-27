@@ -2,13 +2,13 @@
 using System.Net;
 using System.Reflection;
 using MelonLoader;
-using BuildInfo = MLConsoleViewer.BuildShit;
+using BuildShit = MLConsoleViewer.BuildShit;
 using Main = MLConsoleViewer.Main;
 
 #region Info & Namespace
-[assembly: AssemblyDescription(BuildInfo.Description)]
-[assembly: AssemblyCopyright($"Created by {BuildInfo.Author}, Copyright © 2022")]
-[assembly: MelonInfo(typeof(Main), BuildInfo.Name, BuildInfo.Version, BuildInfo.Author, BuildInfo.DownloadLink)]
+[assembly: AssemblyDescription(BuildShit.Description)]
+[assembly: AssemblyCopyright($"Created by {BuildShit.Author}, Copyright © 2022")]
+[assembly: MelonInfo(typeof(Main), BuildShit.Name, BuildShit.Version, BuildShit.Author, BuildShit.DownloadLink)]
 [assembly: MelonGame("VRChat", "VRChat")]
 [assembly: MelonPriority(Int32.MinValue)]
 [assembly: MelonColor(ConsoleColor.DarkMagenta)]
