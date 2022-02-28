@@ -43,7 +43,6 @@ public static class UI
         text = consolePrefab.transform.Find("Scroll View/Viewport/Content/")
                          .GetComponentInChildren<TextMeshProUGUI>(true);
         ConsoleTab.OnOpen += ResetOffsets;
-        scrollRect.elasticity = 0;
 
         foreach (var i in ConsoleManager.Cached)
             AppendText(i);
