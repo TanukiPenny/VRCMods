@@ -14,10 +14,10 @@ namespace MLConsoleViewer;
 
 public static class UI
 {
-    private static ReCategoryPage ConsoleTab;
-    public static GameObject MLMenu, consolePrefab;
-    public static TextMeshProUGUI text;
-    private static ScrollRect scrollRect;
+    private static ReCategoryPage _consoleTab;
+    private static GameObject _mlMenu, _consolePrefab;
+    public static TextMeshProUGUI Text;
+    private static ScrollRect _scrollRect;
 
     public static IEnumerator OnQuickMenu()
     {
@@ -28,35 +28,35 @@ public static class UI
 
     private static void BuildTab()
     {
-        ConsoleTab = new ReCategoryPage("MLConsoleViewer", true);
+        _consoleTab = new ReCategoryPage("MLConsoleViewer", true);
         /*ConsoleTabMenu = ConsoleTab.AddCategory("MLConsoleViewer", false);
         ConsoleTabMenu.AddToggle("Disable auto scroll", "Disables auto scroll on new log", b => 
         {
             Main.autoElastic.Value = b;
         },Main.autoElastic.Value);*/
         ReTabButton.Create("MLConsoleViewer", "Open MLConsoleViewer", "MLConsoleViewer", BundleManager.ConsoleImg);
-        MLMenu = GameObject.Find("UserInterface/Canvas_QuickMenu(Clone)/Container/Window/QMParent/Menu_MLConsoleViewer/");
-        consolePrefab = Object.Instantiate(BundleManager.ConsolePrefab, MLMenu.transform);
-        consolePrefab.transform.localPosition = new Vector3(0, -42, 0);
-        Tools.SetLayerRecursively(consolePrefab, LayerMask.NameToLayer("InternalUI"));
-        scrollRect = consolePrefab.GetComponentInChildren<ScrollRect>(true);
-        text = consolePrefab.transform.Find("Scroll View/Viewport/Content/")
+        _mlMenu = GameObject.Find("UserInterface/Canvas_QuickMenu(Clone)/Container/Window/QMParent/Menu_MLConsoleViewer/");
+        _consolePrefab = Object.Instantiate(BundleManager.ConsolePrefab, _mlMenu.transform);
+        _consolePrefab.transform.localPosition = new Vector3(0, -42, 0);
+        Tools.SetLayerRecursively(_consolePrefab, LayerMask.NameToLayer("InternalUI"));
+        _scrollRect = _consolePrefab.GetComponentInChildren<ScrollRect>(true);
+        Text = _consolePrefab.transform.Find("Scroll View/Viewport/Content/")
                          .GetComponentInChildren<TextMeshProUGUI>(true);
-        ConsoleTab.OnOpen += ResetOffsets;
+        _consoleTab.OnOpen += ResetOffsets;
 
         foreach (var i in ConsoleManager.Cached)
             AppendText(i);
     }
 
     #region Text Appending
-    private static int lineNum;
+    private static int _lineNum;
     public static void AppendText(string txt)
     {
-        if (lineNum >= Main.maxLines.Value)
-            text.text = GetReducedStr(text.text, Main.maxLines.Value);
+        if (_lineNum >= Main.MaxLines.Value)
+            Text.text = GetReducedStr(Text.text, Main.MaxLines.Value);
         else
-            lineNum++;
-        text.text += txt;
+            _lineNum++;
+        Text.text += txt;
     }
     private static string GetReducedStr(string content, int nthIndex)
     {
@@ -74,19 +74,19 @@ public static class UI
     #endregion
     
     #region ResetOffsets
-    private static bool fired;
+    private static bool _fired;
     public static void ResetOffsets()
     {
-        if (!fired) MelonCoroutines.Start(resetOffsetsCoroutine());
+        if (!_fired) MelonCoroutines.Start(ResetOffsetsCoroutine());
     }
-    private static IEnumerator resetOffsetsCoroutine()
+    private static IEnumerator ResetOffsetsCoroutine()
     {
-        scrollRect.movementType = ScrollRect.MovementType.Elastic;
+        _scrollRect.movementType = ScrollRect.MovementType.Elastic;
         
         yield return new WaitForSeconds(.5f);
         
-        scrollRect.movementType = ScrollRect.MovementType.Unrestricted;
-        fired = false;
+        _scrollRect.movementType = ScrollRect.MovementType.Unrestricted;
+        _fired = false;
     }
     #endregion
 }

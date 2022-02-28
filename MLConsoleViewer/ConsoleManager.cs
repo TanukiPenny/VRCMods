@@ -15,23 +15,23 @@ public static class ConsoleManager
         MelonLogger.ErrorCallbackHandler += (callingMod, logText) => OnLog(false, callingMod, logText);
     }
     private static void OnLog(ConsoleColor melonColor, ConsoleColor txtColor, string callingMod, string logText) =>
-        PrintOrCacheStr((Main.timeStamp.Value ? $"[<color=green>{CurrTime}</color>] " : "") + // Adds time stamp if MelonPref == true
+        PrintOrCacheStr((Main.TimeStamp.Value ? $"[<color=green>{CurrTime}</color>] " : "") + // Adds time stamp if MelonPref == true
                         (string.IsNullOrEmpty(callingMod) ? "" : $"[<color={HexStrings[melonColor]}>{callingMod}</color>] ") + // Adds colored calling mod tag if not empty/null
                         $"<color={HexStrings[txtColor]}>{logText}</color>\n"); // Adds colored text
     private static void OnLog(bool isWarn, string callingMod, string logText) =>
         PrintOrCacheStr($"<color={HexStrings[isWarn ? ConsoleColor.Yellow : ConsoleColor.Red]}>" + // Adds color
-                        (Main.timeStamp.Value ? $"[{CurrTime}] " : "") + // Adds time stamp if MelonPref == true
+                        (Main.TimeStamp.Value ? $"[{CurrTime}] " : "") + // Adds time stamp if MelonPref == true
                         (string.IsNullOrEmpty(callingMod) ? "" : $"[{callingMod}] ") + // Adds calling mod tag if not empty/null
                         $"{logText}</color>\n"); // Adds text and finishes color
     private static void PrintOrCacheStr(string result)
     {
-        if (!UI.text)
+        if (!UI.Text)
             Cached.Add(result);
         else
         {
             UI.AppendText(result);
 
-            if (!Main.autoElastic.Value) return;
+            if (!Main.AutoElastic.Value) return;
             UI.ResetOffsets();
         }
     }

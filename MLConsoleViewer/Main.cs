@@ -28,27 +28,27 @@ public static class BuildShit
 
 public class Main : MelonMod
 {
-    internal static readonly MelonLogger.Instance log = new(BuildShit.Name, ConsoleColor.Cyan);
+    private static readonly MelonLogger.Instance Log = new(BuildShit.Name, ConsoleColor.Cyan);
     private static MelonPreferences_Category _mlConsoleViewer;
-    private static MelonPreferences_Entry<int> fontSize;
-    public static MelonPreferences_Entry<int> maxLines;
-    public static MelonPreferences_Entry<bool> timeStamp;
-    public static MelonPreferences_Entry<bool> autoElastic;
+    private static MelonPreferences_Entry<int> _fontSize;
+    public static MelonPreferences_Entry<int> MaxLines;
+    public static MelonPreferences_Entry<bool> TimeStamp;
+    public static MelonPreferences_Entry<bool> AutoElastic;
     public override void OnApplicationStart()
     {
         LoadReModCore(out _);
         BundleManager.Init();
         ConsoleManager.AttachTrackers();
         _mlConsoleViewer = MelonPreferences.CreateCategory("MLConsoleViewer", "MLConsoleViewer");
-        fontSize = _mlConsoleViewer.CreateEntry("fontSize", 20, "Font Size",
+        _fontSize = _mlConsoleViewer.CreateEntry("fontSize", 20, "Font Size",
             "Font size of the text in your console tab");
-        maxLines = _mlConsoleViewer.CreateEntry("maxLines", 150, "Max Displayed Lines",
+        MaxLines = _mlConsoleViewer.CreateEntry("maxLines", 150, "Max Displayed Lines",
             "Defines the limit in which your console starts discarding old lines");
-        timeStamp = _mlConsoleViewer.CreateEntry("timeStamp", true, "Time Stamp",
+        TimeStamp = _mlConsoleViewer.CreateEntry("timeStamp", true, "Time Stamp",
             "Sets whether logs show time stamps or not");
-        autoElastic = _mlConsoleViewer.CreateEntry("autoElastic", true, "Elastic on new log",
-            "Sets whether logs set scrollrect to be elastic");
-        log.Msg("MLConsoleViewer Loaded");
+        AutoElastic = _mlConsoleViewer.CreateEntry("autoElastic", true, "Elastic on new log",
+            "Sets whether logs automatically scrolls down to the bottom");
+        Log.Msg("MLConsoleViewer Loaded");
     }
     public override void OnSceneWasLoaded(int buildIndex, string sceneName)
     {
@@ -58,29 +58,22 @@ public class Main : MelonMod
 
     public override void OnPreferencesSaved()
     {
-        if (UI.text == null)
+        if (UI.Text == null)
             return;
-        UI.text.fontSize = fontSize.Value;
+        UI.Text.fontSize = _fontSize.Value;
     }
 
     private void LoadReModCore(out Assembly loadedAssembly)
     {
-        byte[] bytes;
-        var wc = new WebClient();
-            
         try
         {
-            bytes = wc.DownloadData($"https://github.com/RequiDev/ReMod.Core/releases/latest/download/ReMod.Core.dll");
+            var bytes = new WebClient().DownloadData("https://github.com/RequiDev/ReMod.Core/releases/latest/download/ReMod.Core.dll");
             loadedAssembly = Assembly.Load(bytes);
         }
-        catch (WebException e)
+        catch (Exception e)
         {
-            MelonLogger.Error($"Unable to Load Core Dep RemodCore: {e}");
-        }
-        catch (BadImageFormatException)
-        {
+            MelonLogger.Error($"Unable to Load ReModCore Dependency: {e}");
             loadedAssembly = null;
         }
-        loadedAssembly = null;
     }
 }
