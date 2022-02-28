@@ -4,6 +4,8 @@ A standalone mod to launch external programs from inside VRChat with a click of 
 
 A rewrote and maintained version of Benacle's original [MLConsoleViewer](https://github.com/benaclejames/MLConsoleViewer) Mod
 
+This mod will download and utilize [ReMod.Core](https://github.com/RequiDev/ReMod.Core) for the button API
+
 ### MelonLoader
 Need to install MelonLoader?<br>
 Click [this link](https://melonwiki.xyz/) to get started!
