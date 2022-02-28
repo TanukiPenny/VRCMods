@@ -6,6 +6,8 @@ A rewrote and maintained version of Benacle's original [MLConsoleViewer](https:/
 
 This mod will download and utilize [ReMod.Core](https://github.com/RequiDev/ReMod.Core) for the button API
 
+Recommended Mod Addons:\n- [TabExtension](https://github.com/DragonPlayerX/TabExtension)
+
 ### MelonLoader
 Need to install MelonLoader?<br>
 Click [this link](https://melonwiki.xyz/) to get started!
