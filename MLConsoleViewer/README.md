@@ -1,6 +1,6 @@
 # MLConsoleViewer
 
-A standalone mod to launch external programs from inside VRChat with a click of a button!
+A standalone mod that adds a tab to your quick menu that has a simple copy of your console!
 
 A rewrote and maintained version of Benacle's original [MLConsoleViewer](https://github.com/benaclejames/MLConsoleViewer) Mod
 
