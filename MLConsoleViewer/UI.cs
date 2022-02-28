@@ -46,6 +46,7 @@ public static class UI
 
         foreach (var i in ConsoleManager.Cached)
             AppendText(i);
+        MelonPreferences.Save();
     }
 
     #region Text Appending

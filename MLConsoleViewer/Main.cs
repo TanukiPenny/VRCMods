@@ -20,7 +20,7 @@ public static class BuildShit
 {
     public const string Name = "MLConsoleViewer";
     public const string Author = "Penny & Davi";
-    public const string Version = "1.1.2";
+    public const string Version = "1.1.3";
     public const string DownloadLink = "https://github.com/PennyBunny/VRCMods/";
     public const string Description = "A standalone mod that adds a tab to your quick menu that has a simple copy of your console!";
 }
