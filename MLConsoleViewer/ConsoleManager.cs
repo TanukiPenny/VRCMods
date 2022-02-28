@@ -29,7 +29,7 @@ public static class ConsoleManager
             Cached.Add(result);
         else
         {
-            UI.text.text += result;
+            UI.AppendText(result);
 
             if (!Main.autoElastic.Value) return;
             UI.ResetOffsets();

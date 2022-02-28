@@ -29,9 +29,9 @@ public static class BuildShit
 public class Main : MelonMod
 {
     internal static readonly MelonLogger.Instance log = new(BuildShit.Name, ConsoleColor.Cyan);
-    private static int scenesLoaded;
     private static MelonPreferences_Category _mlConsoleViewer;
-    private static MelonPreferences_Entry<int> _fontSize;
+    private static MelonPreferences_Entry<int> fontSize;
+    public static MelonPreferences_Entry<int> maxLines;
     public static MelonPreferences_Entry<bool> timeStamp;
     public static MelonPreferences_Entry<bool> autoElastic;
     public override void OnApplicationStart()
@@ -40,8 +40,10 @@ public class Main : MelonMod
         BundleManager.Init();
         ConsoleManager.AttachTrackers();
         _mlConsoleViewer = MelonPreferences.CreateCategory("MLConsoleViewer", "MLConsoleViewer");
-        _fontSize = _mlConsoleViewer.CreateEntry("fontSize", 20, "Font Size",
+        fontSize = _mlConsoleViewer.CreateEntry("fontSize", 20, "Font Size",
             "Font size of the text in your console tab");
+        maxLines = _mlConsoleViewer.CreateEntry("maxLines", 150, "Max Displayed Lines",
+            "Defines the limit in which your console starts discarding old lines");
         timeStamp = _mlConsoleViewer.CreateEntry("timeStamp", true, "Time Stamp",
             "Sets whether logs show time stamps or not");
         autoElastic = _mlConsoleViewer.CreateEntry("autoElastic", true, "Elastic on new log",
@@ -50,21 +52,15 @@ public class Main : MelonMod
     }
     public override void OnSceneWasLoaded(int buildIndex, string sceneName)
     {
-        if (scenesLoaded <= 2)
-        {
-            scenesLoaded++;
-            if (scenesLoaded == 2)
-            {
-                MelonCoroutines.Start(UI.OnQuickMenu());
-            }
-        }
+        if (buildIndex == 1)
+            MelonCoroutines.Start(UI.OnQuickMenu());
     }
 
     public override void OnPreferencesSaved()
     {
         if (UI.text == null)
             return;
-        UI.text.fontSize = _fontSize.Value;
+        UI.text.fontSize = fontSize.Value;
     }
 
     private void LoadReModCore(out Assembly loadedAssembly)

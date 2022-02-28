@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Linq;
 using MelonLoader;
 using ReMod.Core.UI.QuickMenu;
 using TMPro;
@@ -14,7 +15,6 @@ namespace MLConsoleViewer;
 public static class UI
 {
     private static ReCategoryPage ConsoleTab;
-    //private static ReMenuCategory ConsoleTabMenu;
     public static GameObject MLMenu, consolePrefab;
     public static TextMeshProUGUI text;
     private static ScrollRect scrollRect;
@@ -43,14 +43,37 @@ public static class UI
         text = consolePrefab.transform.Find("Scroll View/Viewport/Content/")
                          .GetComponentInChildren<TextMeshProUGUI>(true);
         ConsoleTab.OnOpen += ResetOffsets;
-        foreach (var i in ConsoleManager.Cached)
-            text.text += i;
-        
-        // Might add directly to the prefab
-        //consolePrefab.transform.localScale = new Vector3(1.8f, 1.8f, 1);
         scrollRect.elasticity = 0;
+
+        foreach (var i in ConsoleManager.Cached)
+            AppendText(i);
     }
 
+    #region Text Appending
+    private static int lineNum;
+    public static void AppendText(string txt)
+    {
+        if (lineNum >= Main.maxLines.Value)
+            text.text = GetReducedStr(text.text, Main.maxLines.Value);
+        else
+            lineNum++;
+        text.text += txt;
+    }
+    private static string GetReducedStr(string content, int nthIndex)
+    {
+        var index = 0;
+        nthIndex = content.Count(occ => occ == '\n') - nthIndex + 1;
+        
+        if (nthIndex < 0)
+            return content;
+        
+        for (; nthIndex != 0; nthIndex--)
+            index = content.IndexOf('\n', index) + 1;
+        
+        return content.Substring(index);
+    }
+    #endregion
+    
     #region ResetOffsets
     private static bool fired;
     public static void ResetOffsets()
