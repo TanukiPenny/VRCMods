@@ -6,6 +6,7 @@
  - URLTools
  - ProgramLauncher
  - MLConsoleViewer
+ - UserTagDumper
 
 ## Icons
  These mods use Icons from [Noun Project](https://thenounproject.com/)
