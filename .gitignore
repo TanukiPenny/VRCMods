@@ -6,10 +6,10 @@ URLTools/bin/
 URLTools/obj/
 URLTools/.vs/
 URLTools/.idea/
-UserTagViewer/bin/
-UserTagViewer/obj/
-UserTagViewer/.vs/
-UserTagViewer/.idea/
+UserTagDumper/bin/
+UserTagDumper/obj/
+UserTagDumper/.vs/
+UserTagDumper/.idea/
 QMScale/bin/
 QMScale/obj/
 QMScale/.vs/
