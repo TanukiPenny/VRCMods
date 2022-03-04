@@ -7,7 +7,7 @@ namespace MLConsoleViewer;
 
 internal static class BundleManager
 {
-    public static Sprite ConsoleImg;
+    public static Sprite CleanIcon, ConsoleImg;
     public static GameObject ConsolePrefab;
 
     private static void LoadAsset<T>(this AssetBundle bundle, out T cache, int posInBundle) where T : Object =>
@@ -19,7 +19,8 @@ internal static class BundleManager
         using var memoryStream = new MemoryStream((int)stream!.Length);
         stream.CopyTo(memoryStream);
         var bundle = AssetBundle.LoadFromMemory_Internal(memoryStream.ToArray(), 0);
-        bundle.LoadAsset(out ConsoleImg, 0);
-        bundle.LoadAsset(out ConsolePrefab, 1);
+        bundle.LoadAsset(out CleanIcon, 0);
+        bundle.LoadAsset(out ConsoleImg, 1);
+        bundle.LoadAsset(out ConsolePrefab, 2);
     }
 }

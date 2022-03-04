@@ -3,6 +3,7 @@ using System.Collections;
 using System.Linq;
 using MelonLoader;
 using ReMod.Core.UI.QuickMenu;
+using ReMod.Core.UI.Wings;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -18,6 +19,7 @@ public static class UI
     private static GameObject _mlMenu, _consolePrefab;
     public static TextMeshProUGUI Text;
     private static ScrollRect _scrollRect;
+    private static ReMirroredWingMenu mlcvWingMenu;
 
     public static IEnumerator OnQuickMenu()
     {
@@ -43,6 +45,21 @@ public static class UI
         Text = _consolePrefab.transform.Find("Scroll View/Viewport/Content/")
                          .GetComponentInChildren<TextMeshProUGUI>(true);
         _consoleTab.OnOpen += ResetOffsets;
+        mlcvWingMenu = ReMirroredWingMenu.Create("MLCV", "Open's up the MLConsoleViewer wing menu", BundleManager.ConsoleImg);
+        mlcvWingMenu.AddButton("Clear Logs", "Clears all the logs in MLCV", () =>
+        {
+            Text.text = "";
+        }, BundleManager.CleanIcon);
+        mlcvWingMenu.AddToggle("Auto Scroll", "Toggles Auto Scroll", b =>
+        {
+            Main.AutoElastic.Value = b;
+            MelonPreferences.Save();
+        },  Main.AutoElastic.Value);
+        mlcvWingMenu.AddToggle("Time Stamps", "Toggles Time Stamps", b =>
+        {
+            Main.TimeStamp.Value = b;
+            MelonPreferences.Save();
+        }, Main.TimeStamp.Value);
 
         foreach (var i in ConsoleManager.Cached)
             AppendText(i);
