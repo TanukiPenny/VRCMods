@@ -32,6 +32,7 @@ public class Main : MelonMod
     private static MelonPreferences_Category _mlConsoleViewer;
     private static MelonPreferences_Entry<int> _fontSize;
     public static MelonPreferences_Entry<int> MaxLines;
+    public static MelonPreferences_Entry<int> MaxChars;
     public static MelonPreferences_Entry<bool> TimeStamp;
     public static MelonPreferences_Entry<bool> AutoElastic;
     public override void OnApplicationStart()
@@ -44,6 +45,8 @@ public class Main : MelonMod
             "Font size of the text in your console tab");
         MaxLines = _mlConsoleViewer.CreateEntry("maxLines", 150, "Max Displayed Lines",
             "Defines the limit in which your console starts discarding old lines");
+        MaxChars = _mlConsoleViewer.CreateEntry("maxChars", 1000, "Max Characters per Log",
+            "Defines the limit of characters per log, printing only part of it if length is greater (will break if way too high because TextMesh limits)");
         TimeStamp = _mlConsoleViewer.CreateEntry("timeStamp", true, "Time Stamp",
             "Sets whether logs show time stamps or not");
         AutoElastic = _mlConsoleViewer.CreateEntry("autoElastic", true, "Elastic on new log",

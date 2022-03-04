@@ -14,15 +14,15 @@ public static class ConsoleManager
         MelonLogger.WarningCallbackHandler += (callingMod, logText) => OnLog(true, callingMod, logText);
         MelonLogger.ErrorCallbackHandler += (callingMod, logText) => OnLog(false, callingMod, logText);
     }
-    private static void OnLog(ConsoleColor melonColor, ConsoleColor txtColor, string callingMod, string logText) =>
+    private static void OnLog(ConsoleColor melonColor, ConsoleColor txtColor, string callingMod, string content) =>
         PrintOrCacheStr((Main.TimeStamp.Value ? $"[<color=green>{CurrTime}</color>] " : "") + // Adds time stamp if MelonPref == true
                         (string.IsNullOrEmpty(callingMod) ? "" : $"[<color={HexStrings[melonColor]}>{callingMod}</color>] ") + // Adds colored calling mod tag if not empty/null
-                        $"<color={HexStrings[txtColor]}>{logText}</color>\n"); // Adds colored text
-    private static void OnLog(bool isWarn, string callingMod, string logText) =>
+                        $"<color={HexStrings[txtColor]}>{LimitContentLength(content)}</color>\n"); // Adds colored text
+    private static void OnLog(bool isWarn, string callingMod, string content) =>
         PrintOrCacheStr($"<color={HexStrings[isWarn ? ConsoleColor.Yellow : ConsoleColor.Red]}>" + // Adds color
                         (Main.TimeStamp.Value ? $"[{CurrTime}] " : "") + // Adds time stamp if MelonPref == true
                         (string.IsNullOrEmpty(callingMod) ? "" : $"[{callingMod}] ") + // Adds calling mod tag if not empty/null
-                        $"{logText}</color>\n"); // Adds text and finishes color
+                        $"{LimitContentLength(content)}</color>\n"); // Adds text and finishes color
     private static void PrintOrCacheStr(string result)
     {
         if (!UI.Text)
@@ -35,6 +35,8 @@ public static class ConsoleManager
             UI.ResetOffsets();
         }
     }
+    private static string LimitContentLength(string content) =>
+        content.Length > Main.MaxChars.Value ? content.Substring(0, Main.MaxChars.Value - 6) + " (...)" : content;
     private static string CurrTime => DateTime.Now.AddMilliseconds(-1.0).ToString("HH:mm:ss.fff");
     private static readonly Hashtable HexStrings = new()
     {
