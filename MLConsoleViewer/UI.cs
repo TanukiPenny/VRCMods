@@ -49,7 +49,7 @@ public static class UI
         mlcvWingMenu.AddButton("Clear Logs", "Clears all the logs in MLCV", () =>
         {
             Text.text = "";
-        }, BundleManager.CleanIcon);
+        }, BundleManager.CleanIcon, false);
         mlcvWingMenu.AddToggle("Auto Scroll", "Toggles Auto Scroll", b =>
         {
             Main.AutoElastic.Value = b;
