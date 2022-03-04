@@ -53,12 +53,10 @@ public static class UI
         mlcvWingMenu.AddToggle("Auto Scroll", "Toggles Auto Scroll", b =>
         {
             Main.AutoElastic.Value = b;
-            MelonPreferences.Save();
         },  Main.AutoElastic.Value);
         mlcvWingMenu.AddToggle("Time Stamps", "Toggles Time Stamps", b =>
         {
             Main.TimeStamp.Value = b;
-            MelonPreferences.Save();
         }, Main.TimeStamp.Value);
 
         foreach (var i in ConsoleManager.Cached)
