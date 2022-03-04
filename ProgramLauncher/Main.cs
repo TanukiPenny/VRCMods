@@ -92,8 +92,8 @@ namespace ProgramLauncher
 
             try
             {
-                bytes = wc.DownloadData($"https://github.com/RequiDev/ReMod.Core/releases/latest/download/ReMod.Core.dll");
-                loadedAssembly = Assembly.Load(bytes);
+                loadedAssembly = AppDomain.CurrentDomain.GetAssemblies().FirstOrDefault(ass => ass.FullName.Contains("ReMod.Core")) ?? 
+                                 Assembly.Load(new WebClient().DownloadData("https://github.com/RequiDev/ReMod.Core/releases/latest/download/ReMod.Core.dll"));
             }
             catch (WebException e)
             {

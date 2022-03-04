@@ -9,6 +9,7 @@ using VRC.DataModel.Core;
 using System.Diagnostics;
 using UnityEngine;
 using System.Collections;
+using System.Linq;
 using VRC.UI.Core;
 using ReMod.Core;
 using ReMod.Core.UI.QuickMenu;
@@ -60,8 +61,8 @@ namespace UserESP
 
             try
             {
-                bytes = wc.DownloadData($"https://github.com/RequiDev/ReMod.Core/releases/latest/download/ReMod.Core.dll");
-                loadedAssembly = Assembly.Load(bytes);
+                loadedAssembly = AppDomain.CurrentDomain.GetAssemblies().FirstOrDefault(ass => ass.FullName.Contains("ReMod.Core")) ?? 
+                                 Assembly.Load(new WebClient().DownloadData("https://github.com/RequiDev/ReMod.Core/releases/latest/download/ReMod.Core.dll"));
             }
             catch (WebException e)
             {
