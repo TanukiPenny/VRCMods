@@ -46,7 +46,6 @@ namespace URLTools
             hereCategory.AddButton("Open Instance Page", "Open Instance Page", () => InstanceFunc.OpenInstancePage(), BundleManager.globe);
             hereCategory.Header.RectTransform.SetSiblingIndex(3);
             hereCategory.RectTransform.SetSiblingIndex(4);
-
         }
     }
 }
