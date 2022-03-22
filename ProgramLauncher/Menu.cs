@@ -21,8 +21,8 @@ namespace ProgramLauncher {
     {
         public static IEnumerator OnQuickMenu()
         {
-            while (UIManager.prop_UIManager_0 == null) yield return null;
-            while (Object.FindObjectOfType<VRC.UI.Elements.QuickMenu>() == null) yield return null;
+            while (UIManager.field_Private_Static_UIManager_0 == null) yield return null;
+            while (GameObject.Find("UserInterface").GetComponentInChildren<VRC.UI.Elements.QuickMenu>(true) == null) yield return null;
             BuildTab();
             BuildLauncher();
             RemoveMenu();

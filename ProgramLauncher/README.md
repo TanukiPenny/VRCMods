@@ -13,4 +13,4 @@ Click [this link](https://melonwiki.xyz/) to get started!
 
 ### Prerequisites
 MelonLoader: v0.5.3 (Alpha)<br>
-Game: VRChat build 1160+<br>
+Game: VRChat build 1172+<br>
