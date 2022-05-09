@@ -24,3 +24,8 @@ MLConsoleViewer/.vs/
 MLConsoleViewer/obj/
 MLConsoleViewer/bin/
 MLConsoleViewer/Output/
+ShortCuts/.idea/
+ShortCuts/.vs/
+ShortCuts/obj/
+ShortCuts/bin/
+*.user

@@ -19,7 +19,7 @@ public static class UI
     private static GameObject _mlMenu, _consolePrefab;
     public static TextMeshProUGUI Text;
     private static ScrollRect _scrollRect;
-    private static ReMirroredWingMenu mlcvWingMenu;
+    private static ReMirroredWingMenu _mlcvWingMenu;
 
     public static IEnumerator OnQuickMenu()
     {
@@ -45,16 +45,16 @@ public static class UI
         Text = _consolePrefab.transform.Find("Scroll View/Viewport/Content/")
                          .GetComponentInChildren<TextMeshProUGUI>(true);
         _consoleTab.OnOpen += ResetOffsets;
-        mlcvWingMenu = ReMirroredWingMenu.Create("MLCV", "Open's up the MLConsoleViewer wing menu", BundleManager.ConsoleImg);
-        mlcvWingMenu.AddButton("Clear Logs", "Clears all the logs in MLCV", () =>
+        _mlcvWingMenu = ReMirroredWingMenu.Create("MLCV", "Open's up the MLConsoleViewer wing menu", BundleManager.ConsoleImg);
+        _mlcvWingMenu.AddButton("Clear Logs", "Clears all the logs in MLCV", () =>
         {
             Text.text = "";
         }, BundleManager.CleanIcon, false);
-        mlcvWingMenu.AddToggle("Auto Scroll", "Toggles Auto Scroll", b =>
+        _mlcvWingMenu.AddToggle("Auto Scroll", "Toggles Auto Scroll", b =>
         {
             Main.AutoElastic.Value = b;
         },  Main.AutoElastic.Value);
-        mlcvWingMenu.AddToggle("Time Stamps", "Toggles Time Stamps", b =>
+        _mlcvWingMenu.AddToggle("Time Stamps", "Toggles Time Stamps", b =>
         {
             Main.TimeStamp.Value = b;
         }, Main.TimeStamp.Value);
