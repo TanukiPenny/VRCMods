@@ -1,5 +1,7 @@
-﻿using UnityEngine.XR;
+﻿using ReMod.Core.VRChat;
+using UnityEngine.XR;
 using VRC.SDKBase;
+using VRC.UI;
 using VRC.UserCamera;
 // ReSharper disable InconsistentNaming
 
@@ -13,10 +15,6 @@ public static class Actions
         {
             case Action.None:
                 return;
-            case Action.Meme:
-                Main.Log.Msg(
-                    "The FitnessGram Pacer Test is a multistage aerobic capacity test that progressively gets more difficult as it continues. The 20 meter pacer test will begin in 30 seconds. Line up at the start. The running speed starts slowly, but gets faster each minute after you hear this signal. [beep] A single lap should be completed each time you hear this sound. [ding] Remember to run in a straight line, and run as long as possible. The second time you fail to complete a lap before the sound, your test is over. The test will begin on the word start. On your mark, get ready, start.");
-                return;
             case Action.Rejoin_Instance:
                 var currentInstance = RoomManager.field_Internal_Static_ApiWorldInstance_0;
                 if (currentInstance is null)
@@ -28,20 +26,34 @@ public static class Actions
                 CameraToggle();
                 return;
             case Action.Open_Worlds:
-                //TODO Add Open Worlds screen function
+                VRCUiManagerEx.Instance.ShowUi();
+                VRCUiManagerEx.Instance.ShowScreen(QuickMenu.MainMenuScreenIndex.WorldsMenu);
+                UI.CloseQM();
                 return;
             case Action.Open_Avatars:
-                //TODO Add Open Avatars screen function
+                VRCUiManagerEx.Instance.ShowUi();
+                VRCUiManagerEx.Instance.ShowScreen(QuickMenu.MainMenuScreenIndex.AvatarMenu);
+                UI.CloseQM();
                 return;
             case Action.Open_Social:
-                //TODO Add Open Social screen function
+                VRCUiManagerEx.Instance.ShowUi();
+                VRCUiManagerEx.Instance.ShowScreen(QuickMenu.MainMenuScreenIndex.SocialMenu);
+                UI.CloseQM();
                 return;
             case Action.Open_Settings:
-                UI.SettingsExpand.Invoke();
-                //TODO Fix Open Settings screen function
+                VRCUiManagerEx.Instance.ShowUi();
+                VRCUiManagerEx.Instance.ShowScreen(QuickMenu.MainMenuScreenIndex.SettingsMenu);
+                UI.CloseQM();
                 return;
             case Action.Open_Safety:
-                //TODO Add Open Safety screen function
+                VRCUiManagerEx.Instance.ShowUi();
+                VRCUiManagerEx.Instance.ShowScreen(QuickMenu.MainMenuScreenIndex.SafetyMenu);
+                UI.CloseQM();
+                return;
+            case Action.Open_Gallery:
+                VRCUiManagerEx.Instance.ShowUi();
+                VRCUiManagerEx.Instance.ShowScreen(QuickMenu.MainMenuScreenIndex.GalleryMenu);
+                UI.CloseQM();
                 return;
             case Action.Sound_Off:
                 UI.MasterAudioSlider.value = 0f;
@@ -49,7 +61,7 @@ public static class Actions
                 return;
             case Action.Deafen:
                 UI.MasterAudioSlider.value = 0f;
-                DefaultTalkController.Method_Public_Static_Void_Boolean_0(true);
+                //TODO Fix deafen function
                 Main.Log.Msg("You deafened yourself!");
                 return;
             case Action.Log_Friends:
@@ -72,13 +84,13 @@ public static class Actions
     {
         None,
         Rejoin_Instance,
-        Meme,
         Camera,
         Open_Worlds,
         Open_Avatars,
         Open_Social,
         Open_Settings,
         Open_Safety,
+        Open_Gallery,
         Sound_Off,
         Deafen,
         Log_Friends

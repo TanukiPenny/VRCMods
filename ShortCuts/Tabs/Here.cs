@@ -12,7 +12,7 @@ public static class Here
         
     public static void AddListener()
     {
-        UI.Here.onClick.AddListener(new Action(() =>
+        UI.HereTabButton.onClick.AddListener(new Action(() =>
         {
             var doubleClick = IsDoubleClick();
             if (doubleClick)

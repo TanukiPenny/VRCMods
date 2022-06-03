@@ -12,7 +12,7 @@ public static class Camera
         
     public static void AddListener()
     {
-        UI.Camera.onClick.AddListener(new Action(() =>
+        UI.CameraTabButton.onClick.AddListener(new Action(() =>
         {
             var doubleClick = IsDoubleClick();
             if (doubleClick)

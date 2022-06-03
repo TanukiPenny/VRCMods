@@ -30,6 +30,7 @@ public class Main : MelonMod
 
     public override void OnApplicationStart()
     {
+        LoadReModCore(out _);
         LaunchPadAction = Category.CreateEntry("LaunchPad", Actions.Action.None, "LaunchPad");
         NotificationsAction = Category.CreateEntry("Notifications", Actions.Action.None, "Notifications");
         HereAction = Category.CreateEntry("Here", Actions.Action.None, "Here");
@@ -48,6 +49,19 @@ public class Main : MelonMod
             {
                 MelonCoroutines.Start(UI.UIInit());
             }
+        }
+    }
+    
+    private void LoadReModCore(out Assembly loadedAssembly)
+    {
+        try
+        {
+            loadedAssembly = Assembly.Load(new WebClient().DownloadData("https://github.com/RequiDev/ReMod.Core/releases/latest/download/ReMod.Core.dll"));
+        }
+        catch (Exception e)
+        {
+            MelonLogger.Error($"Unable to Load ReModCore Dependency: {e}");
+            loadedAssembly = null;
         }
     }
 }

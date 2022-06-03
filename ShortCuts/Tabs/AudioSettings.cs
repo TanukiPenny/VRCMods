@@ -12,7 +12,7 @@ public static class AudioSettings
         
     public static void AddListener()
     {
-        UI.AudioSettings.onClick.AddListener(new Action(() =>
+        UI.AudioSettingsTabButton.onClick.AddListener(new Action(() =>
         {
             var doubleClick = IsDoubleClick();
             if (doubleClick)

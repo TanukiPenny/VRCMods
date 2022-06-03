@@ -12,7 +12,7 @@ public static class Settings
         
     public static void AddListener()
     {
-        UI.Settings.onClick.AddListener(new Action(() =>
+        UI.SettingsTabButton.onClick.AddListener(new Action(() =>
         {
             var doubleClick = IsDoubleClick();
             if (doubleClick)

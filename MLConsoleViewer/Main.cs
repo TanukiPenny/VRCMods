@@ -29,7 +29,7 @@ public static class BuildShit
 
 public class Main : MelonMod
 {
-    private static readonly MelonLogger.Instance Log = new(BuildShit.Name, ConsoleColor.Cyan);
+    public static readonly MelonLogger.Instance Log = new(BuildShit.Name, ConsoleColor.Cyan);
     private static MelonPreferences_Category _mlConsoleViewer;
     private static MelonPreferences_Entry<int> _fontSize;
     public static MelonPreferences_Entry<int> MaxLines;

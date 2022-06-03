@@ -12,7 +12,7 @@ public static class Notifications
 
     public static void AddListener()
     {
-        UI.Notifications.onClick.AddListener(new Action(() =>
+        UI.NotificationsTabButton.onClick.AddListener(new Action(() =>
         {
             var doubleClick = IsDoubleClick();
             if (doubleClick)

@@ -13,6 +13,7 @@ public static class ConsoleManager
         MelonLogger.MsgCallbackHandler += OnLog;
         MelonLogger.WarningCallbackHandler += (callingMod, logText) => OnLog(true, callingMod, logText);
         MelonLogger.ErrorCallbackHandler += (callingMod, logText) => OnLog(false, callingMod, logText);
+        Main.Log.Msg("testing Shit");
     }
     private static void OnLog(ConsoleColor melonColor, ConsoleColor txtColor, string callingMod, string content) =>
         PrintOrCacheStr((Main.TimeStamp.Value ? $"[<color=green>{CurrTime}</color>] " : "") + // Adds time stamp if MelonPref == true

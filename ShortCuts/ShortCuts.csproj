@@ -142,10 +142,6 @@
           <HintPath>P:\SteamLibrary\steamapps\common\VRChat\MelonLoader\Managed\DOTween.Modules.dll</HintPath>
           <Private>False</Private>
         </Reference>
-        <Reference Include="Facepunch.Steamworks.Win64, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
-          <HintPath>P:\SteamLibrary\steamapps\common\VRChat\MelonLoader\Managed\Facepunch.Steamworks.Win64.dll</HintPath>
-          <Private>False</Private>
-        </Reference>
         <Reference Include="I18N, Version=4.0.0.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756">
           <HintPath>P:\SteamLibrary\steamapps\common\VRChat\MelonLoader\Managed\I18N.dll</HintPath>
           <Private>False</Private>
@@ -353,6 +349,10 @@
         <Reference Include="Photon-DotNet, Version=4.1.6.12, Culture=neutral, PublicKeyToken=null">
           <HintPath>P:\SteamLibrary\steamapps\common\VRChat\MelonLoader\Managed\Photon-DotNet.dll</HintPath>
           <Private>False</Private>
+        </Reference>
+        <Reference Include="ReMod.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+          <HintPath>P:\SteamLibrary\steamapps\common\VRChat\ReMod.Core.dll</HintPath>
+            <Private>False</Private>
         </Reference>
         <Reference Include="ShapesRuntime, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
           <HintPath>P:\SteamLibrary\steamapps\common\VRChat\MelonLoader\Managed\ShapesRuntime.dll</HintPath>

@@ -13,7 +13,7 @@ public static class LaunchPad
         
     public static void AddListener()
     {
-        UI.LaunchPad.onClick.AddListener(new Action(() =>
+        UI.LaunchPadTabButton.onClick.AddListener(new Action(() =>
         {
             var doubleClick = IsDoubleClick();
             if (doubleClick)
