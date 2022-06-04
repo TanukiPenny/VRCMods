@@ -11,9 +11,7 @@ using Main = MLConsoleViewer.Main;
 [assembly: AssemblyCopyright($"Created by {BuildShit.Author}, Copyright © 2022")]
 [assembly: MelonInfo(typeof(Main), BuildShit.Name, BuildShit.Version, BuildShit.Author, BuildShit.DownloadLink)]
 [assembly: MelonGame("VRChat", "VRChat")]
-[assembly: MelonPriority(Int32.MinValue)]
 [assembly: MelonColor(ConsoleColor.DarkMagenta)]
-[assembly: MelonOptionalDependencies("ReMod.Core")]
 
 namespace MLConsoleViewer;
 
@@ -21,7 +19,7 @@ public static class BuildShit
 {
     public const string Name = "MLConsoleViewer";
     public const string Author = "Penny & Davi";
-    public const string Version = "1.1.5";
+    public const string Version = "1.1.6";
     public const string DownloadLink = "https://github.com/PennyBunny/VRCMods/";
     public const string Description = "A standalone mod that adds a tab to your quick menu that has a simple copy of your console!";
 }
@@ -38,7 +36,6 @@ public class Main : MelonMod
     public static MelonPreferences_Entry<bool> AutoElastic;
     public override void OnApplicationStart()
     {
-        LoadReModCore(out _);
         BundleManager.Init();
         ConsoleManager.AttachTrackers();
         _mlConsoleViewer = MelonPreferences.CreateCategory("MLConsoleViewer", "MLConsoleViewer");
@@ -65,18 +62,5 @@ public class Main : MelonMod
         if (UI.Text == null)
             return;
         UI.Text.fontSize = _fontSize.Value;
-    }
-
-    private void LoadReModCore(out Assembly loadedAssembly)
-    {
-        try
-        {
-            loadedAssembly = Assembly.Load(new WebClient().DownloadData("https://github.com/RequiDev/ReMod.Core/releases/latest/download/ReMod.Core.dll"));
-        }
-        catch (Exception e)
-        {
-            MelonLogger.Error($"Unable to Load ReModCore Dependency: {e}");
-            loadedAssembly = null;
-        }
     }
 }

@@ -17,7 +17,7 @@ namespace ProgramLauncher
     {
         public const string Name = "ProgramLauncher";
         public const string Author = "Penny, Lily";
-        public const string Version = "2.0.3";
+        public const string Version = "2.0.4";
         public const string DownloadLink = "https://github.com/PennyBunny/VRCMods/";
         public const string Description = "A standalone mod to launch external programs from inside VRChat with a click of a button!";
     }
@@ -79,29 +79,9 @@ namespace ProgramLauncher
         private static int _scenesLoaded = 0;
         public override void OnApplicationStart()
         {
-            LoadRemodCore(out _);
             BundleManager.InIt();
             try { SetPrograms.CheckIfFileExists(); } catch (Exception e) { log.Error(e); }
             log.Msg("ProgramLauncher loaded successfully!");
-        }
-        private static void LoadRemodCore(out Assembly loadedAssembly)
-        {
-            byte[] bytes = null;
-            var wc = new WebClient();
-            
-            try
-            {
-                loadedAssembly = Assembly.Load(new WebClient().DownloadData("https://github.com/RequiDev/ReMod.Core/releases/latest/download/ReMod.Core.dll"));
-            }
-            catch (WebException e)
-            {
-                MelonLogger.Error($"Unable to Load Core Dep ReModCore: {e}");
-            }
-            catch (BadImageFormatException e)
-            {
-                loadedAssembly = null;
-            }
-            loadedAssembly = null;
         }
         public override void OnSceneWasLoaded(int buildIndex, string sceneName)
         {

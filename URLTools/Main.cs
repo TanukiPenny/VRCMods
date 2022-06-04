@@ -16,7 +16,7 @@ namespace URLTools
     {
         public const string Name = "URLTools";
         public const string Author = "Penny";
-        public const string Version = "1.0.4";
+        public const string Version = "1.0.5";
         public const string DownloadLink = "https://github.com/PennyBunny/VRCMods/";
         public const string Description = "Use this mod to copy or open user, world and instance web pages";
     }
@@ -26,7 +26,6 @@ namespace URLTools
         private static int scenesLoaded = 0;
         public override void OnApplicationStart()
         {
-            LoadRemodCore(out _);
             BundleManager.InIt();
             log.Msg("URLTools Loaded");
         }
@@ -41,27 +40,5 @@ namespace URLTools
                 }
             }
         }
-
-        private void LoadRemodCore(out Assembly loadedAssembly)
-        {
-            byte[] bytes = null;
-            var wc = new WebClient();
-        
-
-            try
-            {
-                loadedAssembly = Assembly.Load(new WebClient().DownloadData("https://github.com/RequiDev/ReMod.Core/releases/latest/download/ReMod.Core.dll"));
-            }
-            catch (WebException e)
-            {
-                MelonLogger.Error($"Unable to Load Core Dep RemodCore: {e}");
-            }
-            catch (BadImageFormatException e)
-            {
-                loadedAssembly = null;
-            }
-            loadedAssembly = null;
-        }
-
     }
 }

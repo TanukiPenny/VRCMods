@@ -19,4 +19,3 @@ using UserTagDumper;
 [assembly: AssemblyFileVersion(BuildShit.Version)]
 [assembly: MelonInfo(typeof(UserTagDumper.Main), BuildShit.Name, BuildShit.Version, BuildShit.Author, BuildShit.DownloadLink)]
 [assembly: MelonGame("VRChat", "VRChat")]
-[assembly: MelonOptionalDependencies("ReMod.Core")]

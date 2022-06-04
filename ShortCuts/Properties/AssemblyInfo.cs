@@ -19,4 +19,3 @@ using ShortCuts;
 [assembly: AssemblyFileVersion(BuildShit.Version)]
 [assembly: MelonInfo(typeof(ShortCuts.Main), BuildShit.Name, BuildShit.Version, BuildShit.Author, BuildShit.DownloadLink)]
 [assembly: MelonGame("VRChat", "VRChat")]
-[assembly: MelonOptionalDependencies("ReMod.Core")]

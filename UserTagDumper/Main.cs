@@ -10,7 +10,7 @@ namespace UserTagDumper
     {
         public const string Name = "UserTagDumper";
         public const string Author = "Penny";
-        public const string Version = "1.0.0";
+        public const string Version = "1.0.1";
         public const string DownloadLink = "https://github.com/PennyBunny/VRCMods/";
         public const string Description = "A mod that dumps a selected user's API tags to the ML console";
     }
@@ -21,7 +21,6 @@ namespace UserTagDumper
         private static int _scenesLoaded = 0;
         public override void OnApplicationStart()
         {
-            LoadReModCore(out _);
             log.Msg("UserTagDumper Loaded");
         }
         public override void OnSceneWasLoaded(int buildIndex, string sceneName)
@@ -35,26 +34,5 @@ namespace UserTagDumper
                 }
             }
         }
-        private void LoadReModCore(out Assembly loadedAssembly)
-        {
-            byte[] bytes = null;
-            var wc = new WebClient();
-        
-
-            try
-            {
-                loadedAssembly = Assembly.Load(new WebClient().DownloadData("https://github.com/RequiDev/ReMod.Core/releases/latest/download/ReMod.Core.dll"));
-            }
-            catch (WebException e)
-            {
-                MelonLogger.Error($"Unable to Load Core Dep RemodCore: {e}");
-            }
-            catch (BadImageFormatException e)
-            {
-                loadedAssembly = null;
-            }
-            loadedAssembly = null;
-        }
-
     }
 }
