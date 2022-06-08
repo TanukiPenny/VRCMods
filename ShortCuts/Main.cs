@@ -36,6 +36,7 @@ public class Main : MelonMod
         CameraAction = Category.CreateEntry("Camera", Actions.Action.None, "Camera");
         AudioSettingsAction = Category.CreateEntry("AudioSettings", Actions.Action.None, "Audio Settings");
         SettingsAction = Category.CreateEntry("Settings", Actions.Action.None, "Settings");
+        UI.CacheIcons();
         Log.Msg("ShortCuts loaded successfully!");
     }
 

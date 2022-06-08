@@ -22,7 +22,7 @@ public static class Actions
                 Main.Log.Msg("Rejoining instance!");
                 Networking.GoToRoom(currentInstance.id);
                 return;
-            case Action.Camera:
+            case Action.Take_Out_Camera:
                 CameraToggle();
                 return;
             case Action.Open_Worlds:
@@ -64,19 +64,6 @@ public static class Actions
                 //TODO Fix deafen function
                 Main.Log.Msg("You deafened yourself!");
                 return;
-            case Action.Log_Friends:
-                foreach (var a in VRC.UI.FriendsListManager.prop_FriendsListManager_0.prop_List_1_IUser_0)
-                {
-                    Main.Log.Msg("----------------------------------------------");
-                    Main.Log.Msg(a.prop_String_0);
-                    Main.Log.Msg(a.prop_String_1);
-                    Main.Log.Msg(a.prop_String_2);
-                    Main.Log.Msg(a.prop_String_3);
-                    Main.Log.Msg(a.prop_String_4);
-                    Main.Log.Msg(a.prop_String_5);
-                    Main.Log.Msg("----------------------------------------------");
-                }
-                return;
         }
     }
 
@@ -84,7 +71,7 @@ public static class Actions
     {
         None,
         Rejoin_Instance,
-        Camera,
+        Take_Out_Camera,
         Open_Worlds,
         Open_Avatars,
         Open_Social,
@@ -92,8 +79,7 @@ public static class Actions
         Open_Safety,
         Open_Gallery,
         Sound_Off,
-        Deafen,
-        Log_Friends
+        Deafen
     }
 
     private static void CameraToggle()

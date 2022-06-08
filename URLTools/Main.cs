@@ -1,43 +1,33 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
-using System.Text;
-using System.Threading.Tasks;
 using MelonLoader;
-using URLTools;
-using System.IO;
-using System.Net;
-using System.Reflection;
 
-namespace URLTools
+namespace URLTools;
+
+public static class BuildShit
 {
-    public static class BuildShit
+    public const string Name = "URLTools";
+    public const string Author = "Penny";
+    public const string Version = "1.0.6";
+    public const string DownloadLink = "https://github.com/PennyBunny/VRCMods/";
+    public const string Description = "Use this mod to copy or open user, world and instance web pages";
+}
+public class Main : MelonMod
+{
+    internal static readonly MelonLogger.Instance log = new MelonLogger.Instance(BuildShit.Name, ConsoleColor.Cyan);
+    private static int scenesLoaded = 0;
+    public override void OnApplicationStart()
     {
-        public const string Name = "URLTools";
-        public const string Author = "Penny";
-        public const string Version = "1.0.5";
-        public const string DownloadLink = "https://github.com/PennyBunny/VRCMods/";
-        public const string Description = "Use this mod to copy or open user, world and instance web pages";
+        BundleManager.InIt();
+        log.Msg("URLTools Loaded");
     }
-    public class Main : MelonMod
+    public override void OnSceneWasLoaded(int buildIndex, string sceneName)
     {
-        internal static readonly MelonLogger.Instance log = new MelonLogger.Instance(BuildShit.Name, ConsoleColor.Cyan);
-        private static int scenesLoaded = 0;
-        public override void OnApplicationStart()
+        if (scenesLoaded <= 2)
         {
-            BundleManager.InIt();
-            log.Msg("URLTools Loaded");
-        }
-        public override void OnSceneWasLoaded(int buildIndex, string sceneName)
-        {
-            if (scenesLoaded <= 2)
+            scenesLoaded++;
+            if (scenesLoaded == 2)
             {
-                scenesLoaded++;
-                if (scenesLoaded == 2)
-                {
-                    MelonCoroutines.Start(UIBuild.OnQuickMenu());
-                }
+                MelonCoroutines.Start(UIBuild.OnQuickMenu());
             }
         }
     }

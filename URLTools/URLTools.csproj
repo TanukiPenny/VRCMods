@@ -50,7 +50,7 @@
       <Private>False</Private>
     </Reference>
     <Reference Include="ReMod.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <HintPath>P:\SteamLibrary\steamapps\common\VRChat\ReMod.Core.dll</HintPath>
+      <HintPath>P:\SteamLibrary\steamapps\common\VRChat\UserLibs\ReMod.Core.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="System" />

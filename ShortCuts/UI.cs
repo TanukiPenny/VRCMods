@@ -1,6 +1,10 @@
 ﻿using System;
 using System.Collections;
+using System.IO;
+using System.Reflection;
+using System.Text.RegularExpressions;
 using MelonLoader;
+using ReMod.Core.Managers;
 using ReMod.Core.UI.QuickMenu;
 using ReMod.Core.VRChat;
 using UnityEngine;
@@ -21,7 +25,6 @@ public static class UI
         GetVolumeSlider();
         GetTabButtons();
         AddListeners();
-        GetTabIcons();
         CreateReModTabMenu();
         Main.Log.Msg("Set up successful");
     }
@@ -62,26 +65,14 @@ public static class UI
         Tabs.Settings.AddListener();
     }
 
-    private static Sprite LaunchPadTabImage, NotificationsTabImage, HereTabImage, CameraTabImage, AudioSettingsTabImage, SettingsTabImage;
-    private static void GetTabIcons()
-    {
-        
-        LaunchPadTabImage = LaunchPadTabButton.GetComponentInChildren<Image>().sprite;
-        NotificationsTabImage = LaunchPadTabButton.GetComponentInChildren<Image>().sprite;
-        HereTabImage = LaunchPadTabButton.GetComponentInChildren<Image>().sprite;
-        CameraTabImage = LaunchPadTabButton.GetComponentInChildren<Image>().sprite;
-        AudioSettingsTabImage = LaunchPadTabButton.GetComponentInChildren<Image>().sprite;
-        SettingsTabImage = LaunchPadTabButton.GetComponentInChildren<Image>().sprite;
-    }
-
     private static ReCategoryPage ShortCutsTab;
     private static ReMenuCategory ShortCutsConfig;
     private static ReRadioTogglePage LaunchPadRadio, NotificationsRadio, HereRadio, CameraRadio, AudioSettingsRadio, SettingsRadio;
     private static void CreateReModTabMenu()
     {
         ShortCutsTab = new ReCategoryPage("ShortCuts", true);
-        ReTabButton.Create("ShortCuts", "Open ShortCuts", "ShortCuts", null);
-        ShortCutsConfig = ShortCutsTab.AddCategory("ShortCuts Config");
+        ReTabButton.Create("ShortCuts", "Open ShortCuts", "ShortCuts", ResourceManager.GetSprite("ShortCuts.shortcuts"));
+        ShortCutsConfig = ShortCutsTab.AddCategory("ShortCuts Config", false);
         LaunchPadRadio = new ReRadioTogglePage("Launch Pad Config");
         foreach (int a in Enum.GetValues(typeof(Actions.Action)))
         {
@@ -130,13 +121,13 @@ public static class UI
                 Main.NotificationsAction.Value = (Actions.Action)a;
             });
         }
-        ShortCutsConfig.AddButton("Launch Pad Tab", "Open Launch Pad Tab config menu", LaunchPadRadio.Open, LaunchPadTabImage);
-        ShortCutsConfig.AddButton("Notifications Tab", "Open Notifications Tab config menu", NotificationsRadio.Open, NotificationsTabImage);
-        ShortCutsConfig.AddButton("Here Tab", "Open Here Tab config menu", HereRadio.Open, HereTabImage);
+        ShortCutsConfig.AddButton("Launch Pad Tab", "Open Launch Pad Tab config menu", LaunchPadRadio.Open, ResourceManager.GetSprite("ShortCuts.launchpad"));
+        ShortCutsConfig.AddButton("Notifications Tab", "Open Notifications Tab config menu", NotificationsRadio.Open, ResourceManager.GetSprite("ShortCuts.notifications"));
+        ShortCutsConfig.AddButton("Here Tab", "Open Here Tab config menu", HereRadio.Open, ResourceManager.GetSprite("ShortCuts.here"));
         ShortCutsConfig.AddSpacer();
-        ShortCutsConfig.AddButton("Camera Tab", "Open Camera Tab config menu", CameraRadio.Open, CameraTabImage);
-        ShortCutsConfig.AddButton("Audio Settings Tab", "Open Audio Settings Tab config menu", AudioSettingsRadio.Open, AudioSettingsTabImage);
-        ShortCutsConfig.AddButton("Settings Tab", "Open Settings Tab config menu", SettingsRadio.Open, SettingsTabImage);
+        ShortCutsConfig.AddButton("Camera Tab", "Open Camera Tab config menu", CameraRadio.Open, ResourceManager.GetSprite("ShortCuts.camera"));
+        ShortCutsConfig.AddButton("Audio Settings Tab", "Open Audio Settings Tab config menu", AudioSettingsRadio.Open, ResourceManager.GetSprite("ShortCuts.audio"));
+        ShortCutsConfig.AddButton("Settings Tab", "Open Settings Tab config menu", SettingsRadio.Open, ResourceManager.GetSprite("ShortCuts.settings"));
         ShortCutsConfig.AddSpacer();
     }
 
@@ -160,5 +151,24 @@ public static class UI
             }
         }
         return null;
+    }
+    
+    public static void CacheIcons()
+    {
+        //https://github.com/RequiDev/ReModCE/blob/master/ReModCE/ReMod.cs
+        var ourAssembly = Assembly.GetExecutingAssembly();
+        var resources = ourAssembly.GetManifestResourceNames();
+        foreach (var resource in resources)
+        {
+            if (!resource.EndsWith(".png"))
+                continue;
+
+            var stream = ourAssembly.GetManifestResourceStream(resource);
+
+            var ms = new MemoryStream();
+            stream.CopyTo(ms);
+            var resourceName = Regex.Match(resource, @"([a-zA-Z\d\-_]+)\.png").Groups[1].ToString();
+            ResourceManager.LoadSprite("ShortCuts", resourceName, ms.ToArray());
+        }
     }
 }

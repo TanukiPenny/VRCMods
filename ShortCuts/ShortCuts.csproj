@@ -1088,6 +1088,17 @@
         <Compile Include="Tabs\Settings.cs" />
         <Compile Include="UI.cs" />
     </ItemGroup>
+    <ItemGroup>
+      <EmbeddedResource Include="Icons\audio.png" />
+      <EmbeddedResource Include="Icons\camera.png" />
+      <EmbeddedResource Include="Icons\here.png" />
+      <EmbeddedResource Include="Icons\launchpad.png" />
+      <EmbeddedResource Include="Icons\notifications.png" />
+      <EmbeddedResource Include="Icons\settings.png" />
+    </ItemGroup>
+    <ItemGroup>
+      <EmbeddedResource Include="Icons\shortcuts.png" />
+    </ItemGroup>
     <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
     <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
          Other similar extension points exist, see Microsoft.Common.targets.
