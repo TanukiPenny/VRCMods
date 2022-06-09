@@ -68,7 +68,7 @@
             <Private>False</Private>
         </Reference>
         <Reference Include="ReMod.Core">
-            <HintPath>$(MelonManaged)\..\..\ReMod.Core.dll</HintPath>
+            <HintPath>$(MelonManaged)\..\..\UserLibs\ReMod.Core.dll</HintPath>
 			<Private>False</Private>
         </Reference>
 	</ItemGroup>
