@@ -7,9 +7,12 @@
  - ProgramLauncher
  - MLConsoleViewer
  - UserTagDumper
+ - ShortCuts
+ - QMPet
 
 ## Icons
  These mods use Icons from [Noun Project](https://thenounproject.com/)
  - URLTools
  - ProgramLauncher
  - MLConsoleViewer
+ - ShortCuts
