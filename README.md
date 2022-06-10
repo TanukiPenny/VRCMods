@@ -6,7 +6,6 @@
  - URLTools
  - ProgramLauncher
  - MLConsoleViewer
- - UserTagDumper
  - ShortCuts
  - QMPet
 
