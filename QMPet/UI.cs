@@ -38,8 +38,7 @@ public class UI
         Object.DestroyImmediate(VRCat);
         Object.DestroyImmediate(QMPet.transform.FindChild("Dialog Bubble").gameObject);
         Object.DestroyImmediate(QMPet.GetComponent<VRCPlusThankYou>());
-
-        //Character = QMPet.transform.FindChild("Character").gameObject;
+        
         QMPetFront = QMPet.transform.FindChild("Character").FindChild("VRCat_Front").gameObject;
         QMPetFront_Img = QMPetFront.GetComponent<RawImage>();
         QMPetFront_Rect = QMPetFront.GetComponent<RectTransform>();
@@ -57,22 +56,6 @@ public class UI
 
         QMPetFront.transform.localScale = new Vector3(Main.scale.Value, Main.scale.Value, Main.scale.Value);
         QMPetBack.transform.localScale = new Vector3(Main.scale.Value, Main.scale.Value, Main.scale.Value);
-        
-        QMPetFront_Img.texture.wrapMode = TextureWrapMode.Clamp;
-        QMPetFront_Img.texture.wrapModeU = TextureWrapMode.Clamp;
-        QMPetFront_Img.texture.wrapModeW = TextureWrapMode.Clamp;
-        QMPetFront_Img.texture.wrapModeV = TextureWrapMode.Clamp;
-
-        QMPetFront_Img.texture.filterMode = FilterMode.Bilinear;
-        QMPetFront_Img.texture.mipMapBias = 0;
-        
-        QMPetBack_Img.texture.wrapMode = TextureWrapMode.Clamp;
-        QMPetBack_Img.texture.wrapModeU = TextureWrapMode.Clamp;
-        QMPetBack_Img.texture.wrapModeW = TextureWrapMode.Clamp;
-        QMPetBack_Img.texture.wrapModeV = TextureWrapMode.Clamp;
-
-        QMPetBack_Img.texture.filterMode = FilterMode.Bilinear;
-        QMPetBack_Img.texture.mipMapBias = 0;
 
         QMPetFront_Img.texture = null;
         QMPetBack_Img.texture = null;
@@ -82,19 +65,19 @@ public class UI
     {
         if (Main.FrontLoaded)
         {
-            QMPetFront_Img.texture = ResourceManager.GetTexture("FrontTexture");
+            QMPetFront_Img.texture = ResourceManager.GetTexture("QMPet.FrontTexture");
         }
         else
         {
-            QMPetFront.active = false;
+            QMPetFront_Img.color = Color.clear;
         }
         if (Main.BackLoaded)
         {
-            QMPetFront_Img.texture = ResourceManager.GetTexture("BackTexture");
+            QMPetBack_Img.texture = ResourceManager.GetTexture("QMPet.BackTexture");
         }
         else
         {
-            QMPetBack.active = false;
+            QMPetBack_Img.color = Color.clear;
         }
     }
 }
