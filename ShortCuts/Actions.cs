@@ -26,34 +26,40 @@ public static class Actions
                 CameraToggle();
                 return;
             case Action.Open_Worlds:
-                VRCUiManagerEx.Instance.ShowUi();
+                UIManagerImpl.prop_UIManagerImpl_0.CloseQuickMenu();
+                VRCUiManagerEx.Instance.ShowUi(false);
                 VRCUiManagerEx.Instance.ShowScreen(QuickMenu.MainMenuScreenIndex.WorldsMenu);
-                UI.CloseQM();
+                Main.Log.Msg("Opening worlds menu!");
                 return;
             case Action.Open_Avatars:
-                VRCUiManagerEx.Instance.ShowUi();
+                UIManagerImpl.prop_UIManagerImpl_0.CloseQuickMenu();
+                VRCUiManagerEx.Instance.ShowUi(false);
                 VRCUiManagerEx.Instance.ShowScreen(QuickMenu.MainMenuScreenIndex.AvatarMenu);
-                UI.CloseQM();
+                Main.Log.Msg("Opening avatars menu!");
                 return;
             case Action.Open_Social:
-                VRCUiManagerEx.Instance.ShowUi();
+                UIManagerImpl.prop_UIManagerImpl_0.CloseQuickMenu();
+                VRCUiManagerEx.Instance.ShowUi(false);
                 VRCUiManagerEx.Instance.ShowScreen(QuickMenu.MainMenuScreenIndex.SocialMenu);
-                UI.CloseQM();
+                Main.Log.Msg("Opening social menu!");
                 return;
             case Action.Open_Settings:
-                VRCUiManagerEx.Instance.ShowUi();
+                UIManagerImpl.prop_UIManagerImpl_0.CloseQuickMenu();
+                VRCUiManagerEx.Instance.ShowUi(false);
                 VRCUiManagerEx.Instance.ShowScreen(QuickMenu.MainMenuScreenIndex.SettingsMenu);
-                UI.CloseQM();
+                Main.Log.Msg("Opening settings menu!");
                 return;
             case Action.Open_Safety:
-                VRCUiManagerEx.Instance.ShowUi();
+                UIManagerImpl.prop_UIManagerImpl_0.CloseQuickMenu();
+                VRCUiManagerEx.Instance.ShowUi(false);
                 VRCUiManagerEx.Instance.ShowScreen(QuickMenu.MainMenuScreenIndex.SafetyMenu);
-                UI.CloseQM();
+                Main.Log.Msg("Opening safety  menu!");
                 return;
             case Action.Open_Gallery:
-                VRCUiManagerEx.Instance.ShowUi();
+                UIManagerImpl.prop_UIManagerImpl_0.CloseQuickMenu();
+                VRCUiManagerEx.Instance.ShowUi(false);
                 VRCUiManagerEx.Instance.ShowScreen(QuickMenu.MainMenuScreenIndex.GalleryMenu);
-                UI.CloseQM();
+                Main.Log.Msg("Opening gallery menu!");
                 return;
             case Action.Sound_Off:
                 UI.MasterAudioSlider.value = 0f;
@@ -61,8 +67,16 @@ public static class Actions
                 return;
             case Action.Deafen:
                 UI.MasterAudioSlider.value = 0f;
-                //TODO Fix deafen function
+                USpeaker.Method_Public_Static_Void_Boolean_0(true);
                 Main.Log.Msg("You deafened yourself!");
+                return;
+            case Action.Reload_All_Avatars:
+                PlayerExtensions.ReloadAllAvatars(VRCPlayer.field_Internal_Static_VRCPlayer_0);
+                Main.Log.Msg("Reloading all avatars!");
+                return;
+            case Action.Reload_Your_Avatar:
+                PlayerExtensions.ReloadAvatar(VRCPlayer.field_Internal_Static_VRCPlayer_0);
+                Main.Log.Msg("Reloading your avatar!");
                 return;
         }
     }
@@ -79,7 +93,9 @@ public static class Actions
         Open_Safety,
         Open_Gallery,
         Sound_Off,
-        Deafen
+        Deafen,
+        Reload_All_Avatars,
+        Reload_Your_Avatar
     }
 
     private static void CameraToggle()
@@ -93,10 +109,12 @@ public static class Actions
             }
             UserCameraController.field_Internal_Static_UserCameraController_0.prop_UserCameraMode_0 = UserCameraMode.Photo;
             UserCameraController.field_Internal_Static_UserCameraController_0.prop_UserCameraSpace_0 = UserCameraSpace.Attached;
+            Main.Log.Msg("Toggled camera on!");
         }
         else
         {
             UserCameraController.field_Internal_Static_UserCameraController_0.prop_UserCameraMode_0 = UserCameraMode.Off;
+            Main.Log.Msg("Toggled camera off!");
         }
     }
 }

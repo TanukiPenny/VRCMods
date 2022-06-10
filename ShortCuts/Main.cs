@@ -15,7 +15,7 @@ public static class BuildShit
 }
 public class Main : MelonMod
 {
-    internal static readonly MelonLogger.Instance Log = new(BuildShit.Name, ConsoleColor.Green);
+    internal static readonly MelonLogger.Instance Log = new(BuildShit.Name, ConsoleColor.DarkYellow);
 
     internal static MelonPreferences_Category Category = MelonPreferences.CreateCategory(BuildShit.Name, BuildShit.Name);
         

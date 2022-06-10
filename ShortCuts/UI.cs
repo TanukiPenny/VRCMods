@@ -73,69 +73,24 @@ public static class UI
         ShortCutsTab = new ReCategoryPage("ShortCuts", true);
         ReTabButton.Create("ShortCuts", "Open ShortCuts", "ShortCuts", ResourceManager.GetSprite("ShortCuts.shortcuts"));
         ShortCutsConfig = ShortCutsTab.AddCategory("ShortCuts Config", false);
-        LaunchPadRadio = new ReRadioTogglePage("Launch Pad Config");
-        foreach (int a in Enum.GetValues(typeof(Actions.Action)))
-        {
-            LaunchPadRadio.AddItem(((Actions.Action)a).ToString(), null, () =>
-            {
-                Main.LaunchPadAction.Value = (Actions.Action)a;
-            });
-        }
-        HereRadio = new ReRadioTogglePage("Here Config");
-        foreach (int a in Enum.GetValues(typeof(Actions.Action)))
-        {
-            HereRadio.AddItem(((Actions.Action)a).ToString(), null, () =>
-            {
-                Main.HereAction.Value = (Actions.Action)a;
-            });
-        }
-        CameraRadio = new ReRadioTogglePage("Camera Config");
-        foreach (int a in Enum.GetValues(typeof(Actions.Action)))
-        {
-            CameraRadio.AddItem(((Actions.Action)a).ToString(), null, () =>
-            {
-                Main.CameraAction.Value = (Actions.Action)a;
-            });
-        }
-        AudioSettingsRadio = new ReRadioTogglePage("Audio Settings Config");
-        foreach (int a in Enum.GetValues(typeof(Actions.Action)))
-        {
-            AudioSettingsRadio.AddItem(((Actions.Action)a).ToString(), null, () =>
-            {
-                Main.AudioSettingsAction.Value = (Actions.Action)a;
-            });
-        }
-        SettingsRadio = new ReRadioTogglePage("Settings Config");
-        foreach (int a in Enum.GetValues(typeof(Actions.Action)))
-        {
-            SettingsRadio.AddItem(((Actions.Action)a).ToString(), null, () =>
-            {
-                Main.SettingsAction.Value = (Actions.Action)a;
-            });
-        }
-        NotificationsRadio = new ReRadioTogglePage("Notifications Config");
-        foreach (int a in Enum.GetValues(typeof(Actions.Action)))
-        {
-            NotificationsRadio.AddItem(((Actions.Action)a).ToString(), null, () =>
-            {
-                Main.NotificationsAction.Value = (Actions.Action)a;
-            });
-        }
-        ShortCutsConfig.AddButton("Launch Pad Tab", "Open Launch Pad Tab config menu", LaunchPadRadio.Open, ResourceManager.GetSprite("ShortCuts.launchpad"));
-        ShortCutsConfig.AddButton("Notifications Tab", "Open Notifications Tab config menu", NotificationsRadio.Open, ResourceManager.GetSprite("ShortCuts.notifications"));
-        ShortCutsConfig.AddButton("Here Tab", "Open Here Tab config menu", HereRadio.Open, ResourceManager.GetSprite("ShortCuts.here"));
+        
+        LaunchPadRadio = MakePage(Main.LaunchPadAction);
+        HereRadio = MakePage(Main.HereAction);
+        CameraRadio = MakePage(Main.CameraAction);
+        AudioSettingsRadio = MakePage(Main.AudioSettingsAction);
+        SettingsRadio = MakePage(Main.SettingsAction);
+        NotificationsRadio = MakePage(Main.NotificationsAction);
+
+        ShortCutsConfig.AddButton("Launch Pad Tab", "Open Launch Pad Tab config menu", () => LaunchPadRadio.Open((int)Main.LaunchPadAction.Value), ResourceManager.GetSprite("ShortCuts.launchpad"));
+        ShortCutsConfig.AddButton("Notifications Tab", "Open Notifications Tab config menu",() => NotificationsRadio.Open((int)Main.NotificationsAction.Value),  ResourceManager.GetSprite("ShortCuts.notifications"));
+        ShortCutsConfig.AddButton("Here Tab", "Open Here Tab config menu", () => HereRadio.Open((int)Main.HereAction.Value), ResourceManager.GetSprite("ShortCuts.here"));
         ShortCutsConfig.AddSpacer();
-        ShortCutsConfig.AddButton("Camera Tab", "Open Camera Tab config menu", CameraRadio.Open, ResourceManager.GetSprite("ShortCuts.camera"));
-        ShortCutsConfig.AddButton("Audio Settings Tab", "Open Audio Settings Tab config menu", AudioSettingsRadio.Open, ResourceManager.GetSprite("ShortCuts.audio"));
-        ShortCutsConfig.AddButton("Settings Tab", "Open Settings Tab config menu", SettingsRadio.Open, ResourceManager.GetSprite("ShortCuts.settings"));
+        ShortCutsConfig.AddButton("Camera Tab", "Open Camera Tab config menu", () => CameraRadio.Open((int)Main.CameraAction.Value), ResourceManager.GetSprite("ShortCuts.camera"));
+        ShortCutsConfig.AddButton("Audio Settings Tab", "Open Audio Settings Tab config menu", () => AudioSettingsRadio.Open((int)Main.AudioSettingsAction.Value), ResourceManager.GetSprite("ShortCuts.audio"));
+        ShortCutsConfig.AddButton("Settings Tab", "Open Settings Tab config menu", () => SettingsRadio.Open((int)Main.SettingsAction.Value), ResourceManager.GetSprite("ShortCuts.settings"));
         ShortCutsConfig.AddSpacer();
     }
 
-    public static void CloseQM()
-    {
-        QuickMenuExtensions.CloseQuickMenu(UIManagerImpl.prop_UIManagerImpl_0);
-    }
-    
     //Found this on stackoverflow forms: https://stackoverflow.com/questions/44456133/find-inactive-gameobject-by-name-tag-or-layer
     private static GameObject FindObject(string name)
     {
@@ -170,5 +125,18 @@ public static class UI
             var resourceName = Regex.Match(resource, @"([a-zA-Z\d\-_]+)\.png").Groups[1].ToString();
             ResourceManager.LoadSprite("ShortCuts", resourceName, ms.ToArray());
         }
+    }
+
+    private static ReRadioTogglePage MakePage(MelonPreferences_Entry<Actions.Action> preferencesEntry)
+    {
+        var radiopage = new ReRadioTogglePage(preferencesEntry.DisplayName);
+        radiopage.OnSelect += o => preferencesEntry.Value = (Actions.Action) o;
+        foreach (int a in Enum.GetValues(typeof(Actions.Action)))
+        {
+            var name = ((Actions.Action) a).ToString().Replace("_", " ");
+            radiopage.AddItem(name, (int)a);
+        }
+
+        return radiopage;
     }
 }
