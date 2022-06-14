@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
+using ReMod.Core.VRChat;
 using UnityEngine;
+using VRC.UI.Elements;
 
 namespace ShortCuts.Tabs;
 
@@ -22,7 +25,7 @@ public static class Camera
 
         }));
     }
-        
+
     //Thank you Psychloor for this helpful function!
     private static bool IsDoubleClick()
     {

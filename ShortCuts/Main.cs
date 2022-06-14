@@ -25,9 +25,7 @@ public class Main : MelonMod
     public static MelonPreferences_Entry<Actions.Action> CameraAction;
     public static MelonPreferences_Entry<Actions.Action> AudioSettingsAction;
     public static MelonPreferences_Entry<Actions.Action> SettingsAction;
-
-    private static int _scenesLoaded = 0;
-
+    
     public override void OnApplicationStart()
     {
         LaunchPadAction = Category.CreateEntry("LaunchPad", Actions.Action.None, "LaunchPad");
@@ -40,6 +38,8 @@ public class Main : MelonMod
         Log.Msg("ShortCuts loaded successfully!");
     }
 
+    private static int _scenesLoaded = 0;
+    
     public override void OnSceneWasLoaded(int buildIndex, string sceneName)
     {
         if (_scenesLoaded <= 2)

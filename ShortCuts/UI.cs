@@ -9,46 +9,55 @@ using ReMod.Core.UI.QuickMenu;
 using ReMod.Core.VRChat;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.XR;
 using VRC.UI;
-using Pointer = System.IntPtr;
+using VRC.UI.Elements;
+using Object = UnityEngine.Object;
 
 namespace ShortCuts;
 
 public static class UI
 {
+
+    public static UIPage CameraUIPage;
     
     public static IEnumerator UIInit()
     {
         while (GameObject.Find("UserInterface").GetComponentInChildren<VRC.UI.Elements.QuickMenu>(true) == null)
             yield return null;
+        CameraUIPage = QuickMenuEx.Instance.transform.Find("Container/Window/QMParent/Menu_Camera").GetComponent<UIPage>();
         GetMainCamera();
         GetVolumeSlider();
         GetTabButtons();
+        CameraTabGoBrrrr();
         AddListeners();
         CreateReModTabMenu();
         Main.Log.Msg("Set up successful");
     }
 
     public static Button LaunchPadTabButton, NotificationsTabButton, HereTabButton, CameraTabButton, AudioSettingsTabButton, SettingsTabButton;
+    public static Transform tabButtons;
     private static void GetTabButtons()
     {
-        LaunchPadTabButton = FindObject("Page_Dashboard").GetComponent<Button>();
-        NotificationsTabButton = FindObject("Page_Notifications").GetComponent<Button>();
-        HereTabButton = FindObject("Page_Here").GetComponent<Button>();
-        CameraTabButton = FindObject("Page_Camera").GetComponent<Button>();
-        AudioSettingsTabButton = FindObject("Page_AudioSettings").GetComponent<Button>();
-        SettingsTabButton = FindObject("Page_Settings").GetComponent<Button>();
+        tabButtons = QuickMenuEx.Instance.transform.Find("Container/Window/Page_Buttons_QM/HorizontalLayoutGroup");
+        LaunchPadTabButton = tabButtons.FindChild("Page_Dashboard").GetComponent<Button>();
+        NotificationsTabButton = tabButtons.FindChild("Page_Notifications").GetComponent<Button>();
+        HereTabButton = tabButtons.FindChild("Page_Here").GetComponent<Button>();
+        CameraTabButton = tabButtons.FindChild("Page_Camera").GetComponent<Button>();
+        AudioSettingsTabButton = tabButtons.FindChild("Page_AudioSettings").GetComponent<Button>();
+        SettingsTabButton = tabButtons.FindChild("Page_Settings").GetComponent<Button>();
     }
 
     public static Slider MasterAudioSlider;
     private static void GetVolumeSlider()
     {
-        MasterAudioSlider = FindObject("VolumeSlider_Master").GetComponentInChildren<Slider>();
+        MasterAudioSlider = QuickMenuEx.Instance.transform.Find("Container/Window/QMParent/Menu_AudioSettings/Content/Audio/VolumeSlider_Master").GetComponentInChildren<Slider>();
     }
     
     public static Camera MainCamera;
     private static void GetMainCamera()
     {
+        if (XRDevice.isPresent) return;
         MainCamera = GameObject
             .Find(
                 "_Application/TrackingVolume/TrackingSteam(Clone)/SteamCamera/[CameraRig]/Neck/Camera (head)/Camera (eye)")
@@ -85,29 +94,13 @@ public static class UI
         ShortCutsConfig.AddButton("Notifications Tab", "Open Notifications Tab config menu",() => NotificationsRadio.Open((int)Main.NotificationsAction.Value),  ResourceManager.GetSprite("ShortCuts.notifications"));
         ShortCutsConfig.AddButton("Here Tab", "Open Here Tab config menu", () => HereRadio.Open((int)Main.HereAction.Value), ResourceManager.GetSprite("ShortCuts.here"));
         ShortCutsConfig.AddSpacer();
+        
         ShortCutsConfig.AddButton("Camera Tab", "Open Camera Tab config menu", () => CameraRadio.Open((int)Main.CameraAction.Value), ResourceManager.GetSprite("ShortCuts.camera"));
         ShortCutsConfig.AddButton("Audio Settings Tab", "Open Audio Settings Tab config menu", () => AudioSettingsRadio.Open((int)Main.AudioSettingsAction.Value), ResourceManager.GetSprite("ShortCuts.audio"));
         ShortCutsConfig.AddButton("Settings Tab", "Open Settings Tab config menu", () => SettingsRadio.Open((int)Main.SettingsAction.Value), ResourceManager.GetSprite("ShortCuts.settings"));
         ShortCutsConfig.AddSpacer();
     }
 
-    //Found this on stackoverflow forms: https://stackoverflow.com/questions/44456133/find-inactive-gameobject-by-name-tag-or-layer
-    private static GameObject FindObject(string name)
-    {
-        Transform[] objs = Resources.FindObjectsOfTypeAll<Transform>();
-        for (int i = 0; i < objs.Length; i++)
-        {
-            if (objs[i].hideFlags == HideFlags.None)
-            {
-                if (objs[i].name == name)
-                {
-                    return objs[i].gameObject;
-                }
-            }
-        }
-        return null;
-    }
-    
     public static void CacheIcons()
     {
         //https://github.com/RequiDev/ReModCE/blob/master/ReModCE/ReMod.cs
@@ -138,5 +131,11 @@ public static class UI
         }
 
         return radiopage;
+    }
+
+    private static void CameraTabGoBrrrr()
+    {
+        var aaa = tabButtons.FindChild("Page_Camera").gameObject.GetComponents<MonoBehaviour>();
+        Object.DestroyImmediate(aaa[6]);
     }
 }
