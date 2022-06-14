@@ -9,7 +9,7 @@ public static class BuildShit
 {
     public const string Name = "ShortCuts";
     public const string Author = "Penny";
-    public const string Version = "1.0.0";
+    public const string Version = "1.0.1";
     public const string DownloadLink = "https://github.com/PennyBunny/VRCMods/";
     public const string Description = "A standalone mod to add double click short cuts on all your QM tabs!";
 }
