@@ -1,17 +1,15 @@
-# MLConsoleViewer
+# QMPet
 
-A standalone mod that adds a tab to your quick menu that has a simple copy of your console!
+A mod that lets you assign any .png file as a little pet on your Quick Menu!
 
-A rewrote and maintained version of Benacle's original [MLConsoleViewer](https://github.com/benaclejames/MLConsoleViewer) Mod
+### **Important!!!** 
+
+This mods replaces the VRCat if you have VRC+. To use this mod all you do is place a front.png and back.png in your UserData/QMPet folder! Please note that the QMPet folder is only created after first launch with the mod!
 
 ### Requirements:
 
 - !! This is a plugin, this goes in your Plugins folder !!
 [ReMod.Core.Updater](https://api.vrcmg.com/v1/mods/download/328)
-
-### Recommended Mod Addons:
-
-- [TabExtension](https://github.com/DragonPlayerX/TabExtension)
 
 ### MelonLoader
 Need to install MelonLoader?<br>
