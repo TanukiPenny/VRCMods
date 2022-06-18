@@ -11,7 +11,7 @@ public static class BuildShit
 {
     public const string Name = "QMPet";
     public const string Author = "Penny";
-    public const string Version = "1.0.0";
+    public const string Version = "1.0.1";
     public const string DownloadLink = "https://github.com/PennyBunny/VRCMods/";
     public const string Description = "Lets you have a little custom pet on your Quick Menu!";
 }

@@ -32,7 +32,7 @@ public class UI
         Container = QuickMenu.gameObject.transform.FindChild("Container").gameObject;
         
         VRCat = Container.transform.FindChild("ThankYouCharacter").gameObject;
-        QMPet = GameObject.Instantiate(VRCat, Container.transform);
+        QMPet = Object.Instantiate(VRCat, Container.transform);
         QMPet.name = "QMPet";
 
         Object.DestroyImmediate(VRCat);
@@ -52,7 +52,9 @@ public class UI
         QuickMenu.field_Public_GameObject_3 = QMPetFront;
         QuickMenu.field_Public_GameObject_4 = QMPetBack;
         QMPetFront_Rect.pivot = new Vector2(1, 0);
-        QMPetBack_Rect.pivot = new Vector2(1, 0);
+        QMPetBack_Rect.pivot = new Vector2(0, 0);
+
+        QMPetBack_Rect.sizeDelta = new Vector2(150, 150);
 
         QMPetFront.transform.localScale = new Vector3(Main.scale.Value, Main.scale.Value, Main.scale.Value);
         QMPetBack.transform.localScale = new Vector3(Main.scale.Value, Main.scale.Value, Main.scale.Value);
