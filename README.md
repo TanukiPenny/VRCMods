@@ -15,3 +15,4 @@
  - ProgramLauncher
  - MLConsoleViewer
  - ShortCuts
+ - OldMate
