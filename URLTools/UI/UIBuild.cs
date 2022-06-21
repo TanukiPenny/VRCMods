@@ -13,7 +13,7 @@ public class UIBuild
     public static IEnumerator OnQuickMenu()
     {
         while (UIManager.prop_UIManager_0 == null) yield return null;
-        while (UnityEngine.Object.FindObjectOfType<VRC.UI.Elements.QuickMenu>() == null) yield return null;
+        while (Object.FindObjectOfType<VRC.UI.Elements.QuickMenu>() == null) yield return null;
         UserSelMenu();
         HereMenu();
         Main.log.Msg("Menu Built");
