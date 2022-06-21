@@ -73,10 +73,12 @@ namespace OldMate
                         if (hasPrevNickname)
                         {
                             VRChatAPI.UpdateQuickMenuText(false, prevNickname, null, null, user.id);
+                            VRChatAPI.UpdateQMName(false, prevNickname, null, null, user.id);
                         }
                         else
                         {
                             VRChatAPI.UpdateQuickMenuText();
+                            VRChatAPI.UpdateQMName();
                         }
                         Main.Log.Msg($"Set {nick.OriginalName}'s nickname to {nick.ModifiedName} ({nick.UserId})");
                     }, () => VRCUiPopupManager.field_Private_Static_VRCUiPopupManager_0.HideCurrentPopup());
@@ -95,13 +97,19 @@ namespace OldMate
                     }
                 });
 
-                NicknameManager.RemoveNickname(user.id);
-                VRChatAPI.UpdateQuickMenuText(true, null, user.displayName, modifiedName);
                 var Player = VRChatAPI.GetPlayerFromId(user.id);
                 if (Player != null)
                 {
                     VRChatAPI.UpdatePlayerNameplate(Player, true);
                 }
+                else
+                {
+                    Main.Log.Msg("Player is null!");
+                }
+
+                NicknameManager.RemoveNickname(user.id);
+                VRChatAPI.UpdateQuickMenuText(true, null, user.displayName, modifiedName);
+                VRChatAPI.UpdateQMName(true, null, user.displayName, modifiedName);
 
                 Main.Log.Msg($"Removed {user.displayName}'s nickname ({user.id})");
             }, ResourceManager.GetSprite("OldMate.remove"));
@@ -123,8 +131,8 @@ namespace OldMate
                         string prevNickname = null;
                         bool hasPrevNickname = false;
 
-                           // Check if user had a nickname, get nickname
-                           NicknameManager.nicknames.ForEach(nickname =>
+                        // Check if user had a nickname, get nickname
+                        NicknameManager.nicknames.ForEach(nickname =>
                         {
                             if (nickname.UserId == user.id)
                             {
@@ -172,13 +180,18 @@ namespace OldMate
                     }
                 });
 
-                NicknameManager.RemoveNickname(user.id);
-                VRChatAPI.UpdateQuickMenuText(true, null, user.displayName, modifiedName);
                 var Player = VRChatAPI.GetPlayerFromId(user.id);
                 if (Player != null)
                 {
                     VRChatAPI.UpdatePlayerNameplate(Player, true);
                 }
+                else
+                {
+                    Main.Log.Msg("Player is null!");
+                }
+
+                NicknameManager.RemoveNickname(user.id);
+                VRChatAPI.UpdateQuickMenuText(true, null, user.displayName, modifiedName);
 
                 Main.Log.Msg($"Removed {user.displayName}'s nickname ({user.id})");
             }, VRCUiManagerEx.Instance.MenuContent().transform
