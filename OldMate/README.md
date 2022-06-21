@@ -1,7 +1,7 @@
 # OldMate
 
 - A mod that allows you to assign custom nicknames to players.
-
+- Nicknames are stored in `VRChat/UserData/OldMate.json` (To clear nicknames just delete that json file).
 - Thank you to Dusks#5500 for a huge help with fixing old broken logic!
 
 ### Requirements:
