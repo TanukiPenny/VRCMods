@@ -103,6 +103,8 @@ namespace OldMate
             if (NicknameManager.Contains(player.prop_APIUser_0.id))
             {
                 player.prop_VRCPlayer_0.field_Public_PlayerNameplate_0.field_Public_TextMeshProUGUI_0.text = !OriginalName ? NicknameManager.GetModifiedName(player.field_Private_APIUser_0.id) : player.field_Private_APIUser_0.displayName;
+                //player.prop_VRCPlayer_1.field_Public_PlayerNameplate_0.field_Public_TextMeshProUGUI_0.text = !OriginalName ? NicknameManager.GetModifiedName(player.field_Private_APIUser_0.id) : player.field_Private_APIUser_0.displayName;
+                //Main.Log.Msg($"Updating {player.name}'s nameplate to {(!OriginalName ? NicknameManager.GetModifiedName(player.field_Private_APIUser_0.id) : player.field_Private_APIUser_0.displayName)}");
             }
         }
 
@@ -174,6 +176,37 @@ namespace OldMate
             GameObject test = GameObject.Find("UserInterface/MenuContent/Screens/UserInfo");
 
             foreach (Text t in test.GetComponentsInChildren<Text>())
+            {
+                // Removing Nickname
+                if (modifiedName != null)
+                {
+                    if (displayName != null && t.text.Equals(modifiedName))
+                    {
+                        t.text = t.text.Replace(modifiedName, displayName);
+                    }
+                }
+
+                NicknameManager.nicknames.ForEach(nickname =>
+                {
+                    // Updating Nickname
+                    if (t.text.Equals(prevNickname) && prevNickname != null && OriginalName == false && userID == nickname.UserId)
+                    {
+                        t.text = t.text.Replace(!OriginalName ? prevNickname : nickname.ModifiedName, !OriginalName ? nickname.ModifiedName : prevNickname);
+                    }
+                    // Setting a Nickname
+                    else if (t.text.Equals(!OriginalName ? nickname.OriginalName : nickname.ModifiedName))
+                    {
+                        t.text = t.text.Replace(!OriginalName ? nickname.OriginalName : nickname.ModifiedName, !OriginalName ? nickname.ModifiedName : nickname.OriginalName);
+                    }
+                });
+            }
+        }
+
+        public static void UpdateQMName(bool OriginalName = false, string prevNickname = null, string displayName = null, string modifiedName = null, string userID = null)
+        {
+            GameObject test = GameObject.Find("UserInterface/Canvas_QuickMenu(Clone)/Container/Window/QMParent/Menu_SelectedUser_Local/ScrollRect/Viewport/VerticalLayoutGroup/UserProfile_Compact/PanelBG/Info");
+
+            foreach (TMP_Text t in test.GetComponentsInChildren<TMP_Text>())
             {
                 // Removing Nickname
                 if (modifiedName != null)
