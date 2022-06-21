@@ -102,10 +102,10 @@ namespace OldMate
                 {
                     VRChatAPI.UpdatePlayerNameplate(Player, true);
                 }
-                else
-                {
-                    Main.Log.Msg("Player is null!");
-                }
+                //else
+                //{
+                //    Main.Log.Msg("Player is null!");
+                //}
 
                 NicknameManager.RemoveNickname(user.id);
                 VRChatAPI.UpdateQuickMenuText(true, null, user.displayName, modifiedName);
@@ -185,10 +185,10 @@ namespace OldMate
                 {
                     VRChatAPI.UpdatePlayerNameplate(Player, true);
                 }
-                else
-                {
-                    Main.Log.Msg("Player is null!");
-                }
+                //else
+                //{
+                //    Main.Log.Msg("Player is null!");
+                //}
 
                 NicknameManager.RemoveNickname(user.id);
                 VRChatAPI.UpdateQuickMenuText(true, null, user.displayName, modifiedName);
