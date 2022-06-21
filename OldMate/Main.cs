@@ -9,7 +9,7 @@ namespace OldMate
     {
         public const string Name = "OldMate";
         public const string Author = "Penny";
-        public const string Version = "2.0.0";
+        public const string Version = "2.0.1";
         public const string DownloadLink = "https://github.com/PennyBunny/VRCMods/";
         public const string Description = "A mod that allows you to assign custom nicknames to players";
     }

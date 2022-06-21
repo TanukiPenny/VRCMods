@@ -148,7 +148,7 @@ namespace OldMate
                 }
                 if (userInfo == null)
                 {
-                    Main.Log.Msg("UserInfo is null!");
+                    //Main.Log.Msg("UserInfo is null!");
                 }
                 if (userInfo != null)
                 {
