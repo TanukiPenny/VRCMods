@@ -8,6 +8,7 @@
  - MLConsoleViewer
  - ShortCuts
  - QMPet
+ - OldMate
 
 ## Icons
  These mods use Icons from [Noun Project](https://thenounproject.com/)
@@ -15,3 +16,4 @@
  - ProgramLauncher
  - MLConsoleViewer
  - ShortCuts
+ - OldMate
