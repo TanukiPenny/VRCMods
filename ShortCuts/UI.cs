@@ -97,6 +97,8 @@ public static class UI
 
     public static void OnPointerDownPatch(PointerEventData eventData)
     {
+        if (eventData.selectedObject == null) return;
+        
         if (lastClicked != null && lastClicked.Pointer != eventData.selectedObject.Pointer) {
             clicked = 0;
             clickTime = 0;
