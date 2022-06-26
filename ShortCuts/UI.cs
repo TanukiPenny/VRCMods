@@ -182,6 +182,10 @@ public static class UI
             radiopage.AddItem(name, (int)a);
         }
 
+        radiopage.OnClose += () =>
+        { 
+            MelonPreferences.Save();
+        };
         return radiopage;
     }
 
