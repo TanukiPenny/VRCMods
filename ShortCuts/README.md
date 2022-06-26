@@ -4,15 +4,15 @@ A mod that lets you double click any of the tabs on the Quick Menu to fire any o
 
 I'm looking for more actions that would be assignable to any of the tabs, here is what I have so far!
 - Rejoin Instance
-- Take Out Camera
+- Toggle Camera
 - Open Worlds
 - Open Avatars
 - Open Social
 - Open Settings
 - Open Safety
 - Open Gallery
-- Sound Off
-- Deafen
+- Toggle Sound
+- Toggle Deafen
 - Reload All Avatars
 - Reload Your Avatar
 
