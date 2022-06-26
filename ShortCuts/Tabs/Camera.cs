@@ -9,7 +9,7 @@ public static class Camera
     {
         UI.CameraTabButton.onClick.AddListener(new Action(() =>
         {
-            if (Time.realtimeSinceStartup - Main.doubleclicktime < 0.02f)
+            if (Time.realtimeSinceStartup - Main.Doubleclicktime < 0.2f)
             {
                 Actions.DoubleClickHandler(Main.CameraAction.Value);
             }

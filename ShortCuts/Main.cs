@@ -66,9 +66,8 @@ public class Main : MelonMod
         }
     }
 
-    private static bool clicked;
-    public static float doubleclicktime;
-    public static bool clicking;
+    private static bool Clicked;
+    public static float Doubleclicktime;
 
     public override void OnUpdate()
     {
@@ -77,48 +76,38 @@ public class Main : MelonMod
             return;
         }
 
-        if (UiSelectRight.field_Private_Boolean_0 || UiSelectLeft.field_Private_Boolean_0)
-        {
-            clicking = true;
-        }
-        else
-        {
-            clicking = false;
-        }
-
-        switch (clicking)
+        switch (UiSelectRight.field_Private_Boolean_0 || UiSelectLeft.field_Private_Boolean_0)
         {
             case true:
-                clicked = true;
+                Clicked = true;
                 break;
-            case false when clicked:
-                clicked = false;
+            case false when Clicked:
+                Clicked = false;
                 if (IsDoubleClick())
                 {
-                    doubleclicktime = Time.realtimeSinceStartup;
+                    Doubleclicktime = Time.realtimeSinceStartup;
                 }
-                
                 break;
         }
     }
     
-    private static float _lastTimeClicked = 0;
+    private static float LastTimeClicked = 0;
     private const float Threshold = 0.5f;
     private const bool MultipleInRow = false;
     
     private static bool IsDoubleClick()
     {
-        if (_lastTimeClicked == 0)
+        if (LastTimeClicked == 0)
         {
-            _lastTimeClicked = Time.time;
+            LastTimeClicked = Time.time;
             return false;
         }
-        if (Time.time - _lastTimeClicked <= Threshold)
+        if (Time.time - LastTimeClicked <= Threshold)
         {
-            _lastTimeClicked = MultipleInRow ? Time.time : Threshold * 2f;
+            LastTimeClicked = MultipleInRow ? Time.time : Threshold * 2f;
             return true;
         }
-        _lastTimeClicked = Time.time;
+        LastTimeClicked = Time.time;
         return false;
     }
 }
