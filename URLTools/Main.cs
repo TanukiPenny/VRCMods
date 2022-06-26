@@ -13,7 +13,7 @@ public static class BuildShit
 }
 public class Main : MelonMod
 {
-    internal static readonly MelonLogger.Instance log = new MelonLogger.Instance(BuildShit.Name, ConsoleColor.Cyan);
+    internal static readonly MelonLogger.Instance log = new MelonLogger.Instance(BuildShit.Name, ConsoleColor.DarkYellow);
     private static int scenesLoaded = 0;
     public override void OnApplicationStart()
     {

@@ -75,7 +75,7 @@ namespace ProgramLauncher
     }
     public class Main : MelonMod
     {
-        internal static readonly MelonLogger.Instance log = new MelonLogger.Instance(BuildShit.Name, ConsoleColor.Green);
+        internal static readonly MelonLogger.Instance log = new MelonLogger.Instance(BuildShit.Name, ConsoleColor.DarkYellow);
         private static int _scenesLoaded = 0;
         public override void OnApplicationStart()
         {
