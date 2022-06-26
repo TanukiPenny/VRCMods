@@ -35,6 +35,7 @@ public static class UI
         CameraTabGoBrrrr();
         PatchPointerDown();
         CreateReModTabMenu();
+        GetVRCInput();
         Log.Msg("Set up successful");
     }
 
@@ -76,7 +77,7 @@ public static class UI
             { AudioSettingsTabButton.gameObject.Pointer, AudioSettingsAction },
             { CameraTabButton.gameObject.Pointer, CameraAction },
             { HereTabButton.gameObject.Pointer, HereAction },
-            { LaunchPadTabButton.gameObject.Pointer, HereAction },
+            { LaunchPadTabButton.gameObject.Pointer, LaunchPadAction },
             { NotificationsTabButton.gameObject.Pointer, NotificationsAction },
             { SettingsTabButton.gameObject.Pointer, SettingsAction }
 
@@ -96,31 +97,43 @@ public static class UI
 
     public static void OnPointerDownPatch(PointerEventData eventData)
     {
-        if (lastClicked != null && lastClicked.Pointer != eventData.selectedObject.Pointer)
-        {
+        if (lastClicked != null && lastClicked.Pointer != eventData.selectedObject.Pointer) {
             clicked = 0;
             clickTime = 0;
         }
-
         lastClicked = eventData.selectedObject;
         if (!ActionDict.TryGetValue(lastClicked.Pointer, out var action) ||
-        action.Value == Actions.Action.None)
+            action.Value == Actions.Action.None)
             return;
-        // Because Unity is dumb, the first "double click" actually has to be a "triple click", fuck it.
         clicked++;
-        if (((clicked == 1 && clickTime != 0) || clicked > 1) && Time.time - clickTime < clickDelay)
+        switch (clicked)
         {
-            clicked = 0;
-            clickTime = 0;
-            Actions.DoubleClickHandler(action.Value);
+            case 1:
+                clickTime = Time.time;
+                break;
+            case > 1 when Time.time - clickTime < clickDelay:
+                clicked = 0;
+                clickTime = 0;
+                MelonCoroutines.Start(WaitOneFrameeeeeeeee(action.Value));
+                break;
+            default:
+            {
+                if (clicked > 2 || Time.time - clickTime > 1)
+                {
+                    clicked = 0;
+                    clickTime = 0;
+                }
+
+                break;
+            }
         }
-        else if (clicked <= 1)
-            clickTime = Time.time;
-        else if (clicked > 2 || Time.time - clickTime > 1)
-        {
-            clicked = 0;
-            clickTime = 0;
-        }
+    }
+
+    public static IEnumerator WaitOneFrameeeeeeeee(Actions.Action aaaa)
+    {
+        while (UiSelectLeft.field_Private_Boolean_0 || UiSelectRight.field_Private_Boolean_0) yield return null;
+        yield return null;
+        Actions.DoubleClickHandler(aaaa);
     }
 
     private static ReCategoryPage ShortCutsTab;
@@ -193,5 +206,22 @@ public static class UI
     {
         var aaa = tabButtons.FindChild("Page_Camera").gameObject.GetComponents<MonoBehaviour>();
         Object.DestroyImmediate(aaa[6]);
+    }
+    
+    private static void GetVRCInput()
+    {
+        var VRCInputs = VRCInputManager.field_Private_Static_Dictionary_2_String_VRCInput_0;
+        foreach (var a in VRCInputs)
+        {
+            switch (a.value.prop_String_0)
+            {
+                case "UiSelectLeft":
+                    UiSelectLeft = a.value;
+                    break;
+                case "UiSelectRight":
+                    UiSelectRight = a.value;
+                    break;
+            }
+        }
     }
 }

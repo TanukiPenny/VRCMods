@@ -21,7 +21,7 @@ public static class Actions
                 Main.Log.Msg("Rejoining instance!");
                 Networking.GoToRoom(currentInstance.id);
                 return;
-            case Action.Take_Out_Camera:
+            case Action.Toggle_Camera:
                 CameraToggle();
                 return;
             case Action.Open_Worlds:
@@ -60,21 +60,20 @@ public static class Actions
                 VRCUiManagerEx.Instance.ShowScreen(QuickMenu.MainMenuScreenIndex.GalleryMenu);
                 Main.Log.Msg("Opening gallery menu!");
                 return;
-            case Action.Sound_Off:
-                UI.MasterAudioSlider.value = 0f;
-                Main.Log.Msg("Audio muted!");
+            case Action.Toggle_Audio:
+                SoundToggle();
+                Main.Log.Msg("Audio Toggled!");
                 return;
-            case Action.Deafen:
-                UI.MasterAudioSlider.value = 0f;
-                USpeaker.Method_Public_Static_Void_Boolean_0(true);
-                Main.Log.Msg("You deafened yourself!");
+            case Action.Toggle_Deafen:
+                DeafenToggle();
+                Main.Log.Msg("Toggled deafen!");
                 return;
             case Action.Reload_All_Avatars:
-                PlayerExtensions.ReloadAllAvatars(VRCPlayer.field_Internal_Static_VRCPlayer_0);
+                VRCPlayer.field_Internal_Static_VRCPlayer_0.ReloadAllAvatars();
                 Main.Log.Msg("Reloading all avatars!");
                 return;
             case Action.Reload_Your_Avatar:
-                PlayerExtensions.ReloadAvatar(VRCPlayer.field_Internal_Static_VRCPlayer_0);
+                VRCPlayer.field_Internal_Static_VRCPlayer_0.ReloadAvatar();
                 Main.Log.Msg("Reloading your avatar!");
                 return;
         }
@@ -84,15 +83,15 @@ public static class Actions
     {
         None,
         Rejoin_Instance,
-        Take_Out_Camera,
+        Toggle_Camera,
         Open_Worlds,
         Open_Avatars,
         Open_Social,
         Open_Settings,
         Open_Safety,
         Open_Gallery,
-        Sound_Off,
-        Deafen,
+        Toggle_Audio,
+        Toggle_Deafen,
         Reload_All_Avatars,
         Reload_Your_Avatar
     }
@@ -114,6 +113,38 @@ public static class Actions
         {
             UserCameraController.field_Internal_Static_UserCameraController_0.prop_UserCameraMode_0 = UserCameraMode.Off;
             Main.Log.Msg("Toggled camera off!");
+        }
+    }
+
+    private static float Soundsvolumecache = 1f;
+    private static bool Mutestate;
+
+    private static void SoundToggle()
+    {
+        if (UI.MasterAudioSlider.value == 0f)
+        {
+            UI.MasterAudioSlider.value = Soundsvolumecache;
+        }
+        else
+        {
+            Soundsvolumecache = UI.MasterAudioSlider.value;
+            UI.MasterAudioSlider.value = 0f;
+        }
+    }
+
+    private static void DeafenToggle()
+    {
+        if (UI.MasterAudioSlider.value == 0f)
+        {
+            UI.MasterAudioSlider.value = Soundsvolumecache;
+            USpeaker.Method_Public_Static_Void_Boolean_0(Mutestate);
+        }
+        else
+        {
+            Soundsvolumecache = UI.MasterAudioSlider.value;
+            Mutestate = USpeaker.field_Private_Static_Boolean_0;
+            UI.MasterAudioSlider.value = 0f;
+            USpeaker.Method_Public_Static_Void_Boolean_0(true);
         }
     }
 }

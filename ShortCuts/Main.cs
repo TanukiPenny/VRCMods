@@ -27,6 +27,8 @@ public class Main : MelonMod
     public static MelonPreferences_Entry<Actions.Action> AudioSettingsAction;
     public static MelonPreferences_Entry<Actions.Action> SettingsAction;
 
+    public static VRCInput UiSelectLeft, UiSelectRight;
+
 
     public override void OnApplicationStart()
     {

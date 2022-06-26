@@ -1080,12 +1080,6 @@
         <Compile Include="Actions.cs" />
         <Compile Include="Main.cs" />
         <Compile Include="Properties\AssemblyInfo.cs" />
-        <Compile Include="Tabs\AudioSettings.cs" />
-        <Compile Include="Tabs\Camera.cs" />
-        <Compile Include="Tabs\Here.cs" />
-        <Compile Include="Tabs\LaunchPad.cs" />
-        <Compile Include="Tabs\Notifications.cs" />
-        <Compile Include="Tabs\Settings.cs" />
         <Compile Include="UI.cs" />
     </ItemGroup>
     <ItemGroup>
