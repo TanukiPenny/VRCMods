@@ -3,7 +3,6 @@ using UnityEngine.XR;
 using VRC.SDKBase;
 using VRC.UI;
 using VRC.UserCamera;
-// ReSharper disable InconsistentNaming
 
 namespace ShortCuts;
 

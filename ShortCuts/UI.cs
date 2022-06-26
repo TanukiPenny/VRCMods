@@ -10,7 +10,6 @@ using ReMod.Core.VRChat;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.XR;
-using VRC.UI;
 using VRC.UI.Elements;
 using Object = UnityEngine.Object;
 
@@ -31,6 +30,7 @@ public static class UI
         GetTabButtons();
         CameraTabGoBrrrr();
         AddListeners();
+        GetVRCInput();
         CreateReModTabMenu();
         Main.Log.Msg("Set up successful");
     }
@@ -77,10 +77,13 @@ public static class UI
     private static ReCategoryPage ShortCutsTab;
     private static ReMenuCategory ShortCutsConfig;
     private static ReRadioTogglePage LaunchPadRadio, NotificationsRadio, HereRadio, CameraRadio, AudioSettingsRadio, SettingsRadio;
+    public static ReTabButton ShortsTabButton;
+    
     private static void CreateReModTabMenu()
     {
         ShortCutsTab = new ReCategoryPage("ShortCuts", true);
-        ReTabButton.Create("ShortCuts", "Open ShortCuts", "ShortCuts", ResourceManager.GetSprite("ShortCuts.shortcuts"));
+        ShortsTabButton = ReTabButton.Create("ShortCuts", "Open ShortCuts", "ShortCuts", ResourceManager.GetSprite("ShortCuts.shortcuts"));
+        ShortsTabButton.GameObject.SetActive(Main.Showtab.Value);
         ShortCutsConfig = ShortCutsTab.AddCategory("ShortCuts Config", false);
         
         LaunchPadRadio = MakePage(Main.LaunchPadAction);
@@ -137,5 +140,22 @@ public static class UI
     {
         var aaa = tabButtons.FindChild("Page_Camera").gameObject.GetComponents<MonoBehaviour>();
         Object.DestroyImmediate(aaa[6]);
+    }
+
+    private static void GetVRCInput()
+    {
+        var VRCInputs = VRCInputManager.field_Private_Static_Dictionary_2_String_VRCInput_0;
+        foreach (var a in VRCInputs)
+        {
+            switch (a.value.prop_String_0)
+            {
+                case "UiSelectLeft":
+                    Main.UiSelectLeft = a.value;
+                    break;
+                case "UiSelectRight":
+                    Main.UiSelectRight = a.value;
+                    break;
+            }
+        }
     }
 }
