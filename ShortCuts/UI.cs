@@ -1,16 +1,20 @@
-﻿using System;
-using System.Collections;
-using System.IO;
-using System.Reflection;
-using System.Text.RegularExpressions;
+﻿using HarmonyLib;
 using MelonLoader;
 using ReMod.Core.Managers;
 using ReMod.Core.UI.QuickMenu;
 using ReMod.Core.VRChat;
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.IO;
+using System.Reflection;
+using System.Text.RegularExpressions;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using UnityEngine.XR;
 using VRC.UI.Elements;
+using static ShortCuts.Main;
 using Object = UnityEngine.Object;
 
 namespace ShortCuts;
@@ -19,7 +23,7 @@ public static class UI
 {
 
     public static UIPage CameraUIPage;
-    
+
     public static IEnumerator UIInit()
     {
         while (GameObject.Find("UserInterface").GetComponentInChildren<VRC.UI.Elements.QuickMenu>(true) == null)
@@ -29,10 +33,9 @@ public static class UI
         GetVolumeSlider();
         GetTabButtons();
         CameraTabGoBrrrr();
-        AddListeners();
-        GetVRCInput();
+        PatchPointerDown();
         CreateReModTabMenu();
-        Main.Log.Msg("Set up successful");
+        Log.Msg("Set up successful");
     }
 
     public static Button LaunchPadTabButton, NotificationsTabButton, HereTabButton, CameraTabButton, AudioSettingsTabButton, SettingsTabButton;
@@ -53,7 +56,7 @@ public static class UI
     {
         MasterAudioSlider = QuickMenuEx.Instance.transform.Find("Container/Window/QMParent/Menu_AudioSettings/Content/Audio/VolumeSlider_Master").GetComponentInChildren<Slider>();
     }
-    
+
     public static Camera MainCamera;
     private static void GetMainCamera()
     {
@@ -64,43 +67,89 @@ public static class UI
             .GetComponent<Camera>();
     }
 
-    private static void AddListeners()
+    private static Dictionary<IntPtr, MelonPreferences_Entry<Actions.Action>> ActionDict;
+
+    private static void PatchPointerDown()
     {
-        Tabs.LaunchPad.AddListener();
-        Tabs.Notifications.AddListener();
-        Tabs.Here.AddListener();
-        Tabs.Camera.AddListener();
-        Tabs.AudioSettings.AddListener();
-        Tabs.Settings.AddListener();
+        ActionDict = new Dictionary<IntPtr, MelonPreferences_Entry<Actions.Action>>()
+        {
+            { AudioSettingsTabButton.gameObject.Pointer, AudioSettingsAction },
+            { CameraTabButton.gameObject.Pointer, CameraAction },
+            { HereTabButton.gameObject.Pointer, HereAction },
+            { LaunchPadTabButton.gameObject.Pointer, HereAction },
+            { NotificationsTabButton.gameObject.Pointer, NotificationsAction },
+            { SettingsTabButton.gameObject.Pointer, SettingsAction }
+
+        };
+
+        var orig = AccessTools.Method(typeof(Button), "OnPointerDown");
+        var patch = AccessTools.Method(typeof(UI), "OnPointerDownPatch");
+
+        MyHarmony.Patch(orig, null, new HarmonyMethod(patch));
+    }
+
+    public static GameObject lastClicked;
+    public static float clicked = 0;
+    public static float clickTime = -50;
+    public static float clickDelay = 0.5f;
+
+
+    public static void OnPointerDownPatch(PointerEventData eventData)
+    {
+        if (lastClicked != null && lastClicked.Pointer != eventData.selectedObject.Pointer)
+        {
+            clicked = 0;
+            clickTime = 0;
+        }
+
+        lastClicked = eventData.selectedObject;
+        if (!ActionDict.TryGetValue(lastClicked.Pointer, out var action) ||
+        action.Value == Actions.Action.None)
+            return;
+        // Because Unity is dumb, the first "double click" actually has to be a "triple click", fuck it.
+        clicked++;
+        if (((clicked == 1 && clickTime != 0) || clicked > 1) && Time.time - clickTime < clickDelay)
+        {
+            clicked = 0;
+            clickTime = 0;
+            Actions.DoubleClickHandler(action.Value);
+        }
+        else if (clicked <= 1)
+            clickTime = Time.time;
+        else if (clicked > 2 || Time.time - clickTime > 1)
+        {
+            clicked = 0;
+            clickTime = 0;
+        }
     }
 
     private static ReCategoryPage ShortCutsTab;
     private static ReMenuCategory ShortCutsConfig;
     private static ReRadioTogglePage LaunchPadRadio, NotificationsRadio, HereRadio, CameraRadio, AudioSettingsRadio, SettingsRadio;
     public static ReTabButton ShortsTabButton;
-    
+
     private static void CreateReModTabMenu()
     {
         ShortCutsTab = new ReCategoryPage("ShortCuts", true);
         ShortsTabButton = ReTabButton.Create("ShortCuts", "Open ShortCuts", "ShortCuts", ResourceManager.GetSprite("ShortCuts.shortcuts"));
-        ShortsTabButton.GameObject.SetActive(Main.Showtab.Value);
+        ShortsTabButton.GameObject.SetActive(Showtab.Value);
         ShortCutsConfig = ShortCutsTab.AddCategory("ShortCuts Config", false);
-        
-        LaunchPadRadio = MakePage(Main.LaunchPadAction);
-        HereRadio = MakePage(Main.HereAction);
-        CameraRadio = MakePage(Main.CameraAction);
-        AudioSettingsRadio = MakePage(Main.AudioSettingsAction);
-        SettingsRadio = MakePage(Main.SettingsAction);
-        NotificationsRadio = MakePage(Main.NotificationsAction);
 
-        ShortCutsConfig.AddButton("Launch Pad Tab", "Open Launch Pad Tab config menu", () => LaunchPadRadio.Open((int)Main.LaunchPadAction.Value), ResourceManager.GetSprite("ShortCuts.launchpad"));
-        ShortCutsConfig.AddButton("Notifications Tab", "Open Notifications Tab config menu",() => NotificationsRadio.Open((int)Main.NotificationsAction.Value),  ResourceManager.GetSprite("ShortCuts.notifications"));
-        ShortCutsConfig.AddButton("Here Tab", "Open Here Tab config menu", () => HereRadio.Open((int)Main.HereAction.Value), ResourceManager.GetSprite("ShortCuts.here"));
+        LaunchPadRadio = MakePage(LaunchPadAction);
+        HereRadio = MakePage(HereAction);
+        CameraRadio = MakePage(CameraAction);
+        AudioSettingsRadio = MakePage(AudioSettingsAction);
+        SettingsRadio = MakePage(SettingsAction);
+        NotificationsRadio = MakePage(NotificationsAction);
+
+        ShortCutsConfig.AddButton("Launch Pad Tab", "Open Launch Pad Tab config menu", () => LaunchPadRadio.Open((int)LaunchPadAction.Value), ResourceManager.GetSprite("ShortCuts.launchpad"));
+        ShortCutsConfig.AddButton("Notifications Tab", "Open Notifications Tab config menu", () => NotificationsRadio.Open((int)NotificationsAction.Value), ResourceManager.GetSprite("ShortCuts.notifications"));
+        ShortCutsConfig.AddButton("Here Tab", "Open Here Tab config menu", () => HereRadio.Open((int)HereAction.Value), ResourceManager.GetSprite("ShortCuts.here"));
         ShortCutsConfig.AddSpacer();
-        
-        ShortCutsConfig.AddButton("Camera Tab", "Open Camera Tab config menu", () => CameraRadio.Open((int)Main.CameraAction.Value), ResourceManager.GetSprite("ShortCuts.camera"));
-        ShortCutsConfig.AddButton("Audio Settings Tab", "Open Audio Settings Tab config menu", () => AudioSettingsRadio.Open((int)Main.AudioSettingsAction.Value), ResourceManager.GetSprite("ShortCuts.audio"));
-        ShortCutsConfig.AddButton("Settings Tab", "Open Settings Tab config menu", () => SettingsRadio.Open((int)Main.SettingsAction.Value), ResourceManager.GetSprite("ShortCuts.settings"));
+
+        ShortCutsConfig.AddButton("Camera Tab", "Open Camera Tab config menu", () => CameraRadio.Open((int)CameraAction.Value), ResourceManager.GetSprite("ShortCuts.camera"));
+        ShortCutsConfig.AddButton("Audio Settings Tab", "Open Audio Settings Tab config menu", () => AudioSettingsRadio.Open((int)AudioSettingsAction.Value), ResourceManager.GetSprite("ShortCuts.audio"));
+        ShortCutsConfig.AddButton("Settings Tab", "Open Settings Tab config menu", () => SettingsRadio.Open((int)SettingsAction.Value), ResourceManager.GetSprite("ShortCuts.settings"));
         ShortCutsConfig.AddSpacer();
     }
 
@@ -126,10 +175,10 @@ public static class UI
     private static ReRadioTogglePage MakePage(MelonPreferences_Entry<Actions.Action> preferencesEntry)
     {
         var radiopage = new ReRadioTogglePage(preferencesEntry.DisplayName);
-        radiopage.OnSelect += o => preferencesEntry.Value = (Actions.Action) o;
+        radiopage.OnSelect += o => preferencesEntry.Value = (Actions.Action)o;
         foreach (int a in Enum.GetValues(typeof(Actions.Action)))
         {
-            var name = ((Actions.Action) a).ToString().Replace("_", " ");
+            var name = ((Actions.Action)a).ToString().Replace("_", " ");
             radiopage.AddItem(name, (int)a);
         }
 
@@ -140,22 +189,5 @@ public static class UI
     {
         var aaa = tabButtons.FindChild("Page_Camera").gameObject.GetComponents<MonoBehaviour>();
         Object.DestroyImmediate(aaa[6]);
-    }
-
-    private static void GetVRCInput()
-    {
-        var VRCInputs = VRCInputManager.field_Private_Static_Dictionary_2_String_VRCInput_0;
-        foreach (var a in VRCInputs)
-        {
-            switch (a.value.prop_String_0)
-            {
-                case "UiSelectLeft":
-                    Main.UiSelectLeft = a.value;
-                    break;
-                case "UiSelectRight":
-                    Main.UiSelectRight = a.value;
-                    break;
-            }
-        }
     }
 }
